@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "FINANCE", "url": "/" },
+  { "id": 2, "name": "NRC LINEUP", "url": "/about-us" },
+  { "id": 3, "name": "TRUCKS & EQUIPMENTS", "url": "/services" },
+  { "id": 4, "name": "PARTS & ACCESORRIES", "url": "/gallery" },
+  { "id": 5, "name": "CONTACT US", "url": "/contact-us" }
+]

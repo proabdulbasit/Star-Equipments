@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "image": "/assets/Gallery/item1.svg"
+  },
+  {
+    "id": 2,
+    "image": "/assets/Gallery/item2.svg"
+  },
+  {
+    "id": 3,
+    "image": "/assets/Gallery/item3.svg"
+  },
+  {
+    "id": 4,
+    "image": "/assets/Gallery/item4.svg"
+  }
+]
