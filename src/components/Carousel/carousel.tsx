@@ -1,0 +1,84 @@
+'use client';
+import React, { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import Image from 'next/image';
+
+function Carousel() {
+  const [thumbsSwiper, setThumbsSwiper] = useState<any | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const images = [
+    '/assets/ProductDetail/gloves.svg',
+    '/assets/ProductDetail/gloves2.svg',
+    '/assets/ProductDetail/gloves3.svg',
+  ];
+
+  return (
+    <div className="w-[550px] m-10">
+      <Swiper
+        style={
+          {
+            '--swiper-navigation-color': '#fff',
+            '--swiper-pagination-color': '#fff',
+          } as { [key: string]: string }
+        }
+        spaceBetween={10}
+        navigation={true}
+        thumbs={{ swiper: thumbsSwiper }}
+        modules={[FreeMode, Navigation, Thumbs]}
+        className=""
+        onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
+      >
+        {images.map((image, index) => (
+          <SwiperSlide key={image}>
+            <div
+              className={`border rounded-xl w-[550px] h-[470px] ${
+                selectedIndex === index
+                  ? 'border-[#007934] border-'
+                  : 'border-gray-300'
+              }`}
+            >
+              <Image
+                src={image}
+                alt="gloves"
+                width={270}
+                height={230}
+                className="h-[200px] object-cover"
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      <Swiper
+        onSwiper={setThumbsSwiper}
+        spaceBetween={10}
+        slidesPerView={3}
+        freeMode={true}
+        watchSlidesProgress={true}
+        modules={[FreeMode, Navigation, Thumbs]}
+        className=" -mt-60  "
+      >
+        {images.map((image, index) => (
+          <SwiperSlide key={image} onClick={() => setSelectedIndex(index)}>
+            <div
+              className={`w-[170px] h-[170px] cursor-pointer ${
+                selectedIndex === index
+                  ? 'border  shadow rounded-xl'
+                  : 'border border-transparent'
+              }`}
+            >
+              <Image src={image} alt="gloves" width={170} height={170} />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
+}
+export default Carousel;

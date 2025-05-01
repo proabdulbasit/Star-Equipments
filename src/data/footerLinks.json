@@ -1,0 +1,15 @@
+{
+  "NavigationLinks": [
+    { "name": "Finance", "link": "/" },
+    { "name": "NRC Lineup", "link": "/about-us" },
+    { "name": "Trucks & Equipment", "link": "/services" },
+    { "name": "Parts & Accesorries", "link": "/gallery" },
+    { "name": "Contact Us", "link": "/contact-us" }
+  ],
+  "SupportLinks": [
+    { "name": "NRC Parts", "link": "/" },
+    { "name": "B/A Products", "link": "/" },
+    { "name": "Clothing ", "link": "/" },
+    { "name": "Towmate", "link": "/" }
+  ]
+}
