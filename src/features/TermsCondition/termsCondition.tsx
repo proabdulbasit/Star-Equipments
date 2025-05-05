@@ -26,19 +26,20 @@ function TermsCondition() {
           alt="dots"
           width={120}
           height={120}
+          className="lg:w-[120px] lg:h-[120px] w-[40px] h-[50px]"
         />
-        <div className="flex w-full pr-24 items-center justify-between">
-          <h1 className="text-3xl  michroma-regular text-center  text-[#007934]">
+        <div className="flex xl:w-[1540px] mx-auto items-center justify-between">
+          <h1 className="lg:text-3xl text-xs michroma-regular text-center  text-[#007934]">
             Acceptance of the Terms of Use
           </h1>
         </div>
       </div>
-      <ul className="space-y-5 w-[90%] mt-5 mx-auto">
+      <ul className="space-y-5 xl:w-[1440px]  w-[90%]  mt-5 mx-auto">
         {Terms
           ? Terms.map((item: any) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -47,16 +48,16 @@ function TermsCondition() {
           : 'loading'}
       </ul>
       <div className=" my-10">
-        <h1 className="text-3xl  michroma-regular w-[90%] mx-auto  text-[#007934]">
+        <h1 className="lg:text-3xl text-xs  michroma-regular xl:w-[1440px] mx-auto  text-[#007934]">
           Changes to the Terms of Use{' '}
         </h1>
       </div>
-      <ul className="space-y-5 w-[90%] mt-5 mx-auto">
+      <ul className="space-y-5  xl:w-[1440px] w-[90%] mt-5 mx-auto">
         {ChangesTerms
           ? ChangesTerms.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -64,11 +65,11 @@ function TermsCondition() {
             })
           : 'loading'}
       </ul>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className="xl:w-[1440px] mx-auto w-[90%]  my-10">
+        <h1 className="lg:text-3xl text-xs  michroma-regular  text-[#007934]">
           Intellectual Property Rights{' '}
         </h1>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed text-xs lg:text-lg">
           The Website and its entire contents, features and functionality
           (including but not limited to all information, software, text,
           displays, images, video and audio, and the design, selection and
@@ -83,12 +84,12 @@ function TermsCondition() {
           follows:
         </p>
       </div>
-      <ul className="space-y-5 w-[85%] list-disc mt-5 mx-auto">
+      <ul className="space-y-5 xl:w-[1340px] w-[80%]  list-disc mt-5 mx-auto">
         {Property
           ? Property.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -96,11 +97,11 @@ function TermsCondition() {
             })
           : 'loading'}
       </ul>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] mx-auto w-[90%]  my-10">
+        <h1 className="lg:text-3xl text-xs  michroma-regular  text-[#007934]">
           Trademarks{' '}
         </h1>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed text-xs lg:text-lg">
           The Company name, the Company logo and all related names, logos,
           product and service names, designs and slogans are trademarks of the
           Company. You must not use such marks without the prior written
@@ -109,21 +110,21 @@ function TermsCondition() {
           respective owners.
         </p>
       </div>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] mx-auto w-[90%]  my-10">
+        <h1 className="lg:text-3xl text-xs michroma-regular  text-[#007934]">
           Prohibited Uses
         </h1>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed text-xs lg:text-lg">
           You may use the Website only for lawful purposes and in accordance
           with these Terms of Use. You agree not to use the Website:
         </p>
       </div>
-      <ul className="space-y-5 w-[85%] list-disc mt-0 mx-auto">
+      <ul className="space-y-5 xl:w-[1340px] w-[80%]  list-disc mt-0 mx-auto">
         {Users
           ? Users.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -131,17 +132,17 @@ function TermsCondition() {
             })
           : 'loading'}
       </ul>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] mx-auto w-[90%]  my-10">
+        <h1 className="lg:text-3xl text-xs  michroma-regular  text-[#007934]">
           Additionally, you agree not to:
         </h1>
       </div>
-      <ul className="space-y-5 w-[85%] list-disc mt-0 mx-auto">
+      <ul className="space-y-5 xl:w-[1340px]  w-[80%] list-disc mt-0 mx-auto">
         {Agree
           ? Agree.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -149,17 +150,17 @@ function TermsCondition() {
             })
           : 'loading'}
       </ul>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] mx-auto w-[90%]  my-10">
+        <h1 className="xl:text-3xl  michroma-regular  text-[#007934]">
           Reliance on Information Posted
         </h1>
       </div>
-      <ul className="space-y-5 w-[90%] mt-0 mx-auto">
+      <ul className="space-y-5 xl:w-[1440px] w-[90%]  mt-0 mx-auto">
         {Reliance
           ? Reliance.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed  xl:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -167,38 +168,38 @@ function TermsCondition() {
             })
           : 'loading'}
       </ul>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] w-[90%]  mx-auto my-10">
+        <h1 className="lg:text-3xl text-xs michroma-regular  text-[#007934]">
           Purchases
         </h1>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed  xl:text-lg">
           Only licensed, franchised dealers can legally sell vehicles. Sales of
           vehicles listed on the Website must be made by one of our licensed
           dealer locations.
         </p>
       </div>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] w-[90%]  mx-auto my-10">
+        <h1 className="xl:text-3xl  text-xs  michroma-regular  text-[#007934]">
           Changes to the Website
         </h1>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed text-xs  xl:text-lg">
           We may update the content on this Website from time to time, but its
           content is not necessarily complete or up-to-date. Any of the material
           on the Website may be out of date at any given time, and we are under
           no obligation to update such material.{' '}
         </p>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed text-xs xl:text-lg">
           Information About You and Your Visits to the Website All information
           we collect on this Website is subject to our Privacy Policy. By using
           the Website, you consent to all actions taken by us with respect to
           your information in compliance with the Privacy Policy.
         </p>
       </div>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] w-[90%]  mx-auto my-10">
+        <h1 className="lg:text-3xl text-xs  michroma-regular  text-[#007934]">
           Links from the Website
         </h1>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed text-xs xl:text-lg">
           If the Website contains links to other sites and resources provided by
           third parties, these links are provided for your convenience only.
           This includes links contained in advertisements, including banner
@@ -210,11 +211,11 @@ function TermsCondition() {
           and conditions of use for such websites.
         </p>
       </div>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className="xl:w-[1440px] w-[90%]  mx-auto my-10">
+        <h1 className="lg:text-3xl text-xs  michroma-regular  text-[#007934]">
           Geographic Restrictions
         </h1>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed text-xs lg:text-lg">
           We provide this Website for use only by persons located in the United
           States. We make no claims that the Website or any of its content is
           accessible or appropriate outside of the United States. Access to the
@@ -224,17 +225,17 @@ function TermsCondition() {
           laws.
         </p>
       </div>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] w-[90%]  mx-auto my-10">
+        <h1 className="lg:text-3xl text-xs michroma-regular  text-[#007934]">
           Disclaimer of Warranties
         </h1>
       </div>
-      <ul className="space-y-5 w-[90%] mt-0 mx-auto">
+      <ul className="space-y-5 xl:w-[1440px]  w-[90%] mt-0 mx-auto">
         {Warranties
           ? Warranties.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -242,17 +243,17 @@ function TermsCondition() {
             })
           : 'loading'}
       </ul>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px]  w-[90%] mx-auto my-10">
+        <h1 className="lg:text-3xl text-xs michroma-regular  text-[#007934]">
           Limitation on Liability{' '}
         </h1>
       </div>
-      <ul className="space-y-5 w-[90%] mt-0 mx-auto">
+      <ul className="space-y-5 xl:w-[1440px] w-[90%]  mt-0 mx-auto">
         {Liability
           ? Liability.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -260,11 +261,11 @@ function TermsCondition() {
             })
           : 'loading'}
       </ul>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] w-[90%]  mx-auto my-10">
+        <h1 className="lg:text-3xl text-xs  michroma-regular  text-[#007934]">
           Indemnification{' '}
         </h1>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed text-xs lg:text-lg">
           You agree to defend, indemnify and hold harmless the Company, its
           affiliates, licensors and service providers, and its and their
           respective officers, directors, employees, contractors, agents,
@@ -278,17 +279,17 @@ function TermsCondition() {
           Website.
         </p>
       </div>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] w-[90%] mx-auto my-10">
+        <h1 className="lg:text-3xl text-xs  michroma-regular  text-[#007934]">
           Governing Law and Jurisdiction{' '}
         </h1>
       </div>
-      <ul className="space-y-5 w-[90%] mt-0 mx-auto">
+      <ul className="space-y-5 xl:w-[1440px] w-[90%]  mt-0 mx-auto">
         {Law
           ? Law.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -296,28 +297,28 @@ function TermsCondition() {
             })
           : 'loading'}
       </ul>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px]  w-[90%] mx-auto my-10">
+        <h1 className="lg:text-3xl text-xs  michroma-regular  text-[#007934]">
           Limitation on Time to File Claims{' '}
         </h1>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed text-xs lg:text-lg">
           ANY CAUSE OF ACTION OR CLAIM YOU MAY HAVE ARISING OUT OF OR RELATING
           TO THESE TERMS OF USE OR THE WEBSITE MUST BE COMMENCED WITHIN ONE (1)
           YEAR AFTER THE CAUSE OF ACTION ACCRUES, OTHERWISE, SUCH CAUSE OF
           ACTION OR CLAIM IS PERMANENTLY BARRED.{' '}
         </p>
       </div>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] w-[90%] mx-auto my-10">
+        <h1 className="lg:text-3xl text-xs michroma-regular  text-[#007934]">
           Waiver and Severability{' '}
         </h1>
       </div>
-      <ul className="space-y-5 w-[90%] mt-0 mx-auto">
+      <ul className="space-y-5 xl:w-[1440px]  w-[90%] mt-0 mx-auto">
         {Waiver
           ? Waiver.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -325,11 +326,11 @@ function TermsCondition() {
             })
           : 'loading'}
       </ul>
-      <div className=" w-[90%] mx-auto my-10">
-        <h1 className="text-3xl  michroma-regular  text-[#007934]">
+      <div className=" xl:w-[1440px] w-[90%]  mx-auto my-10">
+        <h1 className="lg:text-3xl text-xs michroma-regular  text-[#007934]">
           Entire Agreement{' '}
         </h1>
-        <p className="text-[#000000] mt-5 roboto-condensed  text-lg">
+        <p className="text-[#000000] mt-5 roboto-condensed text-xs lg:text-lg">
           The Terms of Use and our Privacy Policy constitute the sole and entire
           agreement between you and us with respect to the Website and supersede
           all prior and contemporaneous understandings, agreements,

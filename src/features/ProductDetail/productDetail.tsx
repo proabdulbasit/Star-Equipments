@@ -1,20 +1,51 @@
+'use client';
 import Carousel from '@/components/Carousel';
-import Image from 'next/image';
 import Link from 'next/link';
-import { AiFillMinusCircle } from 'react-icons/ai';
-import { FaCirclePlus } from 'react-icons/fa6';
 import Product from '@/components/Product';
-function ProductDetail() {
+import Image from 'next/image';
+import { useState } from 'react';
+import { addToCart, updateCart, retrieveCart } from '@/utils/shopify';
+import { useCart } from '@/context/CartContext';
+import { CiCircleMinus, CiCirclePlus } from 'react-icons/ci';
+
+function ProductDetail({ product }: any) {
+  const [count, setCount] = useState(0);
+  const [checkout, setCheckout] = useState(false);
+  const { cart, setCart } = useCart();
+  const [selectedSize, setSelectedSize] = useState('');
+
+  const handleAddToCart = async () => {
+    let cartId: any = sessionStorage.getItem('cartId');
+
+    if (count > 0) {
+      if (cartId) {
+        await updateCart(cartId, product.variants.edges[0].node.id, count);
+        alert('item added successfully');
+      } else {
+        let data: any = await addToCart(
+          product.variants.edges[0].node.id,
+          count,
+        );
+        cartId = data.cartCreate.cart.id;
+        sessionStorage.setItem('cartId', cartId);
+      }
+
+      const updatedCart = await retrieveCart(cartId);
+      setCart(updatedCart);
+      setCheckout(true);
+    }
+  };
+
   return (
     <>
-      <div className="flex my-10  w-[90%] mx-auto">
-        <Carousel />
-        <div className="space-y-4 roboto-condensed mt-10">
-          <h1 className="text-[#000000] michroma-regular text-2xl">
-            A770 - PW3 General Utility Glove
+      <div className="flex mb-10 mt-24  w-[90%] lg:w-[1440px] mx-auto">
+        {/* <Carousel images={product.featuredImage.url} /> */}
+        <div className="space-y-4 roboto-condensed mt-">
+          <h1 className="text-[#000000] capitalize michroma-regular text-2xl">
+            {product.title}
           </h1>
           <p className="text-[#007934] font-bold text-xl roboto-condensed">
-            $16.99 USD
+            {product.priceRange.minVariantPrice.amount} USD
           </p>
           <p className="text-lg  text-gray-500">
             Shipping calculated at checkout.
@@ -40,30 +71,38 @@ function ProductDetail() {
           </div>
           <p className="text-lg font-semibold text-gray-500">Size </p>
           <div className="flex items-center gap-5">
-            <button className="text-[#000000] text-sm w-[34px] h-[22px] border border-[#000000] opacity-60 rounded-tr-md rounded-bl-md cursor-pointer ">
-              SM
-            </button>
-            <button className="text-[#000000] text-sm w-[34px] h-[22px] border border-[#000000] opacity-60 rounded-tr-md rounded-bl-md cursor-pointer ">
-              MD
-            </button>
-            <button className="text-[#000000] text-sm w-[34px] h-[22px] border border-[#000000] opacity-60 rounded-tr-md rounded-bl-md cursor-pointer ">
-              LG
-            </button>
-            <button className="text-[#000000] text-sm w-[34px] h-[22px] border border-[#000000] opacity-60 rounded-tr-md rounded-bl-md cursor-pointer ">
-              XL
-            </button>
-            <button className="text-[#000000] text-sm w-[34px] h-[22px] border border-[#000000] opacity-60 rounded-tr-md rounded-bl-md cursor-pointer ">
-              XXL
-            </button>
+            {['SM', 'MD', 'LG', 'XL', 'XXL'].map((size) => (
+              <button
+                key={size}
+                onClick={() => setSelectedSize(size)}
+                className={`text-[#000000] text-sm w-[34px] h-[22px] border border-[#000000] opacity-60 rounded-tr-md rounded-bl-md cursor-pointer ${
+                  selectedSize === size ? 'bg-black text-white' : ''
+                }`}
+              >
+                {size}
+              </button>
+            ))}
           </div>
+
           <p className="text-lg font-semibold text-gray-500">Quantity </p>
-          <div className="flex items-center justify-between p-1 w-[120px] h-[40px] border rounded-full border-[#2C2C2C]">
-            <AiFillMinusCircle className="text-[#007934] text-3xl cursor-pointer " />
-            <p className="text-gray-900 text-xl">0</p>
-            <FaCirclePlus className="text-[#007934] text-3xl cursor-pointer " />
+          <div className="flex lg:justify-start justify-center items-center gap-2 lg:gap-4">
+            <CiCircleMinus
+              className="text-[#6F4B9D] lg:w-[56px] w-[45px] h-[45px] lg:h-[56px] cursor-pointer"
+              onClick={() => setCount(Math.max(count - 1, 0))}
+            />
+            <div className="text-white bg-[#6F4B9D] lg:w-[51px] w-[40px] h-[40px] lg:h-[51px] rounded-full flex flex-col justify-center lg:text-xl text-lg items-center">
+              {count}
+            </div>
+            <CiCirclePlus
+              className="text-[#6F4B9D] lg:w-[56px] w-[45px] h-[45px] lg:h-[56px] cursor-pointer"
+              onClick={() => setCount(count + 1)}
+            />
           </div>
           <div className="flex items-center gap-5">
-            <button className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#007934] w-[203px] h-[55px]">
+            <button
+              onClick={handleAddToCart}
+              className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#007934] w-[203px] h-[55px]"
+            >
               Add to cart
             </button>
             <button className="cursor-pointer text-white text-center rounded-full text-xl font-bold bg-white border border-[#5433EB] flex justify-center items-center w-[203px] h-[55px]">

@@ -1,0 +1,178 @@
+[
+  {
+    "id": 1,
+    "image": [
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/paint.svg",
+      "/assets/ProductDetail/share.svg",
+      "/assets/ProductDetail/product4.svg"
+    ],
+    "title": "Helmet With glass",
+    "price": "$276.00"
+  },
+  {
+    "id": 2,
+    "image": [
+      "/assets/ProductDetail/paint.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "construction pant",
+    "price": "$276.00"
+  },
+  {
+    "id": 3,
+    "image": [
+      "/assets/ProductDetail/glovespro.svg",
+      "/assets/ProductDetail/gloves.svg",
+      "/assets/ProductDetail/gloves2.svg",
+      "/assets/ProductDetail/gloves3.svg"
+    ],
+    "title": "construction Over wear",
+    "price": "$276.00"
+  },
+  {
+    "id": 4,
+    "image": [
+      "/assets/ProductDetail/shoe.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "construction shoe",
+    "price": "$276.00"
+  },
+  {
+    "id": 5,
+    "image": [
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "Helmet With glass",
+    "price": "$276.00"
+  },
+  {
+    "id": 6,
+    "image": [
+      "/assets/ProductDetail/paint.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "construction pant",
+    "price": "$276.00"
+  },
+  {
+    "id": 7,
+    "image": [
+      "/assets/ProductDetail/glovespro.svg",
+      "/assets/ProductDetail/gloves.svg",
+      "/assets/ProductDetail/gloves2.svg",
+      "/assets/ProductDetail/gloves3.svg"
+    ],
+    "title": "construction Over wear",
+    "price": "$276.00"
+  },
+  {
+    "id": 8,
+    "image": [
+      "/assets/ProductDetail/Shoe.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "construction shoe",
+    "price": "$276.00"
+  },
+  {
+    "id": 9,
+    "image": [
+      "/assets/ProductDetail/glovespro.svg",
+      "/assets/ProductDetail/gloves.svg",
+      "/assets/ProductDetail/gloves2.svg",
+      "/assets/ProductDetail/gloves3.svg"
+    ],
+    "title": "Helmet With glass",
+    "price": "$276.00"
+  },
+  {
+    "id": 10,
+    "image": [
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "construction pant",
+    "price": "$276.00"
+  },
+  {
+    "id": 11,
+    "image": [
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "construction Over wear",
+    "price": "$276.00"
+  },
+  {
+    "id": 12,
+    "image": [
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "construction shoe",
+    "price": "$276.00"
+  },
+  {
+    "id": 13,
+    "image": [
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "Helmet With glass",
+    "price": "$276.00"
+  },
+  {
+    "id": 14,
+    "image": [
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "construction pant",
+    "price": "$276.00"
+  },
+  {
+    "id": 15,
+    "image": [
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "construction Over wear",
+    "price": "$276.00"
+  },
+  {
+    "id": 16,
+    "image": [
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg",
+      "/assets/ProductDetail/product1.svg"
+    ],
+    "title": "construction shoe",
+    "price": "$276.00"
+  }
+]

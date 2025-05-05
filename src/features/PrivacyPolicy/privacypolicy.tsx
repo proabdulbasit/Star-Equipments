@@ -18,19 +18,20 @@ function PrivacyPolicy() {
           alt="dots"
           width={120}
           height={120}
+          className="lg:w-[120px] lg:h-[120px] w-[40px] h-[50px]"
         />
-        <div className="flex w-full pr-24 items-center justify-between">
-          <h1 className="text-3xl  michroma-regular text-center  text-[#007934]">
+        <div className="flex lg:w-[1540px] w-full mx-auto items-center justify-between">
+          <h1 className="lg:text-3xl text-xs   michroma-regular text-center  text-[#007934]">
             Information Collection and Use{' '}
           </h1>
         </div>
       </div>
-      <ul className="space-y-5 w-[90%] mt-5 mx-auto">
+      <ul className="space-y-5 xl:w-[1440px]   w-[90%] mt-5 mx-auto">
         {PrivacyData
           ? PrivacyData.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -38,17 +39,17 @@ function PrivacyPolicy() {
             })
           : 'loading'}
       </ul>
-      <div className="text-center my-10">
-        <h1 className="text-3xl  michroma-regular text-center  text-[#007934]">
+      <div className="lg:text-center my-10">
+        <h1 className="lg:text-3xl text-xs  michroma-regular lg:text-center  text-[#007934]">
           Cookies{' '}
         </h1>
       </div>
-      <ul className="space-y-5 w-[90%] mt-5 mx-auto">
+      <ul className="space-y-5 xl:w-[1440px]   w-[90%] mt-5 mx-auto">
         {CookesData
           ? CookesData.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed  text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -57,16 +58,16 @@ function PrivacyPolicy() {
           : 'loading'}
       </ul>
       <div className=" my-10">
-        <h1 className="text-3xl  michroma-regular w-[90%] mx-auto  text-[#007934]">
+        <h1 className="lg:text-3xl text-xs  michroma-regular xl:w-[1440px] mx-auto  text-[#007934]">
           Tracking Interests{' '}
         </h1>
       </div>
-      <ul className="space-y-5 w-[90%] mt-5 mx-auto">
+      <ul className="space-y-5 xl:w-[1440px]  w-[90%]  mt-5 mx-auto">
         {TrackingData
           ? TrackingData.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>
@@ -75,16 +76,16 @@ function PrivacyPolicy() {
           : 'loading'}
       </ul>
       <div className=" my-10">
-        <h1 className="text-3xl  michroma-regular w-[90%] mx-auto  text-[#007934]">
+        <h1 className="lg:text-3xl text-xs michroma-regular xl:w-[1440px] mx-auto  text-[#007934]">
           Credit Applications{' '}
         </h1>
       </div>
-      <ul className="space-y-5 w-[90%] my-5 mx-auto">
+      <ul className="space-y-5 xl:w-[1440px]  w-[90%]  my-5 mx-auto">
         {CreditDat
           ? CreditDat.map((item) => {
               return (
                 <li key={item.id}>
-                  <p className="text-[#000000]  roboto-condensed  text-lg">
+                  <p className="text-[#000000]  roboto-condensed  text-xs lg:text-lg">
                     {item.list}
                   </p>
                 </li>

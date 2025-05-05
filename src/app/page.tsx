@@ -14,10 +14,10 @@ export default function Home() {
         para="Premium Equipment from Star Equipment Sales"
       />
       <div className="shade py-5 w-full">
-        <h1 className="text-3xl  michroma-regular text-center  text-white">
+        <h1 className="lg:text-3xl text-lg michroma-regular text-center  text-white">
           Product Categories
         </h1>
-        <div className="w-[70%] mt-10 mx-auto flex items-center justify-between">
+        <div className="xl:w-[1440px] w-[95%] mt-10 mx-auto lg:gap-0 gap-10 flex flex-wrap items-center justify-center lg:justify-between">
           <div>
             <Image
               src="/assets/Homepage/nrc-icon.svg"
@@ -75,7 +75,7 @@ export default function Home() {
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          className="h-[721px] w-full"
+          className="lg:h-[721px] h-[400px] w-full"
         ></iframe>
       </div>
       <HotItem />
