@@ -1,14 +1,14 @@
 import Image from 'next/image';
 function SubFooter() {
   return (
-    <div className="bg-[#08341B] lg:flex items-center gap-10  mt-14  text-white w-full bg-opacity-90">
+    <div className="bg-[#08341B] xl:flex items-center gap-10 lg:pt-0 pt-5 justify-between mt-14  text-white w-full bg-opacity-90">
       <Image
         src="/assets/Footer/footertruck.svg"
         alt="footertruck"
         width={767}
         height={425}
       />
-      <div className="roboto-condensed text-white lg:p-0 p-5 space-y-6">
+      <div className="roboto-condensed text-white lg:mr-20 lg:p-0 p-5 space-y-6">
         <h1 className="lg:text-3xl text-xl font-bold">Stay in the Loop!</h1>
         <p className="lg:text-xl text-sm font-semibold">
           Sign up for our promotional emails and:

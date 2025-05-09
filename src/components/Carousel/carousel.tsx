@@ -7,19 +7,14 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import Image from 'next/image';
+import { CarouselProps } from './type';
 
-function Carousel() {
+function Carousel({ images }: CarouselProps) {
   const [thumbsSwiper, setThumbsSwiper] = useState<any | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const images = [
-    '/assets/ProductDetail/gloves.svg',
-    '/assets/ProductDetail/gloves2.svg',
-    '/assets/ProductDetail/gloves3.svg',
-  ];
-
   return (
-    <div className="w-[550px] m-10">
+    <div className="w-[550px] h-[480px]  mx-10">
       <Swiper
         style={
           {
@@ -31,16 +26,13 @@ function Carousel() {
         navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
-        className=""
         onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
       >
         {images.map((image, index) => (
           <SwiperSlide key={image}>
             <div
               className={`border rounded-xl w-[550px] h-[470px] ${
-                selectedIndex === index
-                  ? 'border-[#007934] border-'
-                  : 'border-gray-300'
+                selectedIndex === index ? 'border-[#007934]' : 'border-gray-300'
               }`}
             >
               <Image
@@ -62,14 +54,14 @@ function Carousel() {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className=" -mt-60  "
+        className="-mt-32"
       >
         {images.map((image, index) => (
           <SwiperSlide key={image} onClick={() => setSelectedIndex(index)}>
             <div
               className={`w-[170px] h-[170px] cursor-pointer ${
                 selectedIndex === index
-                  ? 'border  shadow rounded-xl'
+                  ? 'border shadow rounded-xl'
                   : 'border border-transparent'
               }`}
             >

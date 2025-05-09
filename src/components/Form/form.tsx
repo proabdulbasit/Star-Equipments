@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 'use client';
 
 import React, { useState } from 'react';
@@ -6,7 +5,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contactFormSchema } from './schema';
 import { FormDataType } from './type';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { toast } from 'sonner';
 import { EmailTemplate } from '@/utils/emailTemplate';
 
@@ -59,9 +57,9 @@ function Form() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-[570px] shadow py-5 px-10 m-10 rounded-bl-3xl rounded-tr-3xl  roboto-condensed"
+      className="lg:w-[570px] shadow py-5 lg:px-10 px-5 mb-10 rounded-bl-3xl rounded-tr-3xl  roboto-condensed"
     >
-      <div className="gap-3 flex">
+      <div className="gap-3 lg:flex">
         <div>
           <input
             type="text"
@@ -83,7 +81,7 @@ function Form() {
           )}
         </div>
       </div>
-      <div className="my-5 gap-3 flex">
+      <div className="my-5 gap-3 lg:flex">
         <div>
           <input
             type="text"
@@ -111,7 +109,7 @@ function Form() {
         <label className="text-[#007934] font-bold text-lg">
           Select Subject
         </label>
-        <div className="flex items-center justify-between">
+        <div className="lg:flex items-center justify-between">
           <div className="flex items-center gap-2">
             <input type="checkbox" className="w-4 h-4" />
             <p>General Inquiry</p>
@@ -139,7 +137,7 @@ function Form() {
       </div>
       <button
         type="submit"
-        className="bg-[#007934] mx-auto mt-5 flex justify-center cursor-pointer text-white text-xl rounded-full text-center w-[203px] py-4"
+        className="bg-[#007934] mx-auto mt-5 flex justify-center cursor-pointer text-white text-xl rounded-full text-center w-[150px] py-2 lg:w-[203px] lg:py-4"
       >
         Send Message
       </button>
