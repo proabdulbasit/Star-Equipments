@@ -1,10 +1,10 @@
 {
   "NavigationLinks": [
-    { "name": "Finance", "link": "/" },
-    { "name": "NRC Lineup", "link": "/about-us" },
-    { "name": "Trucks & Equipment", "link": "/services" },
-    { "name": "Parts & Accesorries", "link": "/gallery" },
-    { "name": "Contact Us", "link": "/contact-us" }
+    { "name": "Home", "link": "/" },
+    { "name": "Inventory", "link": "/inventory" },
+    { "name": "Parts & Accessories", "link": "/parts" },
+    { "name": "Gallery", "link": "/gallery" },
+    { "name": "Contact", "link": "/contact" }
   ],
   "SupportLinks": [
     { "name": "NRC Parts", "link": "/" },

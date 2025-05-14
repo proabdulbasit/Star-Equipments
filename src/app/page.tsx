@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import HeroSection from '@/components/HeroSection';
 import FeaturedProduct from '@/components/FeaturedProduct';
@@ -5,81 +7,128 @@ import Towing from '@/components/Towing';
 import DiscountProduct from '@/components/DiscountProduct';
 import HotItem from '@/components/HotItem';
 import SubFooter from '@/components/SubFooter';
+import { motion } from 'framer-motion';
+
+const categories = [
+  {
+    icon: '/assets/Homepage/nrc-icon.svg',
+    label: 'NRC Parts',
+  },
+  {
+    icon: '/assets/Homepage/ba-icon.svg',
+    label: 'B/A Products',
+  },
+  {
+    icon: '/assets/Homepage/cloth-icon.svg',
+    label: 'Clothing',
+  },
+  {
+    icon: '/assets/Homepage/micro-icon.svg',
+    label: 'Clothing',
+  },
+];
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+};
+
 export default function Home() {
   return (
     <div>
       <HeroSection
-        image="/assets/Homepage/hero-truck.svg"
+        image="/images/caraosuel3.jpg"
         title="Elevate your towing game!"
         para="Premium Equipment from Star Equipment Sales"
       />
-      <div className="shade py-5 w-full">
-        <h1 className="lg:text-3xl text-lg michroma-regular text-center  text-white">
+      <div className="shade py-5 w-full ">
+        <motion.h1
+          className="text-3xl  michroma-regular text-center  text-white  mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          viewport={{ once: true }}
+        >
           Product Categories
-        </h1>
-        <div className="xl:w-[1440px] w-[95%] mt-10 mx-auto lg:gap-0 gap-10 flex flex-wrap items-center justify-center lg:justify-between">
-          <div>
-            <Image
-              src="/assets/Homepage/nrc-icon.svg"
-              alt="icon"
-              width={82}
-              height={82}
-            />
-            <h1 className="text-lg text-white roboto-condensed mt-2">
-              NRC Parts
-            </h1>
-          </div>{' '}
-          <div>
-            <Image
-              src="/assets/Homepage/ba-icon.svg"
-              alt="icon"
-              width={82}
-              height={82}
-            />
-            <h1 className="text-lg text-white roboto-condensed mt-2">
-              B/A Products
-            </h1>
-          </div>{' '}
-          <div>
-            <Image
-              src="/assets/Homepage/cloth-icon.svg"
-              alt="icon"
-              width={82}
-              height={82}
-            />
-            <h1 className="text-lg text-white roboto-condensed mt-2">
-              Clothing
-            </h1>
-          </div>{' '}
-          <div>
-            <Image
-              src="/assets/Homepage/micro-icon.svg"
-              alt="icon"
-              width={82}
-              height={82}
-            />
-            <h1 className="text-lg text-white roboto-condensed mt-2">
-              Clothing
-            </h1>
-          </div>
-        </div>
+        </motion.h1>
+        <motion.div
+          className="mt-10 mx-auto flex items-center justify-between max-w-[1440px] mx-auto px-5 lg:px-24 mb-10"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {categories.map((cat, idx) => (
+            <motion.div
+              key={cat.label + idx}
+              className="flex flex-col items-center group cursor-pointer"
+              variants={itemVariants}
+              whileHover={{ scale: 1.08 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              <Image
+                src={cat.icon}
+                alt="icon"
+                width={82}
+                height={82}
+                className="transition-transform duration-300"
+              />
+              <h1 className="text-lg text-white roboto-condensed mt-2">
+                {cat.label}
+              </h1>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
       <FeaturedProduct />
       <Towing />
       <DiscountProduct />
-      <div className="w-full">
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/CC9GEiL7Ujc?si=JpQyT5SI4iJlxuww"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          className="lg:h-[721px] h-[400px] w-full"
-        ></iframe>
-      </div>
+      {/* YouTube Video Section */}
+      <section
+        className="w-full py-16 relative bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/caraosuel2.jpg')" }}
+      >
+        {/* Gradient overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#14532d]/80 to-[#048B3D]/40 z-0 pointer-events-none" />
+        <motion.h2
+          className="text-3xl michroma-regular text-center text-white mb-10 relative z-10"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          viewport={{ once: true }}
+        >
+          Watch Us in Action
+        </motion.h2>
+        <motion.div
+          className="max-w-[900px] mx-auto rounded-2xl overflow-hidden shadow-2xl border-4 border-white relative z-10"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <div className="relative pb-[56.25%] h-0">
+            <iframe
+              src="https://www.youtube.com/embed/CC9GEiL7Ujc?rel=0&modestbranding=1&controls=1&loop=1&playlist=CC9GEiL7Ujc"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="absolute top-0 left-0 w-full h-full"
+            ></iframe>
+          </div>
+        </motion.div>
+      </section>
       <HotItem />
-      <SubFooter />
+      {/* <SubFooter /> */}
     </div>
   );
 }

@@ -1,18 +1,50 @@
 [
   {
     "id": 1,
-    "image": "/assets/Gallery/item1.svg"
+    "image": "/assets/Gallery/galler-1.jpg"
   },
   {
     "id": 2,
-    "image": "/assets/Gallery/item2.svg"
+    "image": "/assets/Gallery/galler-2.jpg"
   },
   {
     "id": 3,
-    "image": "/assets/Gallery/item3.svg"
+    "image": "/assets/Gallery/galler-3.webp"
   },
   {
     "id": 4,
-    "image": "/assets/Gallery/item4.svg"
+    "image": "/assets/Gallery/gallery-4.jpg"
+  },
+  {
+    "id": 5,
+    "image": "/assets/Gallery/gallery-5.jpg"
+  },
+  {
+    "id": 6,
+    "image": "/assets/Gallery/gallery-6.jpg"
+  },
+  {
+    "id": 7,
+    "image": "/assets/Gallery/gallery-7.jpg"
+  },
+  {
+    "id": 8,
+    "image": "/assets/Gallery/gallery-8.jpg"
+  },
+  {
+    "id": 9,
+    "image": "/assets/Gallery/gallery-9.jpg"
+  },
+  {
+    "id": 10,
+    "image": "/assets/Gallery/gallery-10.jpg"
+  },
+  {
+    "id": 11,
+    "image": "/assets/Gallery/gallery-11.webp"
+  },
+  {
+    "id": 12,
+    "image": "/assets/Gallery/gallery-12.webp"
   }
 ]

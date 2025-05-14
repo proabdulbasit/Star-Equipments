@@ -10,28 +10,25 @@ function Footer() {
 
   return (
     <>
-      <div className="bg-[#031E0E] w-full">
-        <div className=" py-20 roboto-condensed xl:w-[1440px] mx-auto lg:flex  lg:justify-between justify-center lg:text-start text-center lg:py-24 ">
+      <div className="bg-[#031E0E] py-20 roboto-condensed lg:flex  lg:justify-between justify-center lg:text-start text-center lg:p-24 p-5">
+        <div className="max-w-[1440px] mx-auto w-full flex flex-col lg:flex-row lg:justify-between">
           <div>
             <Link href="/" className="cursor-pointer">
               <Image
-                src="/assets/Footer/footer.png"
-                alt="logo"
-                width={215}
-                height={65}
-                className="lg:w-[200px] lg:mx-0 mx-auto lg:h-[68px]"
+                src="/images/logo-pngg.png"
+                alt="icons"
+                width={204}
+                height={200}
+                className="mx-auto"
               />
             </Link>
 
             <p className="lg:text-[18px] leading-[2] text-[14px] text-[#FFFFFF] mb-3 mt-5 lg:w-72">
               644 Star Lane Roberts, WI 54023
             </p>
-            <a
-              href="tel: (715) 760-4004 "
-              className="text-white cursor-pointer"
-            >
+            <Link href="#" className="cursor-pointer text-white">
               <p>(715) 760-4004</p>
-            </a>
+            </Link>
           </div>
           <RenderSection title="Quick Links" items={NavigationLinks} />
           <RenderSection title="Our Store" items={SupportLinks} />
@@ -66,13 +63,13 @@ function Footer() {
           </div>
         </div>
       </div>
-      <div className="bg-[#007934] w-full">
-        <div className="lg:flex items-center justify-between lg:text-[15px] text-[9px] text-white raleway  text-center py-3 xl:w-[1440px] mx-auto">
+      <div className="bg-[#007934] text-center py-3">
+        <div className="max-w-[1440px] mx-auto w-full lg:flex items-center justify-between lg:text-[15px] text-[9px] text-white raleway px-5 lg:px-24">
           <h1>© Star Equipment Sales • All Rights Reserved </h1>
           <div>
             <ul className="flex items-center justify-center lg:mt-0 mt-2 gap-10">
               <li>
-                <Link href="/terms-condition">Term and Conditions</Link>
+                <Link href="/terms-conditions">Term and Conditions</Link>
               </li>
               <li>
                 <Link href="/privacy-policy">Privacy Policy</Link>
