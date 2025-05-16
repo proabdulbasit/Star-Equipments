@@ -7,32 +7,65 @@ import { retrieveCart, getCheckoutUrl } from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
 import CartItem from '@/components/CartItem';
 import Link from 'next/link';
+
 function Cart() {
   const searchParams = useSearchParams();
   const cartid = searchParams.get('cartid');
 
   const { cart, setCart, removeFromCart } = useCart();
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchCheckoutUrl() {
-      if (cartid) {
-        const data = await getCheckoutUrl(cartid);
-        setCheckoutUrl(data.cart.checkoutUrl);
-      }
-    }
-    fetchCheckoutUrl();
-  }, [cartid]);
+    let mounted = true;
 
-  useEffect(() => {
-    async function fetchCart() {
+    async function fetchData() {
       if (cartid) {
-        const selectedCart = await retrieveCart(cartid);
-        setCart(selectedCart);
+        try {
+          const [cartData, checkoutData] = await Promise.all([
+            retrieveCart(cartid),
+            getCheckoutUrl(cartid),
+          ]);
+          if (mounted) {
+            setCart(cartData);
+            setCheckoutUrl(checkoutData.cart.checkoutUrl);
+          }
+        } catch (error) {
+          console.error('Error fetching cart data:', error);
+        } finally {
+          if (mounted) {
+            setIsLoading(false);
+          }
+        }
+      } else {
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
     }
-    fetchCart();
+
+    fetchData();
+
+    return () => {
+      mounted = false;
+    };
   }, [cartid, setCart]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-xl">Loading cart...</div>
+      </div>
+    );
+  }
+
+  if (!cartid) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-xl">No cart found</div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -138,4 +171,5 @@ function Cart() {
     </>
   );
 }
+
 export default Cart;

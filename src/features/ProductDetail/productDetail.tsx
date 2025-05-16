@@ -7,32 +7,42 @@ import { useState } from 'react';
 import { addToCart, updateCart, retrieveCart } from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
 import { CiCircleMinus, CiCirclePlus } from 'react-icons/ci';
+import { ProductDetailProps } from './type';
 
-function ProductDetail({ product }: any) {
+function ProductDetail({ product }: ProductDetailProps) {
   const [count, setCount] = useState(0);
   const [checkout, setCheckout] = useState(false);
   const { cart, setCart } = useCart();
   const [selectedSize, setSelectedSize] = useState('');
 
+  if (!product) {
+    return <div>Loading product details...</div>;
+  }
+
   const handleAddToCart = async () => {
     let cartId: any = sessionStorage.getItem('cartId');
 
-    if (count > 0) {
-      if (cartId) {
-        await updateCart(cartId, product.variants.edges[0].node.id, count);
-        alert('item added successfully');
-      } else {
-        let data: any = await addToCart(
-          product.variants.edges[0].node.id,
-          count,
-        );
-        cartId = data.cartCreate.cart.id;
-        sessionStorage.setItem('cartId', cartId);
-      }
+    if (count > 0 && product.variants.edges[0]?.node.id) {
+      try {
+        if (cartId) {
+          await updateCart(cartId, product.variants.edges[0].node.id, count);
+          alert('item added successfully');
+        } else {
+          let data: any = await addToCart(
+            product.variants.edges[0].node.id,
+            count,
+          );
+          cartId = data.cartCreate.cart.id;
+          sessionStorage.setItem('cartId', cartId);
+        }
 
-      const updatedCart = await retrieveCart(cartId);
-      setCart(updatedCart);
-      setCheckout(true);
+        const updatedCart = await retrieveCart(cartId);
+        setCart(updatedCart);
+        setCheckout(true);
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Failed to add item to cart');
+      }
     }
   };
 
@@ -173,4 +183,5 @@ function ProductDetail({ product }: any) {
     </>
   );
 }
+
 export default ProductDetail;
