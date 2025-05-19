@@ -1,0 +1,465 @@
+[
+  {
+    "id": 1,
+    "slug": "new-nrc-tag-axle",
+    "title": "New NRC Tag Axle",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$27,500",
+    "type": "Wrecker",
+    "condition": "New",
+    "make": "NRC",
+    "model": "Tag Axle",
+    "description": "Priced per tag axle, never used, came on a wrecker.",
+    "specifications": {
+      "Price": "$27,500",
+      "Stock #": "Stock Number not Provided",
+      "VIN": "TAG"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg",
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg",
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "2025-kenworth-w990-tri-axle-sleeper",
+    "title": "2025 Kenworth W990 Tri-Axle Sleeper",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "Call for Price",
+    "type": "Sleeper",
+    "condition": "New",
+    "make": "Kenworth",
+    "model": "W990",
+    "description": "Brand new 2025 Kenworth W990 with tri-axle sleeper.",
+    "specifications": {
+      "Engine": "Cummins X15 (565hp)",
+      "Trans": "Allison 4700RDS 7 Spd Auto",
+      "Axle Type": "Tandem 20000 F / 40000 R",
+      "Suspension": "Ag 400"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 3,
+    "slug": "2019-peterbilt-389-tow-truck",
+    "title": "2019 Peterbilt 389 Tow Truck",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$145,000",
+    "type": "Tow Truck",
+    "condition": "Used",
+    "make": "Peterbilt",
+    "model": "389",
+    "description": "Well-maintained 2019 Peterbilt 389 tow truck, ready for work.",
+    "specifications": {
+      "Engine": "PACCAR MX-13",
+      "Mileage": "120,000 mi",
+      "VIN": "1XPXD49X1KD600001"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "slug": "2020-freightliner-m2-rollback",
+    "title": "2020 Freightliner M2 Rollback",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$98,500",
+    "type": "Rollback",
+    "condition": "Used",
+    "make": "Freightliner",
+    "model": "M2",
+    "description": "2020 Freightliner M2 with rollback bed, low miles.",
+    "specifications": {
+      "Engine": "Cummins ISB",
+      "Mileage": "45,000 mi",
+      "VIN": "3ALACWFC0LDKJ1234"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 5,
+    "slug": "2018-ford-f-650-wrecker",
+    "title": "2018 Ford F-650 Wrecker",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$79,900",
+    "type": "Wrecker",
+    "condition": "Used",
+    "make": "Ford",
+    "model": "F-650",
+    "description": "2018 Ford F-650 wrecker, excellent condition.",
+    "specifications": {
+      "Engine": "Ford Power Stroke V8",
+      "Mileage": "60,000 mi",
+      "VIN": "1FDWF6DE2JDF12345"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 6,
+    "slug": "2022-international-mv607-flatbed",
+    "title": "2022 International MV607 Flatbed",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$112,000",
+    "type": "Flatbed",
+    "condition": "New",
+    "make": "International",
+    "model": "MV607",
+    "description": "2022 International MV607 flatbed, brand new.",
+    "specifications": {
+      "Engine": "Cummins B6.7",
+      "VIN": "3HAEUMML5NL123456"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 7,
+    "slug": "2017-hino-258alp-tow-truck",
+    "title": "2017 Hino 258ALP Tow Truck",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$65,000",
+    "type": "Tow Truck",
+    "condition": "Used",
+    "make": "Hino",
+    "model": "258ALP",
+    "description": "2017 Hino 258ALP tow truck, reliable and efficient.",
+    "specifications": {
+      "Engine": "Hino J08E",
+      "Mileage": "80,000 mi",
+      "VIN": "5PVNV8JV6H4S12345"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 8,
+    "slug": "2021-ram-5500-rollback",
+    "title": "2021 Ram 5500 Rollback",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$89,000",
+    "type": "Rollback",
+    "condition": "New",
+    "make": "Ram",
+    "model": "5500",
+    "description": "2021 Ram 5500 rollback, ready for immediate delivery.",
+    "specifications": {
+      "Engine": "Cummins 6.7L",
+      "VIN": "3C7WRNFL1MG123456"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 9,
+    "slug": "2016-volvo-vnl780-sleeper",
+    "title": "2016 Volvo VNL780 Sleeper",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$120,000",
+    "type": "Sleeper",
+    "condition": "Used",
+    "make": "Volvo",
+    "model": "VNL780",
+    "description": "2016 Volvo VNL780 sleeper, well maintained.",
+    "specifications": {
+      "Engine": "Volvo D13",
+      "Mileage": "150,000 mi",
+      "VIN": "4V4NC9EH6GN123456"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 10,
+    "slug": "2015-mack-granite-dump-truck",
+    "title": "2015 Mack Granite Dump Truck",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$99,500",
+    "type": "Dump Truck",
+    "condition": "Used",
+    "make": "Mack",
+    "model": "Granite",
+    "description": "2015 Mack Granite dump truck, ready for heavy duty.",
+    "specifications": {
+      "Engine": "Mack MP8",
+      "Mileage": "110,000 mi",
+      "VIN": "1M2AX13C5FM123456"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 11,
+    "slug": "2023-isuzu-npr-hd-flatbed",
+    "title": "2023 Isuzu NPR HD Flatbed",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$78,000",
+    "type": "Flatbed",
+    "condition": "New",
+    "make": "Isuzu",
+    "model": "NPR HD",
+    "description": "2023 Isuzu NPR HD flatbed, brand new.",
+    "specifications": {
+      "Engine": "Isuzu 4HK1-TC",
+      "VIN": "JALC4W169N7001234"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 12,
+    "slug": "2014-gmc-sierra-3500hd-wrecker",
+    "title": "2014 GMC Sierra 3500HD Wrecker",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$55,000",
+    "type": "Wrecker",
+    "condition": "Used",
+    "make": "GMC",
+    "model": "Sierra 3500HD",
+    "description": "2014 GMC Sierra 3500HD wrecker, reliable and strong.",
+    "specifications": {
+      "Engine": "Duramax 6.6L",
+      "Mileage": "90,000 mi",
+      "VIN": "1GT42VC80EF123456"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 13,
+    "slug": "2013-chevrolet-silverado-3500hd-tow-truck",
+    "title": "2013 Chevrolet Silverado 3500HD Tow Truck",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$49,000",
+    "type": "Tow Truck",
+    "condition": "Used",
+    "make": "Chevrolet",
+    "model": "Silverado 3500HD",
+    "description": "2013 Chevrolet Silverado 3500HD tow truck, great value.",
+    "specifications": {
+      "Engine": "Duramax 6.6L",
+      "Mileage": "100,000 mi",
+      "VIN": "1GC4K0C80DF123456"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 14,
+    "slug": "2012-dodge-ram-4500-rollback",
+    "title": "2012 Dodge Ram 4500 Rollback",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$42,000",
+    "type": "Rollback",
+    "condition": "Used",
+    "make": "Dodge",
+    "model": "Ram 4500",
+    "description": "2012 Dodge Ram 4500 rollback, affordable and reliable.",
+    "specifications": {
+      "Engine": "Cummins 6.7L",
+      "Mileage": "130,000 mi",
+      "VIN": "3C7WRLBL2CG123456"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 15,
+    "slug": "2011-hino-268-flatbed",
+    "title": "2011 Hino 268 Flatbed",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$38,000",
+    "type": "Flatbed",
+    "condition": "Used",
+    "make": "Hino",
+    "model": "268",
+    "description": "2011 Hino 268 flatbed, dependable workhorse.",
+    "specifications": {
+      "Engine": "Hino J08E",
+      "Mileage": "140,000 mi",
+      "VIN": "5PVNE8JV6B4S12345"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 16,
+    "slug": "2010-ford-f-450-wrecker",
+    "title": "2010 Ford F-450 Wrecker",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$29,000",
+    "type": "Wrecker",
+    "condition": "Used",
+    "make": "Ford",
+    "model": "F-450",
+    "description": "2010 Ford F-450 wrecker, budget-friendly option.",
+    "specifications": {
+      "Engine": "Power Stroke V8",
+      "Mileage": "160,000 mi",
+      "VIN": "1FDXF46P79EA12345"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 17,
+    "slug": "2009-international-4300-tow-truck",
+    "title": "2009 International 4300 Tow Truck",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$25,000",
+    "type": "Tow Truck",
+    "condition": "Used",
+    "make": "International",
+    "model": "4300",
+    "description": "2009 International 4300 tow truck, ready for work.",
+    "specifications": {
+      "Engine": "DT466",
+      "Mileage": "170,000 mi",
+      "VIN": "1HTMMAAL49H123456"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 18,
+    "slug": "2008-freightliner-m2-rollback",
+    "title": "2008 Freightliner M2 Rollback",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$22,000",
+    "type": "Rollback",
+    "condition": "Used",
+    "make": "Freightliner",
+    "model": "M2",
+    "description": "2008 Freightliner M2 rollback, affordable and reliable.",
+    "specifications": {
+      "Engine": "Mercedes-Benz MBE900",
+      "Mileage": "180,000 mi",
+      "VIN": "1FVACWDC98HZ12345"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 19,
+    "slug": "2007-kenworth-t300-flatbed",
+    "title": "2007 Kenworth T300 Flatbed",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$19,000",
+    "type": "Flatbed",
+    "condition": "Used",
+    "make": "Kenworth",
+    "model": "T300",
+    "description": "2007 Kenworth T300 flatbed, great for local jobs.",
+    "specifications": {
+      "Engine": "Cummins ISC",
+      "Mileage": "190,000 mi",
+      "VIN": "2NKMHZ6X77M123456"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  },
+  {
+    "id": 20,
+    "slug": "2006-peterbilt-335-wrecker",
+    "title": "2006 Peterbilt 335 Wrecker",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "$15,000",
+    "type": "Wrecker",
+    "condition": "Used",
+    "make": "Peterbilt",
+    "model": "335",
+    "description": "2006 Peterbilt 335 wrecker, value buy.",
+    "specifications": {
+      "Engine": "Caterpillar C7",
+      "Mileage": "200,000 mi",
+      "VIN": "2NPLHD7X76M123456"
+    },
+    "images": [
+      "/assets/Vehicles/1.jpg",
+      "/assets/Vehicles/2.jpg",
+      "/assets/Vehicles/3.jpg"
+    ]
+  }
+]
