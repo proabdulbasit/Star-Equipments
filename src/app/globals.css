@@ -57,3 +57,49 @@
 .swiper-slide {
   background: transparent !important;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s !important;
+}
+.swiper:hover .swiper-button-next,
+.swiper:hover .swiper-button-prev,
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 1.3rem !important;
+  font-weight: bold !important;
+  color: #fff !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s !important;
+  pointer-events: none;
+}
+.swiper-button-next:hover:after,
+.swiper-button-prev:hover:after {
+  opacity: 1 !important;
+}
+
+/* Swiper pagination dots */
+.swiper-pagination-bullet {
+  background: #bbf7d0 !important; /* light green */
+  opacity: 1 !important;
+  width: 12px !important;
+  height: 12px !important;
+  margin: 0 4px !important;
+  transition: background 0.3s;
+}
+.swiper-pagination-bullet-active {
+  background: linear-gradient(
+    135deg,
+    #22c55e 0%,
+    #4ade80 100%
+  ) !important; /* green gradient */
+  border: 2px solid #16a34a !important;
+}
