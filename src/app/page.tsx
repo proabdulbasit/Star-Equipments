@@ -2,29 +2,32 @@
 
 import Image from 'next/image';
 import HeroSection from '@/components/HeroSection';
-import FeaturedProduct from '@/components/FeaturedProduct';
 import Towing from '@/components/Towing';
 import DiscountProduct from '@/components/DiscountProduct';
-import HotItem from '@/components/HotItem';
-import SubFooter from '@/components/SubFooter';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import Parts from '@/components/Parts/Parts';
 
 const categories = [
   {
     icon: '/assets/Homepage/nrc-icon.svg',
     label: 'NRC Parts',
+    link: '/nrc-parts',
   },
   {
     icon: '/assets/Homepage/ba-icon.svg',
     label: 'B/A Products',
+    link: '/ba-products',
   },
   {
     icon: '/assets/Homepage/cloth-icon.svg',
     label: 'Clothing',
+    link: '/clothing',
   },
   {
     icon: '/assets/Homepage/micro-icon.svg',
-    label: 'Clothing',
+    label: 'Towmate',
+    link: '/towmate',
   },
 ];
 
@@ -43,6 +46,8 @@ const itemVariants = {
 };
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <div>
       <HeroSection
@@ -61,7 +66,7 @@ export default function Home() {
           Product Categories
         </motion.h1>
         <motion.div
-          className="mt-10 mx-auto flex items-center justify-between max-w-[1440px] mx-auto px-5 lg:px-24 mb-10"
+          className="mt-10 mx-auto flex items-center justify-between max-w-[1440px] mx-auto px-5 lg:px-12 mb-10"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -74,6 +79,9 @@ export default function Home() {
               variants={itemVariants}
               whileHover={{ scale: 1.08 }}
               transition={{ type: 'spring', stiffness: 300 }}
+              onClick={() => {
+                router.push(cat.link);
+              }}
             >
               <Image
                 src={cat.icon}
@@ -89,9 +97,10 @@ export default function Home() {
           ))}
         </motion.div>
       </div>
-      <FeaturedProduct />
-      <Towing />
       <DiscountProduct />
+      <Parts />
+      <Towing />
+
       {/* YouTube Video Section */}
       <section
         className="w-full py-16 relative bg-cover bg-center"
@@ -127,7 +136,7 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-      <HotItem />
+      {/* <HotItem /> */}
       {/* <SubFooter /> */}
     </div>
   );

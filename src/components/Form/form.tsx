@@ -33,23 +33,25 @@ function Form() {
     setIsLoading(true);
     try {
       const formPayload = new FormData();
-      formPayload.append('email', process.env.NEXT_PUBLIC_CLIENT_EMAIL || '');
-      formPayload.append('subject', 'New query from Star Detail');
+      formPayload.append('email', 'tt.talhatariq1@gmail.com');
+      formPayload.append('subject', 'New query from Star Equipment Sales');
       formPayload.append('html', EmailTemplate({ values: data }));
-      const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL || '', {
-        method: 'POST',
-        body: formPayload,
-      });
+      const response = await fetch(
+        'https://stag.api.carzoomo.com/socially/send-email',
+        {
+          method: 'POST',
+          body: formPayload,
+        },
+      );
 
       if (!response.ok) throw new Error('Failed to submit form');
       toast.dismiss(loadingToast);
       toast.success('Message sent successfully!');
-      alert('Message sent successfully!');
       reset();
     } catch (error) {
       console.error('Form submission error:', error);
       toast.dismiss(loadingToast);
-      alert('Failed to send message. Please try again later.');
+      toast.error('Failed to send message. Please try again later.');
     } finally {
       setIsLoading(false);
     }
@@ -57,89 +59,74 @@ function Form() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="lg:w-[570px] shadow py-5 lg:px-10 px-5 mb-10 rounded-bl-3xl rounded-tr-3xl  roboto-condensed"
+      className="max-w-lg w-full bg-white rounded-xl p-8 shadow-md border border-gray-100 mx-auto"
     >
-      <div className="gap-3 lg:flex">
-        <div>
+      <div className="flex flex-col md:flex-row gap-4 mb-4">
+        <div className="flex-1">
           <input
             type="text"
             {...register('name')}
-            placeholder="FIrst Name"
-            className="p-4 border-x-transparent border-t-transparent outline-none text-[#11111399] border-b-gray-300 border"
+            placeholder="First Name"
+            className="w-full p-3 border border-gray-300 rounded focus:border-[#007934] focus:ring-2 focus:ring-[#007934]/20 outline-none transition"
           />
-          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+          )}
         </div>
-        <div>
+        <div className="flex-1">
           <input
             type="text"
             {...register('lastname')}
             placeholder="Last Name"
-            className="p-4 border-x-transparent border-t-transparent outline-none text-[#11111399] border-b-gray-300 border"
+            className="w-full p-3 border border-gray-300 rounded focus:border-[#007934] focus:ring-2 focus:ring-[#007934]/20 outline-none transition"
           />
           {errors.lastname && (
-            <p className="text-red-500">{errors.lastname.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.lastname.message}
+            </p>
           )}
         </div>
       </div>
-      <div className="my-5 gap-3 lg:flex">
-        <div>
+      <div className="flex flex-col md:flex-row gap-4 mb-4">
+        <div className="flex-1">
           <input
-            type="text"
+            type="email"
             {...register('email')}
             placeholder="Email Address"
-            className="p-4 border-x-transparent border-t-transparent outline-none text-[#11111399] border-b-gray-300 border"
+            className="w-full p-3 border border-gray-300 rounded focus:border-[#007934] focus:ring-2 focus:ring-[#007934]/20 outline-none transition"
           />
           {errors.email && (
-            <p className="text-red-500">{errors.email.message}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
         </div>
-        <div>
+        <div className="flex-1">
           <input
             type="text"
             {...register('phone')}
-            placeholder="Phone NUmber"
-            className="p-4 border-x-transparent border-t-transparent outline-none text-[#11111399] border-b-gray-300 border"
+            placeholder="Phone Number"
+            className="w-full p-3 border border-gray-300 rounded focus:border-[#007934] focus:ring-2 focus:ring-[#007934]/20 outline-none transition"
           />
           {errors.phone && (
-            <p className="text-red-500">{errors.phone.message}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
           )}
         </div>
       </div>
-      <div>
-        <label className="text-[#007934] font-bold text-lg">
-          Select Subject
-        </label>
-        <div className="lg:flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <input type="checkbox" className="w-4 h-4" />
-            <p>General Inquiry</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <input type="checkbox" className="w-4 h-4" />
-            <p>Construction</p>
-          </div>{' '}
-          <div className="flex items-center gap-2">
-            <input type="checkbox" className="w-4 h-4" />
-            <p>Parts and Accessories</p>
-          </div>
-        </div>
-      </div>
-      <div>
-        <input
-          type="text"
+      <div className="mb-4">
+        <textarea
           {...register('message')}
-          placeholder="write your message"
-          className="p-4 border-x-transparent w-full border-t-transparent outline-none text-[#11111399] border-b-gray-300 border"
+          placeholder="Write your message"
+          className="w-full p-3 border border-gray-300 rounded focus:border-[#007934] focus:ring-2 focus:ring-[#007934]/20 outline-none transition min-h-[100px] resize-none "
         />
         {errors.message && (
-          <p className="text-red-500">{errors.message.message}</p>
+          <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
         )}
       </div>
       <button
         type="submit"
-        className="bg-[#007934] mx-auto mt-5 flex justify-center cursor-pointer text-white text-xl rounded-full text-center w-[150px] py-2 lg:w-[203px] lg:py-4"
+        disabled={isLoading}
+        className="bg-[#007934] w-full mt-2 flex justify-center cursor-pointer text-white text-lg font-bold rounded-full py-3 hover:bg-[#02682e] transition"
       >
-        Send Message
+        {isLoading ? 'Sending...' : 'Send Message'}
       </button>
     </form>
   );

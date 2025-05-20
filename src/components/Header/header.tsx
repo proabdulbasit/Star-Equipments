@@ -1,8 +1,6 @@
 'use client';
 import Link from 'next/link';
-import React, { useRef, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-
+import React, { useState } from 'react';
 import Image from 'next/image';
 import NavLink from '@/data/navLinks.json';
 import { usePathname } from 'next/navigation';
@@ -12,14 +10,8 @@ import HeaderLink from '@/data/headerLinks.json';
 import { IoSearch } from 'react-icons/io5';
 import { FaRegHeart } from 'react-icons/fa6';
 import { FiShoppingCart } from 'react-icons/fi';
-import { Autoplay } from 'swiper/modules';
-import { useCart } from '@/context/CartContext';
-import { useFavourite } from '@/context/FavouriteContext';
 
 function Header() {
-  const { cart } = useCart();
-  const { favourites } = useFavourite();
-
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(true);
   const toggleClose = () => setIsOpen(false);
@@ -30,7 +22,7 @@ function Header() {
       <div className="sticky top-0 z-50 shadow-lg">
         <div className="lg:block hidden"></div>
         <div className="w-full shadow lg:h-24 h-16 bg-white">
-          <div className="max-w-[1440px] mx-auto px-5 lg:px-24 h-full flex items-center justify-between">
+          <div className="max-w-[1440px] mx-auto px-5 lg:px-12 h-full flex items-center justify-between">
             <Link href="/">
               <Image
                 src="/assets/Header/logo.svg"
@@ -67,7 +59,7 @@ function Header() {
           </div>
         </div>
         <div className="bg-[#E8EAED] h-20">
-          <div className="max-w-[1440px] mx-auto px-5 lg:px-24 h-full flex items-center justify-between roboto-condensed text-[14px] xl:text-[18px]">
+          <div className="max-w-[1440px] mx-auto px-5 lg:px-12 h-full flex items-center justify-between roboto-condensed text-[14px] xl:text-[18px]">
             <div className="flex items-center xl:gap-16 lg:gap-10">
               <ul className="flex items-center xl:gap-16 lg:gap-10 justify-between">
                 {HeaderLink
@@ -113,7 +105,7 @@ function Header() {
         </div>
       </div>
       {isOpen && (
-        <div className="flex rounded-2xl z-40 p-5 justify-between bg-white shadow-2xl absolute top-4 w-52 right-5">
+        <div className="flex rounded-2xl p-5 justify-between bg-white shadow-2xl absolute top-4 w-40 right-5">
           <ul className="justify-between flex flex-col space-y-3">
             {NavLink
               ? NavLink.map((item, index) => (

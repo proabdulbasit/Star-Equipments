@@ -6,8 +6,8 @@ import {
   Cart,
 } from '@/utils/type';
 
-const storefrontAccessToken = process.env.NEXT_PUBLIC_STOREFRONTACCESSTOKEN;
-const endpoint = process.env.NEXT_PUBLIC_SHOPURL;
+const storefrontAccessToken = process.env.NEXT_PUBLIC_STORE_FRONT_ACCESS_TOKEN;
+const endpoint = process.env.NEXT_PUBLIC_SHOP_URL;
 
 const graphQLClient = new GraphQLClient(endpoint!, {
   headers: {
@@ -52,27 +52,6 @@ export async function getProducts(): Promise<{
 }
 
 export async function addToCart(
-  itemId: string,
-  quantity: number,
-): Promise<any> {
-  const createCartMutation = gql`
-    mutation createCart($cartInput: CartInput) {
-      cartCreate(input: $cartInput) {
-        cart {
-          id
-        }
-      }
-    }
-  `;
-  const variables = {
-    cartInput: {
-      lines: [{ quantity, merchandiseId: itemId }],
-    },
-  };
-  return graphQLClient.request(createCartMutation, variables);
-}
-
-export async function addToFavourite(
   itemId: string,
   quantity: number,
 ): Promise<any> {
@@ -244,4 +223,113 @@ export async function deleteCart(
     alert('Failed to remove item from the cart!');
     console.error(error);
   }
+}
+
+/**
+ * Fetch products by collection handle with pagination, sorting, and filtering.
+ * @param collectionHandle - Shopify collection handle
+ * @param options - { pageSize, cursor, sortKey, reverse, priceFrom, priceTo, availability }
+ */
+export async function getProductsByCollection(
+  collectionHandle: string,
+  options?: {
+    pageSize?: number;
+    cursor?: string;
+    sortKey?:
+      | 'TITLE'
+      | 'PRICE'
+      | 'CREATED_AT'
+      | 'BEST_SELLING'
+      | 'ID'
+      | 'RELEVANCE';
+    reverse?: boolean;
+    priceFrom?: number;
+    priceTo?: number;
+    availability?: 'in' | 'out';
+    after?: string;
+    before?: string;
+    first?: number;
+    last?: number;
+  },
+): Promise<{
+  collectionByHandle: {
+    products: {
+      edges: { node: Product }[];
+      pageInfo: {
+        hasNextPage: boolean;
+        hasPreviousPage: boolean;
+        endCursor: string;
+        startCursor: string;
+      };
+    };
+  };
+}> {
+  const {
+    pageSize = 16,
+    sortKey = 'RELEVANCE',
+    reverse = false,
+    priceFrom,
+    priceTo,
+    availability,
+    after,
+    before,
+    first,
+    last,
+  } = options || {};
+
+  // Build query string for filtering
+  let queryFilters = [];
+  if (availability === 'in') queryFilters.push('available_for_sale:true');
+  if (availability === 'out') queryFilters.push('available_for_sale:false');
+  if (typeof priceFrom === 'number')
+    queryFilters.push(`price:>='${priceFrom}'`);
+  if (typeof priceTo === 'number') queryFilters.push(`price:<='${priceTo}'`);
+  const queryString = queryFilters.length ? queryFilters.join(' AND ') : '';
+
+  // Build pagination parameters
+  let paginationParams = [];
+  if (after) paginationParams.push(`after: "${after}"`);
+  if (before) paginationParams.push(`before: "${before}"`);
+  if (first) paginationParams.push(`first: ${first}`);
+  if (last) paginationParams.push(`last: ${last}`);
+  if (!after && !before && !first && !last)
+    paginationParams.push(`first: ${pageSize}`);
+
+  const gqlQuery = `
+    {
+      collectionByHandle(handle: "${collectionHandle}") {
+        products(
+          ${paginationParams.join(', ')}
+          sortKey: ${sortKey}
+          reverse: ${reverse}
+          ${queryString ? `, query: "${queryString}"` : ''}
+        ) {
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+            endCursor
+            startCursor
+          }
+          edges {
+            node {
+              id
+              title
+              handle
+              featuredImage { url altText }
+              priceRange { minVariantPrice { amount } }
+              availableForSale
+              variants(first: 1) {
+                edges {
+                  node {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+  return graphQLClient.request(gqlQuery);
 }

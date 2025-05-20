@@ -2,9 +2,9 @@ import Image from 'next/image';
 import Product from '@/data/product.json';
 function DiscountProduct() {
   return (
-    <div>
-      <div className=" bg-[#E8EAED] pb-10">
-        <div className="flex items-center">
+    <div className="">
+      <div className=" bg-[#E8EAED] pb-10 ">
+        <div className="flex items-center max-w-[1440px] mx-auto px-4 lg:px-12">
           <Image
             src="/assets/Homepage/dots-icon.svg"
             alt="dots"
@@ -31,7 +31,7 @@ function DiscountProduct() {
           </div>
         </div>
 
-        <div className="lg:flex xl:w-[1440px] w-[95%] mt-12 xl:gap-10  mx-auto justify-between">
+        <div className="lg:flex xl:w-[1440px] w-[95%] mt-12 xl:gap-10  mx-auto justify-between max-w-[1440px] mx-auto px-4 lg:px-12">
           {Product
             ? Product.map((item) => {
                 return (
