@@ -17,449 +17,407 @@
       "VIN": "TAG"
     },
     "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg",
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg",
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg"
+      "/assets/New-arc-tag-images/1.jpg",
+      "/assets/New-arc-tag-images/2.jpg",
+      "/assets/New-arc-tag-images/3.jpg",
+      "/assets/New-arc-tag-images/4.jpg",
+      "/assets/New-arc-tag-images/5.jpg",
+      "/assets/New-arc-tag-images/6.jpg",
+      "/assets/New-arc-tag-images/7.jpg",
+      "/assets/New-arc-tag-images/8.jpg",
+      "/assets/New-arc-tag-images/9.jpg",
+      "/assets/New-arc-tag-images/10.jpg"
     ]
   },
+
   {
     "id": 2,
-    "slug": "2025-kenworth-w990-tri-axle-sleeper",
-    "title": "2025 Kenworth W990 Tri-Axle Sleeper",
+    "slug": "2025-kenworth-w990",
+    "title": "New 2025 KENWORTH W990 TRI-AXLE SLEEPERS",
     "dealer": "Star Equipment Sales",
     "phone": "(715) 760-4004",
     "price": "Call for Price",
-    "type": "Sleeper",
+    "type": "Tri-Axle Sleeper",
     "condition": "New",
     "make": "Kenworth",
     "model": "W990",
-    "description": "Brand new 2025 Kenworth W990 with tri-axle sleeper.",
+    "description": "No description is available.",
     "specifications": {
-      "Engine": "Cummins X15 (565hp)",
-      "Trans": "Allison 4700RDS 7 Spd Auto",
-      "Axle Type": "Tandem 20000 F / 40000 R",
-      "Suspension": "Ag 400"
+      "Price": "Call for Price",
+      "Stock #": "Stock Number not Provided",
+      "VIN": "TBD",
+      "Engine": "Cummins X15 565HP 6 Cyl",
+      "Engine Size": "15L",
+      "Fuel": "Diesel, 2 Tank",
+      "Transmission": "Allison Auto 4700RDS 7 Spd",
+      "Axles": "Tandem, 20,000 F, 40,000 R",
+      "Drop Axle Type": "Tag (1) 13,500 Lbs",
+      "Suspension": "AG 400",
+      "Rear": "Full/Dual",
+      "Wheels": "Aluminum Front, Aluminum Rear",
+      "Fifth Wheel": "Air Slide",
+      "Brake Type": "Disc",
+      "Cab Type": "Conventional Aerocab",
+      "Color": "Soveriegn Blue, Black Interior",
+      "Body Options": "Visor, Heated Mirrors",
+      "Exhaust": "Dual",
+      "Breathers": "Dual",
+      "Air Cond": "Yes",
+      "Sleeper Size": "42",
+      "Fairings": "Non",
+      "Bunk Type": "Single"
     },
     "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
+      "/assets/new-2025-KENWORTH-W990-images/1.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/2.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/3.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/4.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/5.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/6.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/7.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/8.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/9.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/10.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/11.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/12.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/13.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/14.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/15.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/16.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/17.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/18.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/19.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/20.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/21.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/22.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/23.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/24.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/25.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/26.jpg",
+      "/assets/new-2025-KENWORTH-W990-images/27.jpg"
     ]
   },
+
   {
     "id": 3,
-    "slug": "2019-peterbilt-389-tow-truck",
-    "title": "2019 Peterbilt 389 Tow Truck",
+    "slug": "new-nrc-tag-axle-red",
+    "title": "New NRC Tag Axle",
     "dealer": "Star Equipment Sales",
     "phone": "(715) 760-4004",
-    "price": "$145,000",
-    "type": "Tow Truck",
-    "condition": "Used",
-    "make": "Peterbilt",
-    "model": "389",
-    "description": "Well-maintained 2019 Peterbilt 389 tow truck, ready for work.",
+    "price": "$28,000",
+    "type": "Wrecker",
+    "condition": "New",
+    "make": "NRC",
+    "model": "Tag Axle",
+    "description": "Ordered brand new for customer. SS Package",
     "specifications": {
-      "Engine": "PACCAR MX-13",
-      "Mileage": "120,000 mi",
-      "VIN": "1XPXD49X1KD600001"
+      "Price": "$28,000",
+      "Stock #": "Stock Number not Provided",
+      "VIN": "TAG RED"
     },
     "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
+      "/assets/new-nrc-tag-axle-images/1.jpg",
+      "/assets/new-nrc-tag-axle-images/2.jpg",
+      "/assets/new-nrc-tag-axle-images/3.jpg",
+      "/assets/new-nrc-tag-axle-images/4.jpg",
+      "/assets/new-nrc-tag-axle-images/5.jpg",
+      "/assets/new-nrc-tag-axle-images/6.jpg"
     ]
   },
+
   {
     "id": 4,
-    "slug": "2020-freightliner-m2-rollback",
-    "title": "2020 Freightliner M2 Rollback",
+    "slug": "2025-kenworth-t880",
+    "title": "New 2025 KENWORTH T880",
     "dealer": "Star Equipment Sales",
     "phone": "(715) 760-4004",
-    "price": "$98,500",
-    "type": "Rollback",
-    "condition": "Used",
-    "make": "Freightliner",
-    "model": "M2",
-    "description": "2020 Freightliner M2 with rollback bed, low miles.",
+    "price": "Call for Price",
+    "type": "Rollback Tow Truck",
+    "condition": "New",
+    "make": "Kenworth",
+    "model": "T880",
+    "description": "New 2025 Kenworth T880 with a 30 ft NRC 40 TB galvanized rollback",
     "specifications": {
-      "Engine": "Cummins ISB",
-      "Mileage": "45,000 mi",
-      "VIN": "3ALACWFC0LDKJ1234"
+      "Price": "Call for Price",
+      "Stock #": "20250402",
+      "VIN": "1NKZX40X6SJ120761",
+      "Engine": "Cummins X15 565HP 6 Cyl",
+      "Engine Size": "15L",
+      "Transmission": "Allison Auto 4500RDS 6 Spd",
+      "Axles": "Tri",
+      "Suspension": "AG 400L",
+      "Frame Type": "Double",
+      "Rear": "Full/Dual",
+      "Wheels": "All Aluminum Front, All Aluminum Rear",
+      "Tire Config": "Dual",
+      "Brake Type": "Air",
+      "Cab Type": "Conventional",
+      "Color": "Black, Black Interior",
+      "Body Options": "Heated Mirrors",
+      "GVW": "68,000 Lbs",
+      "Floor Type": "Steel",
+      "Body Type": "Galvanized Steel",
+      "Air Cond": "Yes"
     },
     "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
+      "/assets/New-KENWORTH-880-images/1.jpg",
+      "/assets/New-KENWORTH-880-images/2.jpg",
+      "/assets/New-KENWORTH-880-images/3.jpg",
+      "/assets/New-KENWORTH-880-images/4.jpg",
+      "/assets/New-KENWORTH-880-images/5.jpg",
+      "/assets/New-KENWORTH-880-images/6.jpg",
+      "/assets/New-KENWORTH-880-images/7.jpg",
+      "/assets/New-KENWORTH-880-images/8.jpg",
+      "/assets/New-KENWORTH-880-images/9.jpg",
+      "/assets/New-KENWORTH-880-images/10.jpg",
+      "/assets/New-KENWORTH-880-images/11.jpg",
+      "/assets/New-KENWORTH-880-images/12.jpg",
+      "/assets/New-KENWORTH-880-images/13.jpg"
     ]
   },
+
   {
     "id": 5,
-    "slug": "2018-ford-f-650-wrecker",
-    "title": "2018 Ford F-650 Wrecker",
+    "slug": "2026-international-mv607",
+    "title": "New 2026 INTERNATIONAL MV607",
     "dealer": "Star Equipment Sales",
     "phone": "(715) 760-4004",
-    "price": "$79,900",
-    "type": "Wrecker",
-    "condition": "Used",
-    "make": "Ford",
-    "model": "F-650",
-    "description": "2018 Ford F-650 wrecker, excellent condition.",
-    "specifications": {
-      "Engine": "Ford Power Stroke V8",
-      "Mileage": "60,000 mi",
-      "VIN": "1FDWF6DE2JDF12345"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 6,
-    "slug": "2022-international-mv607-flatbed",
-    "title": "2022 International MV607 Flatbed",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$112,000",
-    "type": "Flatbed",
+    "price": "Call for Price",
+    "type": "Rollback Tow Truck",
     "condition": "New",
     "make": "International",
     "model": "MV607",
-    "description": "2022 International MV607 flatbed, brand new.",
+    "description": "2026 International MV extended cab with an NRC 23 ft 20 TB, fully galvanized deck and subframe, 12,000 lb winch, six function Lodar remote for deck and winch, In The Ditch boxes, Federal Signal light bar",
     "specifications": {
-      "Engine": "Cummins B6.7",
-      "VIN": "3HAEUMML5NL123456"
+      "Price": "Call for Price",
+      "Stock #": "Stock Number not Provided",
+      "VIN": "3HAEUTANXTL186462",
+      "Engine": "Cummins L9 350HP 6 Cyl",
+      "Engine Size": "8.9L",
+      "Fuel": "Diesel, 1 Tank",
+      "Transmission": "Allison Auto 3000RDS 6 Spd",
+      "Axles": "Single, 12,000 F, 21,000 R",
+      "Suspension": "Hendrickson",
+      "Frame Type": "Single",
+      "Rear": "Single/Std",
+      "Brake Type": "Disc",
+      "Cab Type": "Extended",
+      "Body Options": "Heated Mirrors",
+      "Exhaust": "Horizontal",
+      "GVW": "33,000 Lbs",
+      "Air Cond": "Yes"
     },
     "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
+      "/assets/New-INTERNATIONAL-MV607-images/1.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/2.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/3.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/4.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/5.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/6.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/7.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/8.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/9.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/10.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/11.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/12.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/13.jpg",
+      "/assets/New-INTERNATIONAL-MV607-images/14.jpg"
     ]
   },
+
+  {
+    "id": 6,
+    "slug": "2026-peterbilt-537",
+    "title": "New 2026 PETERBILT 537",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "Call for Price",
+    "type": "Rollback Tow Truck",
+    "condition": "New",
+    "make": "Peterbilt",
+    "model": "537",
+    "description": "No description is available.",
+    "specifications": {
+      "Price": "Call for Price",
+      "Stock #": "Stock Number not Provided",
+      "VIN": "2NPMHJ7X6TM785742",
+      "Engine": "Cummins L9 350HP 6 Cyl",
+      "Transmission": "Allison 3000RDS",
+      "Axles": "Single, 12,000 F, 21,000 R",
+      "Rear": "Single/Std"
+    },
+    "images": [
+      "/assets/new-2026-PETERBILT-537-images/1.jpg",
+      "/assets/new-2026-PETERBILT-537-images/2.jpg",
+      "/assets/new-2026-PETERBILT-537-images/3.jpg",
+      "/assets/new-2026-PETERBILT-537-images/4.jpg",
+      "/assets/new-2026-PETERBILT-537-images/5.jpg",
+      "/assets/new-2026-PETERBILT-537-images/6.jpg"
+    ]
+  },
+
   {
     "id": 7,
-    "slug": "2017-hino-258alp-tow-truck",
-    "title": "2017 Hino 258ALP Tow Truck",
+    "slug": "2026-peterbilt-537",
+    "title": "New 2026 PETERBILT 537",
     "dealer": "Star Equipment Sales",
     "phone": "(715) 760-4004",
-    "price": "$65,000",
-    "type": "Tow Truck",
-    "condition": "Used",
-    "make": "Hino",
-    "model": "258ALP",
-    "description": "2017 Hino 258ALP tow truck, reliable and efficient.",
+    "price": "Call for Price",
+    "type": "Rollback Tow Truck",
+    "condition": "New",
+    "make": "Peterbilt",
+    "model": "537",
+    "description": "No description is available.",
     "specifications": {
-      "Engine": "Hino J08E",
-      "Mileage": "80,000 mi",
-      "VIN": "5PVNV8JV6H4S12345"
+      "Price": "Call for Price",
+      "Stock #": "20250402",
+      "VIN": "785741",
+      "Engine": "Cummins L9 350HP 6 Cyl",
+      "Transmission": "Allison 3000RDS",
+      "Axles": "Single, 12,000 F, 21,000 R",
+      "Rear": "Single/Std",
+      "Color": "Viper Red, Black Interior"
     },
     "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
+      "/assets/new-2026-PETERBILT-537-two-images/1.jpg",
+      "/assets/new-2026-PETERBILT-537-two-images/2.jpg",
+      "/assets/new-2026-PETERBILT-537-two-images/3.jpg",
+      "/assets/new-2026-PETERBILT-537-two-images/4.jpg"
     ]
   },
+
   {
     "id": 8,
-    "slug": "2021-ram-5500-rollback",
-    "title": "2021 Ram 5500 Rollback",
+    "slug": "2026-peterbilt-537-black",
+    "title": "New 2026 PETERBILT 537",
     "dealer": "Star Equipment Sales",
     "phone": "(715) 760-4004",
-    "price": "$89,000",
-    "type": "Rollback",
+    "price": "Call for Price",
+    "type": "Rollback Tow Truck",
     "condition": "New",
-    "make": "Ram",
-    "model": "5500",
-    "description": "2021 Ram 5500 rollback, ready for immediate delivery.",
+    "make": "Peterbilt",
+    "model": "537",
+    "description": "No description is available.",
     "specifications": {
-      "Engine": "Cummins 6.7L",
-      "VIN": "3C7WRNFL1MG123456"
+      "Price": "Call for Price",
+      "Stock #": "20250402",
+      "VIN": "785744",
+      "Engine": "Cummins L9 6 Cyl",
+      "Transmission": "Allison Auto 3000RDS",
+      "Axles": "Single, 12,000 F, 21,000 R",
+      "Rear": "Single/Std",
+      "Color": "Black, Black Interior"
     },
     "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
+      "/assets/New 2026 PETERBILT-537-black-images/1.jpg",
+      "/assets/New 2026 PETERBILT-537-black-images/2.jpg",
+      "/assets/New 2026 PETERBILT-537-black-images/3.jpg",
+      "/assets/New 2026 PETERBILT-537-black-images/4.jpg",
+      "/assets/New 2026 PETERBILT-537-black-images/5.jpg"
     ]
   },
+
   {
     "id": 9,
-    "slug": "2016-volvo-vnl780-sleeper",
-    "title": "2016 Volvo VNL780 Sleeper",
+    "slug": "2006-peterbilt-379",
+    "title": "2006 PETERBILT 379",
     "dealer": "Star Equipment Sales",
     "phone": "(715) 760-4004",
-    "price": "$120,000",
-    "type": "Sleeper",
-    "condition": "Used",
-    "make": "Volvo",
-    "model": "VNL780",
-    "description": "2016 Volvo VNL780 sleeper, well maintained.",
-    "specifications": {
-      "Engine": "Volvo D13",
-      "Mileage": "150,000 mi",
-      "VIN": "4V4NC9EH6GN123456"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 10,
-    "slug": "2015-mack-granite-dump-truck",
-    "title": "2015 Mack Granite Dump Truck",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$99,500",
-    "type": "Dump Truck",
-    "condition": "Used",
-    "make": "Mack",
-    "model": "Granite",
-    "description": "2015 Mack Granite dump truck, ready for heavy duty.",
-    "specifications": {
-      "Engine": "Mack MP8",
-      "Mileage": "110,000 mi",
-      "VIN": "1M2AX13C5FM123456"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 11,
-    "slug": "2023-isuzu-npr-hd-flatbed",
-    "title": "2023 Isuzu NPR HD Flatbed",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$78,000",
-    "type": "Flatbed",
-    "condition": "New",
-    "make": "Isuzu",
-    "model": "NPR HD",
-    "description": "2023 Isuzu NPR HD flatbed, brand new.",
-    "specifications": {
-      "Engine": "Isuzu 4HK1-TC",
-      "VIN": "JALC4W169N7001234"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 12,
-    "slug": "2014-gmc-sierra-3500hd-wrecker",
-    "title": "2014 GMC Sierra 3500HD Wrecker",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$55,000",
-    "type": "Wrecker",
-    "condition": "Used",
-    "make": "GMC",
-    "model": "Sierra 3500HD",
-    "description": "2014 GMC Sierra 3500HD wrecker, reliable and strong.",
-    "specifications": {
-      "Engine": "Duramax 6.6L",
-      "Mileage": "90,000 mi",
-      "VIN": "1GT42VC80EF123456"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 13,
-    "slug": "2013-chevrolet-silverado-3500hd-tow-truck",
-    "title": "2013 Chevrolet Silverado 3500HD Tow Truck",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$49,000",
-    "type": "Tow Truck",
-    "condition": "Used",
-    "make": "Chevrolet",
-    "model": "Silverado 3500HD",
-    "description": "2013 Chevrolet Silverado 3500HD tow truck, great value.",
-    "specifications": {
-      "Engine": "Duramax 6.6L",
-      "Mileage": "100,000 mi",
-      "VIN": "1GC4K0C80DF123456"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 14,
-    "slug": "2012-dodge-ram-4500-rollback",
-    "title": "2012 Dodge Ram 4500 Rollback",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$42,000",
-    "type": "Rollback",
-    "condition": "Used",
-    "make": "Dodge",
-    "model": "Ram 4500",
-    "description": "2012 Dodge Ram 4500 rollback, affordable and reliable.",
-    "specifications": {
-      "Engine": "Cummins 6.7L",
-      "Mileage": "130,000 mi",
-      "VIN": "3C7WRLBL2CG123456"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 15,
-    "slug": "2011-hino-268-flatbed",
-    "title": "2011 Hino 268 Flatbed",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$38,000",
-    "type": "Flatbed",
-    "condition": "Used",
-    "make": "Hino",
-    "model": "268",
-    "description": "2011 Hino 268 flatbed, dependable workhorse.",
-    "specifications": {
-      "Engine": "Hino J08E",
-      "Mileage": "140,000 mi",
-      "VIN": "5PVNE8JV6B4S12345"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 16,
-    "slug": "2010-ford-f-450-wrecker",
-    "title": "2010 Ford F-450 Wrecker",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$29,000",
-    "type": "Wrecker",
-    "condition": "Used",
-    "make": "Ford",
-    "model": "F-450",
-    "description": "2010 Ford F-450 wrecker, budget-friendly option.",
-    "specifications": {
-      "Engine": "Power Stroke V8",
-      "Mileage": "160,000 mi",
-      "VIN": "1FDXF46P79EA12345"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 17,
-    "slug": "2009-international-4300-tow-truck",
-    "title": "2009 International 4300 Tow Truck",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$25,000",
-    "type": "Tow Truck",
-    "condition": "Used",
-    "make": "International",
-    "model": "4300",
-    "description": "2009 International 4300 tow truck, ready for work.",
-    "specifications": {
-      "Engine": "DT466",
-      "Mileage": "170,000 mi",
-      "VIN": "1HTMMAAL49H123456"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 18,
-    "slug": "2008-freightliner-m2-rollback",
-    "title": "2008 Freightliner M2 Rollback",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$22,000",
-    "type": "Rollback",
-    "condition": "Used",
-    "make": "Freightliner",
-    "model": "M2",
-    "description": "2008 Freightliner M2 rollback, affordable and reliable.",
-    "specifications": {
-      "Engine": "Mercedes-Benz MBE900",
-      "Mileage": "180,000 mi",
-      "VIN": "1FVACWDC98HZ12345"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 19,
-    "slug": "2007-kenworth-t300-flatbed",
-    "title": "2007 Kenworth T300 Flatbed",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$19,000",
-    "type": "Flatbed",
-    "condition": "Used",
-    "make": "Kenworth",
-    "model": "T300",
-    "description": "2007 Kenworth T300 flatbed, great for local jobs.",
-    "specifications": {
-      "Engine": "Cummins ISC",
-      "Mileage": "190,000 mi",
-      "VIN": "2NKMHZ6X77M123456"
-    },
-    "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
-    ]
-  },
-  {
-    "id": 20,
-    "slug": "2006-peterbilt-335-wrecker",
-    "title": "2006 Peterbilt 335 Wrecker",
-    "dealer": "Star Equipment Sales",
-    "phone": "(715) 760-4004",
-    "price": "$15,000",
-    "type": "Wrecker",
+    "price": "$500,000",
+    "type": "Rotator Tow Truck",
     "condition": "Used",
     "make": "Peterbilt",
-    "model": "335",
-    "description": "2006 Peterbilt 335 wrecker, value buy.",
+    "model": "379",
+    "description": "Pre Emission 2006 Peterbilt 379 with a NRC 9240SR (same capacity as a 50/65CSR) will be available as soon as new rotator is in for the customer. New unit should be at the customer in July. Price is negotiable. 80,440 miles (may go up slightly as it's still in use). C15 MXS 550HP 18 Speed. Recently had the outriggers serviced.",
     "specifications": {
-      "Engine": "Caterpillar C7",
-      "Mileage": "200,000 mi",
-      "VIN": "2NPLHD7X76M123456"
+      "Price": "$500,000",
+      "Stock #": "Stock Number not Provided",
+      "VIN": "SIEWERTS",
+      "Engine": "CAT C15 550HP 6 Cyl",
+      "Transmission": "Eaton-Fuller 18 Spd",
+      "Axles": "Tri, 20,000 F, 23,000 R",
+      "Suspension": "Chalmers",
+      "Rear": "Full/Dual",
+      "Wheels": "Aluminum Front, Aluminum Rear",
+      "Brake Type": "Air",
+      "Cab Type": "Conventional",
+      "Air Cond": "Yes"
     },
     "images": [
-      "/assets/Vehicles/1.jpg",
-      "/assets/Vehicles/2.jpg",
-      "/assets/Vehicles/3.jpg"
+      "/assets/2006-PETERBILT-379-imqges/1.jpg",
+      "/assets/2006-PETERBILT-379-imqges/2.jpg",
+      "/assets/2006-PETERBILT-379-imqges/3.jpg",
+      "/assets/2006-PETERBILT-379-imqges/4.jpg",
+      "/assets/2006-PETERBILT-379-imqges/5.jpg",
+      "/assets/2006-PETERBILT-379-imqges/6.jpg",
+      "/assets/2006-PETERBILT-379-imqges/7.jpg",
+      "/assets/2006-PETERBILT-379-imqges/8.jpg",
+      "/assets/2006-PETERBILT-379-imqges/9.jpg",
+      "/assets/2006-PETERBILT-379-imqges/10.jpg",
+      "/assets/2006-PETERBILT-379-imqges/11.jpg",
+      "/assets/2006-PETERBILT-379-imqges/12.jpg",
+      "/assets/2006-PETERBILT-379-imqges/13.jpg",
+      "/assets/2006-PETERBILT-379-imqges/14.jpg",
+      "/assets/2006-PETERBILT-379-imqges/15.jpg",
+      "/assets/2006-PETERBILT-379-imqges/16.jpg",
+      "/assets/2006-PETERBILT-379-imqges/17.jpg",
+      "/assets/2006-PETERBILT-379-imqges/18.jpg",
+      "/assets/2006-PETERBILT-379-imqges/19.jpg",
+      "/assets/2006-PETERBILT-379-imqges/20.jpg",
+      "/assets/2006-PETERBILT-379-imqges/21.jpg",
+      "/assets/2006-PETERBILT-379-imqges/22.jpg"
+    ]
+  },
+
+  {
+    "id": 10,
+    "slug": "2026-freightliner-m2-rollback",
+    "title": "New 2026 FREIGHTLINER M2",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "Call for Price",
+    "type": "Rollback Tow Truck",
+    "condition": "New",
+    "make": "Freightliner",
+    "model": "M2",
+    "description": "2026 Freightliner M2 Ext Cab 23' 20TB Truck is fully loaded with options including a 350HP L9 engine with a 3 stage Jake Brake and an Allison 3000RDS. Bed is loaded with equipment and accessories!!",
+    "specifications": {
+      "Price": "Call for Price",
+      "Stock #": "Stock Number not Provided",
+      "VIN": "3ALACXFE2TDWJ7309",
+      "Engine": "Cummins L9 350HP 6 Cyl",
+      "Engine Size": "8.9L",
+      "Fuel": "Diesel, 1 Tank, 85 Gal",
+      "Transmission": "Allison Auto 3000RDS 6 Spd",
+      "Axles": "Single, 12,000 F, 21,000 R",
+      "Suspension": "Hendrickson",
+      "Frame Type": "Single",
+      "Rear": "Single/Std",
+      "Wheels": "Aluminum Front, All Aluminum Rear",
+      "Tire Config": "Dual",
+      "Tires": "Virgin",
+      "Brake Type": "Air",
+      "Cab Type": "Extended",
+      "Color": "White, Black Interior",
+      "Body Options": "Heated Mirrors",
+      "Exhaust": "Horizontal",
+      "GVW": "33,000 Lbs",
+      "Cab to Axle": "171\"",
+      "Floor Type": "Steel",
+      "Body Type": "Galvanized Steel",
+      "Air Cond": "Yes"
+    },
+    "images": [
+      "/assets/New-2026-FREIGHTLINER-M2-images/1.jpg",
+      "/assets/New-2026-FREIGHTLINER-M2-images/2.jpg",
+      "/assets/New-2026-FREIGHTLINER-M2-images/3.jpg",
+      "/assets/New-2026-FREIGHTLINER-M2-images/4.jpg",
+      "/assets/New-2026-FREIGHTLINER-M2-images/5.jpg",
+      "/assets/New-2026-FREIGHTLINER-M2-images/6.jpg",
+      "/assets/New-2026-FREIGHTLINER-M2-images/7.jpg",
+      "/assets/New-2026-FREIGHTLINER-M2-images/8.jpg",
+      "/assets/New-2026-FREIGHTLINER-M2-images/9.jpg",
+      "/assets/New-2026-FREIGHTLINER-M2-images/10.jpg"
     ]
   }
 ]
