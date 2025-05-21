@@ -63,3 +63,14 @@ export interface Cart {
 export interface RetrieveCartResponse {
   cart: Cart;
 }
+
+export interface DiscountedProduct {
+  id: string;
+  title: string;
+  handle: string;
+  image: string;
+  price: string;
+  compareAtPrice: string;
+  discount: string;
+  variantId: string;
+}

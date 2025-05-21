@@ -12,22 +12,22 @@ const categories = [
   {
     icon: '/assets/Homepage/nrc-icon.svg',
     label: 'NRC Parts',
-    link: '/nrc-parts',
+    link: '/collections/nrc-parts',
   },
   {
     icon: '/assets/Homepage/ba-icon.svg',
     label: 'B/A Products',
-    link: '/ba-products',
+    link: '/collections/baproducts',
   },
   {
     icon: '/assets/Homepage/cloth-icon.svg',
     label: 'Clothing',
-    link: '/clothing',
+    link: '/collections/clothing',
   },
   {
     icon: '/assets/Homepage/micro-icon.svg',
     label: 'Towmate',
-    link: '/towmate',
+    link: '/collections/towmate',
   },
 ];
 

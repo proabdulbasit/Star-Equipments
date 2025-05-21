@@ -1,7 +1,5 @@
 import ClothingProduct from '@/components/ClothingProduct/clothingProduct';
 import { getProductsByCollection } from '@/utils/shopify';
-import { headers } from 'next/headers';
-import Cart from '@/features/Cart';
 
 export default async function ClothingPage({
   searchParams,

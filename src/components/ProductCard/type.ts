@@ -5,4 +5,6 @@ export interface ProductCardProps {
   price: string;
   altText?: string;
   onAddToCart?: () => void;
+  discount?: string;
+  compareAtPrice?: string;
 }

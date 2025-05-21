@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
 import { Toaster } from 'sonner';
+import ScrollToTopOnRouteChange from '@/components/ScrollToTopOnRouteChange';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -37,6 +38,7 @@ export default function RootLayout({
           {children}
           <Footer />
           <Toaster />
+          <ScrollToTopOnRouteChange />
         </body>
       </CartProvider>
     </html>

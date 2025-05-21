@@ -4,6 +4,7 @@ import {
   RetrieveCartResponse,
   Product,
   Cart,
+  DiscountedProduct,
 } from '@/utils/type';
 
 const storefrontAccessToken = process.env.NEXT_PUBLIC_STORE_FRONT_ACCESS_TOKEN;
@@ -953,4 +954,108 @@ export async function getProductRecommendations(
     productRecommendations: Product[];
   }>(recommendationsQuery, { productId });
   return response.productRecommendations;
+}
+
+export async function getDiscountedProducts(): Promise<DiscountedProduct[]> {
+  const discountedProductsQuery = gql`
+    {
+      products(first: 10, query: "compare_at_price:>0") {
+        edges {
+          node {
+            id
+            title
+            handle
+            featuredImage {
+              url
+              altText
+            }
+            variants(first: 1) {
+              edges {
+                node {
+                  id
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  compareAtPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await graphQLClient.request<{
+      products: {
+        edges: Array<{
+          node: {
+            id: string;
+            title: string;
+            handle: string;
+            featuredImage?: {
+              url: string;
+              altText?: string;
+            } | null;
+            variants: {
+              edges: Array<{
+                node: {
+                  id: string;
+                  price: {
+                    amount: string;
+                    currencyCode: string;
+                  };
+                  compareAtPrice?: {
+                    amount: string;
+                    currencyCode: string;
+                  } | null;
+                };
+              }>;
+            };
+          };
+        }>;
+      };
+    }>(discountedProductsQuery);
+
+    // Filter and transform the products to only include those with actual discounts
+    return response.products.edges
+      .map(({ node }) => {
+        const variant = node.variants.edges[0]?.node;
+        if (!variant) return null;
+
+        const price = parseFloat(variant.price.amount);
+        const compareAtPrice = variant.compareAtPrice
+          ? parseFloat(variant.compareAtPrice.amount)
+          : null;
+
+        // Only include products that have a valid discount
+        if (!compareAtPrice || compareAtPrice <= price) return null;
+
+        const discount = Math.round(
+          ((compareAtPrice - price) / compareAtPrice) * 100,
+        );
+
+        return {
+          id: node.id,
+          title: node.title,
+          handle: node.handle,
+          image: node.featuredImage?.url || '/placeholder-image.jpg',
+          price: `$${price.toFixed(2)}`,
+          compareAtPrice: `$${compareAtPrice.toFixed(2)}`,
+          discount: `${discount}% OFF`,
+          variantId: variant.id,
+        };
+      })
+      .filter(
+        (product): product is NonNullable<typeof product> => product !== null,
+      );
+  } catch (error) {
+    console.error('Error fetching discounted products:', error);
+    return [];
+  }
 }

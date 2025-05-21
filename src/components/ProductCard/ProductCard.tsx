@@ -10,6 +10,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   price,
   altText,
   onAddToCart,
+  discount,
+  compareAtPrice,
 }) => {
   return (
     <div className="group w-full bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden relative">
@@ -25,6 +27,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
             className="object-contain transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
+          {discount && (
+            <div className="absolute top-2 right-2 bg-[#007934] text-white px-2 py-1 rounded text-sm font-semibold">
+              {discount}
+            </div>
+          )}
         </div>
       </Link>
       <div className="flex-1 flex flex-col justify-between p-4">
@@ -32,7 +39,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {title}
         </h1>
         <div className="flex items-end justify-between mt-auto">
-          <span className="text-xl font-bold text-[#007934]">${price}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-xl font-bold text-[#007934]">{price}</span>
+            {compareAtPrice && (
+              <span className="text-sm text-gray-500 line-through">
+                {compareAtPrice}
+              </span>
+            )}
+          </div>
           <button
             className="ml-2 bg-[#007934] hover:bg-[#005f27] text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#007934]"
             onClick={onAddToCart}

@@ -32,7 +32,7 @@ function Towing() {
             professionals. Step into the future with Star Equipment Sales
           </motion.p>
           <motion.a
-            href="/parts"
+            href="/collections"
             className="inline-block lg:h-[55px] h-[40px] cursor-pointer rounded-full min-w-[203px] mx-auto flex items-center justify-center text-center text-white lg:text-xl bg-[#007934] border-2 border-white font-semibold hover:bg-[#02682e] transition"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

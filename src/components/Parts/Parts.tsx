@@ -1,92 +1,160 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { getAllCollections } from '@/utils/shopify';
 
-const parts = [
+const SPECIFIC_COLLECTIONS = [
   {
-    name: 'B/A Products',
-    image: '/images/ba-products.webp',
-    href: '/shop/ba-products',
+    handle: 'nrc-parts',
+    title: 'NRC Parts',
+    description: "Enhance Your Fleet with NRC's Industry-Leading Parts",
+    image: {
+      url: 'https://cdn.shopify.com/s/files/1/0620/6881/8159/collections/nrc-parts-986724.jpg?v=1732216033',
+      altText: 'NRC Parts - starequipmentsales',
+    },
   },
   {
-    name: 'Clothing',
-    image: '/images/portwest.webp',
-    href: '/shop/clothing',
+    handle: 'baproducts',
+    title: 'B/A Products',
+    description: '',
+    image: {
+      url: 'https://cdn.shopify.com/s/files/1/0620/6881/8159/collections/ba-products-555031.jpg?v=1679434143',
+      altText: 'BA Products - starequipmentsales',
+    },
   },
   {
-    name: 'Towmate',
-    image: '/images/towmate.webp',
-    href: '/shop/towmate',
+    handle: 'towmate',
+    title: 'Towmate',
+    description: '',
+    image: {
+      url: 'https://cdn.shopify.com/s/files/1/0620/6881/8159/collections/towmate-328831.jpg?v=1732216091',
+      altText: 'Towmate - starequipmentsales',
+    },
   },
   {
-    name: 'NRC Parts',
-    image: '/images/nrc.avif',
-    href: '/shop/nrc-parts',
+    handle: 'clothing',
+    title: 'PORTWEST',
+    description: '',
+    image: {
+      url: 'https://cdn.shopify.com/s/files/1/0620/6881/8159/collections/clothing-504340.jpg?v=1732216068',
+      altText: 'CLOTHING - starequipmentsales',
+    },
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.15 },
-  },
-};
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-};
-
 function Parts() {
+  const [collections, setCollections] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCollections() {
+      try {
+        const allCollections = await getAllCollections();
+        const filtered = SPECIFIC_COLLECTIONS.map((spec) => {
+          const match = allCollections?.find((c) => c.handle === spec.handle);
+          return {
+            ...spec,
+            id: match?.id || spec.handle,
+            productsCount: match?.productsCount || 0,
+          };
+        });
+        setCollections(filtered);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCollections();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-16 bg-[#F4F4F4]">
+        <div className="max-w-[1440px] mx-auto px-4">
+          <div className="text-3xl michroma-regular text-center text-[#007934] mb-12 animate-pulse">
+            Shop by Category
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {[...Array(4)].map((_, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col animate-pulse h-full"
+              >
+                <div className="relative w-full aspect-[4/3] bg-gray-200" />
+                <div className="p-6 flex flex-col flex-grow bg-white relative">
+                  <div className="h-6 w-3/4 bg-gray-200 rounded mb-2" />
+                  <div className="h-4 w-1/2 bg-gray-200 rounded mb-4" />
+                  <div className="mt-auto pt-4 border-t border-gray-100">
+                    <div className="h-6 w-24 bg-gray-200 rounded-full" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 bg-[#F4F4F4]">
-      <div className="max-w-[1440px] mx-auto px-4 lg:px-12">
-        <motion.h2
-          className="text-3xl michroma-regular text-center text-[#007934] mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          viewport={{ once: true }}
-        >
+      <div className="max-w-[1440px] mx-auto px-4">
+        <h2 className="text-3xl michroma-regular text-center text-[#007934] mb-12">
           Shop by Category
-        </motion.h2>
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {parts.map((part) => (
-            <motion.div
-              key={part.name}
-              variants={cardVariants}
-              whileHover={{ scale: 1.04 }}
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {collections.map((collection) => (
+            <Link
+              key={collection.id}
+              href={`/collections/${collection.handle}`}
+              className="group block h-full"
             >
-              <Link
-                href={part.href}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition flex flex-col items-center p-6 cursor-pointer border border-transparent hover:border-[#007934]"
-              >
-                <div className="w-full h-48 flex items-center justify-center overflow-hidden rounded-xl mb-6 bg-gray-100">
+              <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 overflow-hidden h-full flex flex-col transform hover:-translate-y-1">
+                {/* Collection Image Container */}
+                <div className="relative w-full aspect-[4/3] bg-gray-100 overflow-hidden">
                   <Image
-                    src={part.image}
-                    alt={part.name}
-                    width={220}
-                    height={180}
-                    className="object-contain group-hover:scale-105 transition-transform duration-300"
+                    src={collection.image.url}
+                    alt={collection.image.altText || collection.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={false}
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#2C2C2C] mb-4 text-center">
-                  {part.name}
-                </h3>
-                <span className="mt-auto inline-block px-6 py-2 bg-[#048B3D] text-white rounded-full font-semibold text-center hover:bg-[#02682e] transition">
-                  Shop Now
-                </span>
-              </Link>
-            </motion.div>
+                {/* Collection Info */}
+                <div className="p-6 flex flex-col flex-grow bg-white relative">
+                  <h2 className="text-xl font-semibold text-[#2C2C2C] mb-2 line-clamp-2 group-hover:text-[#007934] transition-colors duration-300">
+                    {collection.title}
+                  </h2>
+                  {collection.description && (
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
+                      {collection.description}
+                    </p>
+                  )}
+                  <div className="mt-auto pt-4 border-t border-gray-100">
+                    <span className="text-[#007934] font-medium text-sm flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+                      Shop Now
+                      <svg
+                        className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
