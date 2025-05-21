@@ -1,78 +1,119 @@
 import React from 'react';
-import { getProductsByCollection } from '../../../utils/shopify';
+import { getProductsByCollectionWithOffset } from '../../../utils/shopify';
 import ClothingProduct from '../../../components/ClothingProduct/clothingProduct';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 interface PageProps {
-  params: Promise<{
+  params: {
     id: string;
-  }>;
-  searchParams?: Promise<Record<string, string>>;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function CollectionPage({
   params,
   searchParams,
 }: PageProps) {
   try {
-    // Await both params and searchParams
-    const resolvedParams = await params;
-    const resolvedSearchParams = await searchParams;
-
     // Ensure params.id is available
-    if (!resolvedParams?.id) {
+    if (!params?.id) {
       notFound();
     }
 
-    // Parse query params
-    const sort = resolvedSearchParams?.sort || 'RELEVANCE';
-    const reverse = resolvedSearchParams?.reverse === 'true';
-    const priceFrom = resolvedSearchParams?.priceFrom
-      ? parseFloat(resolvedSearchParams.priceFrom)
-      : undefined;
-    const priceTo = resolvedSearchParams?.priceTo
-      ? parseFloat(resolvedSearchParams.priceTo)
-      : undefined;
-    const cursor = resolvedSearchParams?.cursor;
-    const direction = resolvedSearchParams?.direction;
-    const pageSize = 16;
-
-    // Cursor-based pagination logic
-    let options: any = {
-      pageSize,
-      sortKey: sort as any,
-      reverse,
-      priceFrom,
-      priceTo,
+    // Helper function to safely get string value from searchParams
+    const getSearchParam = (key: string): string | undefined => {
+      const value = searchParams[key];
+      return Array.isArray(value) ? value[0] : value;
     };
 
-    if (cursor && direction === 'next') {
-      options.after = cursor;
-      options.first = pageSize;
-    } else if (cursor && direction === 'prev') {
-      options.before = cursor;
-      options.last = pageSize;
-    } else {
-      options.first = pageSize;
+    // Parse query params with proper type checking
+    const sort = (getSearchParam('sort') || 'RELEVANCE') as
+      | 'TITLE'
+      | 'PRICE'
+      | 'CREATED_AT'
+      | 'BEST_SELLING'
+      | 'ID'
+      | 'RELEVANCE';
+    const reverse = getSearchParam('reverse') === 'true';
+
+    // Update price filter parameter parsing with proper type checking
+    const priceFrom = getSearchParam('filter.v.price.gte')
+      ? parseFloat(getSearchParam('filter.v.price.gte')!)
+      : undefined;
+    const priceTo = getSearchParam('filter.v.price.lte')
+      ? parseFloat(getSearchParam('filter.v.price.lte')!)
+      : undefined;
+
+    // Parse page number with validation
+    const page = getSearchParam('page')
+      ? Math.max(1, parseInt(getSearchParam('page')!, 10))
+      : 1;
+
+    const pageSize = 16;
+
+    // Get products with pagination
+    const data = await getProductsByCollectionWithOffset(
+      params.id,
+      page,
+      pageSize,
+      {
+        sortKey: sort,
+        reverse,
+        priceFrom,
+        priceTo,
+      },
+    );
+
+    if (!data.products || data.products.length === 0) {
+      if (page === 1) {
+        notFound();
+      } else {
+        // If no products found on a page other than 1, redirect to page 1
+        const searchParamsString = new URLSearchParams();
+        // Copy all existing search params except page
+        Object.entries(searchParams).forEach(([key, value]) => {
+          if (key !== 'page' && value) {
+            searchParamsString.append(
+              key,
+              Array.isArray(value) ? value[0] : value,
+            );
+          }
+        });
+        searchParamsString.set('page', '1');
+
+        redirect(`/collections/${params.id}?${searchParamsString.toString()}`);
+      }
     }
 
-    // Fetch data with the collection ID
-    const data = await getProductsByCollection(resolvedParams.id, options);
+    // If the requested page is greater than total pages, redirect to last page
+    if (page > data.pageInfo.totalPages && data.pageInfo.totalPages > 0) {
+      const searchParamsString = new URLSearchParams();
+      // Copy all existing search params except page
+      Object.entries(searchParams).forEach(([key, value]) => {
+        if (key !== 'page' && value) {
+          searchParamsString.append(
+            key,
+            Array.isArray(value) ? value[0] : value,
+          );
+        }
+      });
+      searchParamsString.set('page', data.pageInfo.totalPages.toString());
 
-    if (!data.collectionByHandle?.products?.edges) {
-      notFound();
+      redirect(`/collections/${params.id}?${searchParamsString.toString()}`);
     }
 
     return (
       <div>
         <ClothingProduct
-          products={data.collectionByHandle.products.edges}
-          pageInfo={data.collectionByHandle.products.pageInfo}
+          products={data.products}
+          pageInfo={data.pageInfo}
           currentSort={sort}
           currentPriceFrom={priceFrom}
           currentPriceTo={priceTo}
-          currentCursor={cursor}
-          currentDirection={direction}
+          currentPage={page}
         />
       </div>
     );

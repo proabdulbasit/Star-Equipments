@@ -6,6 +6,7 @@ export type ProductProps = {
 export type ProductDetailProps = {
   product: {
     title: string;
+    id: string;
     priceRange: {
       minVariantPrice: {
         amount: string;
@@ -18,5 +19,9 @@ export type ProductDetailProps = {
         };
       }>;
     };
+    featuredImage?: {
+      url: string;
+      altText?: string;
+    } | null;
   };
 };

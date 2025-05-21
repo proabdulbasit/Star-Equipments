@@ -7,15 +7,21 @@ import { usePathname } from 'next/navigation';
 import { RxCross2 } from 'react-icons/rx';
 import { FiMenu } from 'react-icons/fi';
 import HeaderLink from '@/data/headerLinks.json';
-import { IoSearch } from 'react-icons/io5';
-import { FaRegHeart } from 'react-icons/fa6';
 import { FiShoppingCart } from 'react-icons/fi';
+import { useCart } from '@/context/CartContext';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(true);
   const toggleClose = () => setIsOpen(false);
   const pathname = usePathname();
+  const { cart } = useCart();
+  const cartCount =
+    cart?.lines?.edges?.reduce(
+      (sum: any, item: { node: { quantity: any } }) =>
+        sum + (item.node.quantity || 0),
+      0,
+    ) || 0;
 
   return (
     <>
@@ -85,11 +91,13 @@ function Header() {
               <Link href="/" className="cursor-pointer">
                 <FaRegHeart className="text-2xl text-black" />
               </Link> */}
-              <Link href="/" className="cursor-pointer relative">
+              <Link href="/cart" className="cursor-pointer relative">
                 <FiShoppingCart className="text-2xl text-black" />
-                <span className="absolute -top-2 -right-2 bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  3
-                </span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
               {/* <div className="flex flex-col">
                 <label className="text-sm pl-1 text-black">My Cart</label>

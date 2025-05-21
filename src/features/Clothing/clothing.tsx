@@ -1,13 +1,13 @@
 import ClothingProduct from '@/components/ClothingProduct/clothingProduct';
 import { getProductsByCollection } from '@/utils/shopify';
 import { headers } from 'next/headers';
+import Cart from '@/features/Cart';
 
 export default async function ClothingPage({
   searchParams,
 }: {
   searchParams?: Record<string, string>;
 }) {
-  // Parse query params
   const sort = searchParams?.sort || 'RELEVANCE';
   const priceFrom = searchParams?.priceFrom
     ? parseFloat(searchParams.priceFrom)
@@ -19,7 +19,6 @@ export default async function ClothingPage({
   const direction = searchParams?.direction;
   const pageSize = 16;
 
-  // Cursor-based pagination logic
   let options: any = {
     pageSize,
     sortKey: sort as any,
@@ -47,12 +46,16 @@ export default async function ClothingPage({
     <div>
       <ClothingProduct
         products={data.collectionByHandle.products.edges}
-        pageInfo={data.collectionByHandle.products.pageInfo}
+        pageInfo={{
+          ...data.collectionByHandle.products.pageInfo,
+          currentPage: 1,
+          totalPages: 1,
+          totalProducts: data.collectionByHandle.products.edges.length,
+        }}
         currentSort={sort}
         currentPriceFrom={priceFrom}
         currentPriceTo={priceTo}
-        currentCursor={cursor}
-        currentDirection={direction}
+        currentPage={1}
       />
     </div>
   );

@@ -9,16 +9,42 @@ import { addToCart, updateCart, retrieveCart } from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
 import { Product } from '@/utils/type';
 import { useRouter, useSearchParams } from 'next/navigation';
+import React from 'react';
 
 const sortOptions = [
-  { value: 'RELEVANCE', label: 'Featured' },
-  { value: 'BEST_SELLING', label: 'Best selling' },
-  { value: 'TITLE', label: 'Alphabetically, A-Z', reverse: false },
-  { value: 'TITLE', label: 'Alphabetically, Z-A', reverse: true },
-  { value: 'PRICE', label: 'Price, low to high', reverse: false },
-  { value: 'PRICE', label: 'Price, high to low', reverse: true },
-  { value: 'CREATED_AT', label: 'Date, old to new', reverse: false },
-  { value: 'CREATED_AT', label: 'Date, new to old', reverse: true },
+  { value: 'RELEVANCE', label: 'Featured', reverse: false, id: 'relevance' },
+  {
+    value: 'BEST_SELLING',
+    label: 'Best selling',
+    reverse: false,
+    id: 'best_selling',
+  },
+  {
+    value: 'TITLE',
+    label: 'Alphabetically, A-Z',
+    reverse: false,
+    id: 'title_az',
+  },
+  {
+    value: 'TITLE',
+    label: 'Alphabetically, Z-A',
+    reverse: true,
+    id: 'title_za',
+  },
+  {
+    value: 'PRICE',
+    label: 'Price, low to high',
+    reverse: false,
+    id: 'price_low',
+  },
+  {
+    value: 'PRICE',
+    label: 'Price, high to low',
+    reverse: true,
+    id: 'price_high',
+  },
+  { value: 'ID', label: 'Date, old to new', reverse: false, id: 'date_old' },
+  { value: 'ID', label: 'Date, new to old', reverse: true, id: 'date_new' },
 ];
 
 interface ClothingProductProps {
@@ -26,14 +52,15 @@ interface ClothingProductProps {
   pageInfo: {
     hasNextPage: boolean;
     hasPreviousPage: boolean;
-    endCursor: string;
-    startCursor: string;
+    currentPage: number;
+    totalPages: number;
+    totalProducts: number;
+    hasMoreProducts?: boolean;
   };
   currentSort: string;
   currentPriceFrom?: number;
   currentPriceTo?: number;
-  currentCursor?: string;
-  currentDirection?: string;
+  currentPage: number;
 }
 
 const Clothing: React.FC<ClothingProductProps> = ({
@@ -42,8 +69,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
   currentSort,
   currentPriceFrom,
   currentPriceTo,
-  currentCursor,
-  currentDirection,
+  currentPage,
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -54,7 +80,15 @@ const Clothing: React.FC<ClothingProductProps> = ({
     currentPriceFrom?.toString() || '',
   );
   const [priceTo, setPriceTo] = useState(currentPriceTo?.toString() || '');
-  const [sort, setSort] = useState(currentSort);
+  // Find the initial sort option based on currentSort and reverse
+  const initialSortOption = sortOptions.find(
+    (option) =>
+      option.value === currentSort &&
+      option.reverse === (searchParams.get('reverse') === 'true'),
+  );
+  const [selectedSortId, setSelectedSortId] = useState(
+    initialSortOption?.id || 'relevance',
+  );
   const { cart, setCart } = useCart();
 
   // Get min/max price
@@ -77,23 +111,34 @@ const Clothing: React.FC<ClothingProductProps> = ({
     router.push(`?${newParams.toString()}`);
   };
 
-  const handleSortChange = (value: string) => {
-    setSort(value);
-    // Reset pagination when sorting changes
-    const selectedOption = sortOptions.find((option) => option.value === value);
+  const handleSortChange = (selectedId: string) => {
+    // Find the selected option using the id
+    const selectedOption = sortOptions.find(
+      (option) => option.id === selectedId,
+    );
+
+    if (!selectedOption) {
+      console.error('Invalid sort option selected:', selectedId);
+      return;
+    }
+
+    setSelectedSortId(selectedId);
+
     updateQuery({
-      sort: value,
-      reverse: selectedOption?.reverse ? 'true' : 'false',
-      cursor: undefined,
-      direction: undefined,
+      sort: selectedOption.value,
+      reverse: selectedOption.reverse ? 'true' : 'false',
+      page: 1,
     });
   };
 
   const handlePriceFilter = () => {
-    // Reset pagination when price filter changes
+    const fromPrice = priceFrom ? parseFloat(priceFrom) : undefined;
+    const toPrice = priceTo ? parseFloat(priceTo) : undefined;
+
     updateQuery({
-      priceFrom,
-      priceTo,
+      'filter.v.price.gte': fromPrice,
+      'filter.v.price.lte': toPrice,
+      page: 1,
       cursor: undefined,
       direction: undefined,
     });
@@ -114,24 +159,17 @@ const Clothing: React.FC<ClothingProductProps> = ({
     alert('Item added to cart!');
   };
 
-  // Pagination handlers
-  const handleNextPage = () => {
-    if (pageInfo.hasNextPage) {
-      updateQuery({
-        cursor: pageInfo.endCursor,
-        direction: 'next',
-      });
-    }
+  const handlePageChange = (newPage: number) => {
+    if (newPage === currentPage) return;
+
+    if (newPage < 1) return;
+
+    if (newPage > pageInfo.totalPages) return;
+
+    updateQuery({ page: newPage });
   };
 
-  const handlePrevPage = () => {
-    if (pageInfo.hasPreviousPage) {
-      updateQuery({
-        cursor: pageInfo.startCursor,
-        direction: 'prev',
-      });
-    }
-  };
+  const isLastPage = currentPage >= pageInfo.totalPages;
 
   if (!products || products.length === 0) {
     return (
@@ -178,9 +216,13 @@ const Clothing: React.FC<ClothingProductProps> = ({
 
       <div className="bg-[#F4F4F4]  lg:px-0 px-5 mx-auto lg:w-full">
         <div className="text-[#2C2C2C]  xl:w-[1440px] mx-auto mt-8 pt-3 flex items-center justify-between  roboto-condensed text-xl">
-          <h1>{products.length} Products</h1>
+          <h1>
+            Showing {products.length} of{' '}
+            {pageInfo.hasMoreProducts ? '1000+' : pageInfo.totalProducts}{' '}
+            Products
+            {pageInfo.hasMoreProducts && ' (More available)'}
+          </h1>
           <div className="flex items-center gap-8">
-            {/* Price Filter */}
             <div className="relative">
               <button
                 className="border border-gray-300 bg-white rounded px-3 py-1 text-base flex items-center gap-2 min-w-[100px]"
@@ -245,19 +287,15 @@ const Clothing: React.FC<ClothingProductProps> = ({
                 </div>
               )}
             </div>
-            {/* Sort Dropdown */}
             <div className="flex items-center gap-3">
               <span className="text-base text-[#2C2C2C]">Sort by:</span>
               <select
                 className="text-black bg-white border border-gray-300 rounded px-2 py-1 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#007934]"
-                value={sort}
+                value={selectedSortId}
                 onChange={(e) => handleSortChange(e.target.value)}
               >
                 {sortOptions.map((option) => (
-                  <option
-                    key={`${option.value}-${option.reverse}`}
-                    value={option.value}
-                  >
+                  <option key={option.id} value={option.id}>
                     {option.label}
                   </option>
                 ))}
@@ -315,21 +353,77 @@ const Clothing: React.FC<ClothingProductProps> = ({
           ))}
         </div>
 
-        <div className="flex justify-center xl:w-[1440px] mx-auto bg-[#F4F4F4] items-center pb-5 space-x-7">
+        <div className="flex justify-center xl:w-[1440px] mx-auto bg-[#F4F4F4] items-center pb-5 space-x-4">
           <button
-            onClick={handlePrevPage}
-            disabled={!pageInfo.hasPreviousPage}
-            className="disabled:opacity-50"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage <= 1}
+            className={`transition-opacity ${
+              currentPage <= 1
+                ? 'opacity-50 cursor-not-allowed'
+                : 'hover:opacity-80'
+            }`}
+            aria-label="Previous page"
           >
             <FaAngleLeft className="text-xl text-[#2C2C2C]" />
           </button>
+
+          <div className="flex items-center gap-2">
+            {Array.from({ length: pageInfo.totalPages }, (_, i) => i + 1)
+              .filter((pageNum) => {
+                return (
+                  pageNum === 1 ||
+                  pageNum === pageInfo.totalPages ||
+                  Math.abs(pageNum - currentPage) <= 1
+                );
+              })
+              .map((pageNum, index, array) => {
+                const showEllipsisBefore =
+                  index > 0 && pageNum - array[index - 1] > 1;
+                const showEllipsisAfter =
+                  index < array.length - 1 && array[index + 1] - pageNum > 1;
+
+                return (
+                  <React.Fragment key={pageNum}>
+                    {showEllipsisBefore && (
+                      <span className="text-[#2C2C2C]">...</span>
+                    )}
+                    <button
+                      onClick={() => handlePageChange(pageNum)}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors
+                        ${
+                          currentPage === pageNum
+                            ? 'bg-[#007934] text-white'
+                            : 'text-[#2C2C2C] hover:bg-gray-100'
+                        }`}
+                      disabled={currentPage === pageNum}
+                    >
+                      {pageNum}
+                    </button>
+                    {showEllipsisAfter && (
+                      <span className="text-[#2C2C2C]">...</span>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+          </div>
+
           <button
-            onClick={handleNextPage}
-            disabled={!pageInfo.hasNextPage}
-            className="disabled:opacity-50"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={isLastPage || !pageInfo.hasNextPage}
+            className={`transition-opacity ${
+              isLastPage || !pageInfo.hasNextPage
+                ? 'opacity-50 cursor-not-allowed'
+                : 'hover:opacity-80'
+            }`}
+            aria-label="Next page"
           >
             <FaAngleRight className="text-xl text-[#2C2C2C]" />
           </button>
+
+          <span className="text-sm text-[#2C2C2C] ml-4">
+            Page {currentPage} of {pageInfo.totalPages}
+            {pageInfo.hasMoreProducts && ' (More products available)'}
+          </span>
         </div>
       </div>
     </div>
