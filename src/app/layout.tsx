@@ -34,10 +34,11 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <Toaster />
           <Header />
           {children}
           <Footer />
-          <Toaster />
+
           <ScrollToTopOnRouteChange />
         </body>
       </CartProvider>

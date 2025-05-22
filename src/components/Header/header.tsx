@@ -28,7 +28,7 @@ function Header() {
       <div className="sticky top-0 z-50 shadow-lg">
         <div className="lg:block hidden"></div>
         <div className="w-full shadow lg:h-24 h-16 bg-white">
-          <div className="max-w-[1440px] mx-auto px-5 lg:px-12 h-full flex items-center justify-between">
+          <div className="max-w-[1440px] mx-auto px-4 lg:px-8 h-full flex items-center justify-between">
             <Link href="/">
               <Image
                 src="/assets/Header/logo.svg"
@@ -64,7 +64,8 @@ function Header() {
             </div>
           </div>
         </div>
-        <div className="bg-[#E8EAED] h-20">
+        {/* Secondary nav bar: show on desktop, hide on mobile if no links */}
+        <div className="bg-[#E8EAED] h-20 lg:block hidden">
           <div className="max-w-[1440px] mx-auto px-5 lg:px-12 h-full flex items-center justify-between roboto-condensed text-[14px] xl:text-[18px]">
             <div className="flex items-center xl:gap-16 lg:gap-10">
               <ul className="flex items-center xl:gap-16 lg:gap-10 justify-between">
@@ -83,54 +84,79 @@ function Header() {
               </ul>
             </div>
             <div className="flex items-center gap-7">
-              {/* <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
-                <Link href="/" className="cursor-pointer">
-                  <IoSearch className="text-[#007934] font-bold text-2xl" />
-                </Link>
-              </div>
-              <Link href="/" className="cursor-pointer">
-                <FaRegHeart className="text-2xl text-black" />
-              </Link> */}
               <Link href="/cart" className="cursor-pointer relative">
                 <FiShoppingCart className="text-2xl text-black" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
+                <span className="absolute -top-2 -right-2 bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
               </Link>
-              {/* <div className="flex flex-col">
-                <label className="text-sm pl-1 text-black">My Cart</label>
-                <select className="text-black font-bold cursor-pointer">
-                  <option>$215.00</option>
-                  <option>$215.00</option>
-                  <option>$215.00</option>
-                  <option>$215.00</option>
-                </select>
-              </div> */}
             </div>
           </div>
         </div>
+        {/* On mobile, show a cart bar with 'Your Cart' and the cart icon */}
+        <div className="bg-[#E8EAED] h-14 lg:hidden flex items-center justify-between px-4">
+          <span className="text-[16px] font-medium text-black">Your Cart</span>
+          <Link href="/cart" className="relative">
+            <FiShoppingCart className="text-2xl text-black" />
+
+            <span className="absolute -top-2 -right-2 bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              {cartCount}
+            </span>
+          </Link>
+        </div>
       </div>
+      {/* Mobile Hamburger Menu Dropdown */}
       {isOpen && (
-        <div className="flex rounded-2xl p-5 justify-between bg-white shadow-2xl absolute top-4 w-40 right-5">
-          <ul className="justify-between flex flex-col space-y-3">
-            {NavLink
-              ? NavLink.map((item, index) => (
+        <div className="fixed inset-0 z-50 bg-black/40 flex justify-end">
+          <div className="bg-white shadow-2xl w-64 h-full flex flex-col p-5 relative animate-fadeInRight">
+            <div className="flex justify-between items-center mb-4">
+              <span className="font-bold text-lg text-[#048B3D]">Menu</span>
+              <button onClick={toggleClose} aria-label="Close menu">
+                <RxCross2 className="text-[#048B3D] text-xl" />
+              </button>
+            </div>
+            <ul className="flex flex-col space-y-3 mb-4">
+              {NavLink &&
+                NavLink.map((item) => (
                   <li key={item.id}>
                     <Link
                       href={item.url}
-                      className="text-[#666666] hover:text-[#048B3D] font-normal text-[12px]"
-                      onClick={() => toggleClose()} // Close dropdown on navigation
+                      className="text-[#222] hover:text-[#048B3D] font-medium text-[16px]"
+                      onClick={toggleClose}
                     >
                       {item.name}
                     </Link>
                   </li>
-                ))
-              : 'loading'}
-          </ul>
-          <div onClick={toggleClose}>
-            <RxCross2 className="text-[#048B3D] text-xs mt-1" />
+                ))}
+            </ul>
+            {/* Divider */}
+            {HeaderLink && HeaderLink.length > 0 && <hr className="my-2" />}
+            <ul className="flex flex-col space-y-3">
+              {HeaderLink &&
+                HeaderLink.map((item) => (
+                  <li key={item.id}>
+                    <Link
+                      href={item.url}
+                      className="text-[#666] hover:text-[#048B3D] font-normal text-[15px]"
+                      onClick={toggleClose}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+            <div className="mt-auto pt-6">
+              <Link
+                href="/cart"
+                className="flex items-center gap-2 text-[#048B3D] font-semibold text-lg"
+                onClick={toggleClose}
+              >
+                <FiShoppingCart className="text-2xl" /> Cart
+                <span className="bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-1">
+                  {cartCount}
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
       )}

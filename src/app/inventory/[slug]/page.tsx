@@ -1,6 +1,7 @@
 import vehicleData from '@/data/vehicleData.json';
 import VehicleDetail from '@/components/Inventory/VehicleDetail';
 import { Suspense } from 'react';
+import VehicleDetailLoading from './loading';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -18,7 +19,7 @@ export default async function VehiclePage({ params }: Props) {
     }
 
     return (
-      <Suspense fallback={<div>Loading vehicle details...</div>}>
+      <Suspense fallback={<VehicleDetailLoading />}>
         <VehicleDetail vehicle={vehicle} />
       </Suspense>
     );

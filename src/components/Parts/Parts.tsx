@@ -18,7 +18,7 @@ const SPECIFIC_COLLECTIONS = [
   {
     handle: 'baproducts',
     title: 'B/A Products',
-    description: '',
+    description: 'B/A Products to keep your fleet running smoothly',
     image: {
       url: 'https://cdn.shopify.com/s/files/1/0620/6881/8159/collections/ba-products-555031.jpg?v=1679434143',
       altText: 'BA Products - starequipmentsales',
@@ -27,7 +27,7 @@ const SPECIFIC_COLLECTIONS = [
   {
     handle: 'towmate',
     title: 'Towmate',
-    description: '',
+    description: 'Towmate Products that help in nights to navigate',
     image: {
       url: 'https://cdn.shopify.com/s/files/1/0620/6881/8159/collections/towmate-328831.jpg?v=1732216091',
       altText: 'Towmate - starequipmentsales',
@@ -36,7 +36,7 @@ const SPECIFIC_COLLECTIONS = [
   {
     handle: 'clothing',
     title: 'PORTWEST',
-    description: '',
+    description: 'PORTWEST Clothing for all your needs',
     image: {
       url: 'https://cdn.shopify.com/s/files/1/0620/6881/8159/collections/clothing-504340.jpg?v=1732216068',
       altText: 'CLOTHING - starequipmentsales',
