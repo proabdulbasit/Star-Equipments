@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import Product from '@/components/Product';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { retrieveCart, getCheckoutUrl } from '@/utils/shopify';
@@ -91,7 +90,7 @@ function Cart() {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#F4F4F4]">
-        <div className="xl:w-[1440px] w-[95%] mx-auto">
+        <div className="lg:w-[1440px] w-[95%] mx-auto">
           {[...Array(3)].map((_, idx) => (
             <div
               key={idx}
@@ -155,33 +154,33 @@ function Cart() {
 
   return (
     <>
-      <div className="lg:relative lg:h-[120vh]">
-        <div className="flex bg-[#F4F4F4] items-center">
-          <Image
-            src="/assets/Homepage/dots-icon.svg"
-            alt="dots"
-            width={120}
-            height={120}
-            className="lg:w-[100px] lg:h-[120px] lg:mt-0 mt-16 w-[40px] h-[50px]"
-          />
-          <div className="flex xl:w-[1440px] lg:mt-0  mt-16 mx-auto items-center w-full justify-between">
-            <h1 className="lg:text-3xl text-sm michroma-regular text-center  text-[#2C2C2C]">
-              Your cart{' '}
-            </h1>
-            <Link href="/">
-              <button className="cursor-pointer text-white text-center rounded-full text-xs lg:text-sm font-bold bg-[#007934] lg:w-[253px] w-[130px] h-[30px] lg:h-[45px] hover:bg-[#005f27] transition-colors">
-                Continue shopping
-              </button>
-            </Link>
-          </div>
+      <div className="flex bg-[#F4F4F4] items-center">
+        <Image
+          src="/assets/Homepage/dots-icon.svg"
+          alt="dots"
+          width={120}
+          height={120}
+          className="lg:w-[100px] lg:h-[120px] lg:mt-0 mt-16 w-[40px] h-[50px]"
+        />
+        <div className="flex xl:w-[1440px] lg:mt-0 mt-16 mx-auto items-center w-full justify-between pr-5 md:pr-24">
+          <h1 className="lg:text-3xl text-sm michroma-regular text-center text-[#2C2C2C]">
+            Your cart
+          </h1>
+          <Link href="/">
+            <button className="cursor-pointer text-white text-center rounded-full text-xs lg:text-sm font-bold bg-[#007934] lg:w-[253px] w-[130px] h-[30px] lg:h-[45px] hover:bg-[#005f27] transition-colors">
+              Continue shopping
+            </button>
+          </Link>
         </div>
-        <div className="xl:w-[1440px]  mx-auto lg:px-12 px-5">
-          <div className="flex items-center mt-5 justify-between">
-            <h1 className="lg:text-2xl text-sm  xl:w-[450px] roboto-condensed text-[#007934] font-bold">
-              Products
-            </h1>
-            <h1 className="text-2xl  roboto-condensed text-[#007934] font-bold"></h1>
-          </div>
+      </div>
+      <div className="xl:w-[1440px] mx-auto lg:px-12 px-5">
+        <div className="flex items-center mt-5 justify-between">
+          <h1 className="lg:text-2xl text-sm xl:w-[450px] roboto-condensed text-[#007934] font-bold">
+            Products
+          </h1>
+          <h1 className="text-2xl roboto-condensed text-[#007934] font-bold"></h1>
+        </div>
+        <div className="pr-2">
           {cart?.lines?.edges?.map((item: any) => (
             <CartItem
               key={item.node.id}
@@ -191,17 +190,30 @@ function Cart() {
             />
           ))}
         </div>
-        {checkoutUrl && (
-          <a
-            href={checkoutUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#007934] px-8 py-3 hover:bg-[#005f27] transition-colors block mt-6 w-[95%] max-w-xs mx-auto mb-10 "
-          >
-            Checkout
-          </a>
-        )}
       </div>
+      <div className="flex flex-col items-end w-full max-w-xs mx-auto mt-10 mb-6">
+        <hr className="w-full mb-6 border-gray-200" />
+        <div className="flex items-center justify-between w-full mb-2">
+          <span className="text-2xl font-bold text-black">Subtotal</span>
+          <span className="text-2xl font-bold text-[#357a43]">
+            ${cart?.estimatedCost?.totalAmount?.amount ?? '0.00'} USD
+          </span>
+        </div>
+        <div className="text-gray-600 text-lg mb-6">
+          Taxes and <span className="underline">shipping</span> calculated at
+          checkout
+        </div>
+      </div>
+      {checkoutUrl && (
+        <a
+          href={checkoutUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#357a43] px-8 py-3 hover:bg-[#005f27] transition-colors block w-full max-w-xs mx-auto mb-10 "
+        >
+          Check out
+        </a>
+      )}
 
       <ConfirmationModal
         isOpen={isModalOpen}

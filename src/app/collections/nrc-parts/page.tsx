@@ -100,7 +100,7 @@ export default async function NRCCategoriesPage() {
                   {/* Category Info */}
                   <div className="p-6 flex flex-col flex-grow bg-white relative">
                     {/* Title */}
-                    <h2 className="text-xl font-semibold text-[#2C2C2C] mb-2 line-clamp-2 group-hover:text-[#007934] transition-colors duration-300">
+                    <h2 className="text-xl font-semibold text-[#2C2C2C] mb-2 line-clamp-2 group-hover:text-[#007934] group-hover:underline transition-colors duration-300">
                       {category.title}
                     </h2>
 

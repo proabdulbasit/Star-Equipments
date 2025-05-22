@@ -20,6 +20,12 @@ function ProductDetail({ product }: ProductDetailProps) {
   const [isAdding, setIsAdding] = useState(false);
   const [recommended, setRecommended] = useState<any[]>([]);
   const [loadingRecs, setLoadingRecs] = useState(true);
+  const images = product.images?.edges?.map((edge) => edge.node.url) || [
+    product.featuredImage?.url || '/assets/ProductDetail/placeholder.png',
+  ];
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const selectedImage = images[selectedIndex];
+  const [isCarouselOpen, setIsCarouselOpen] = useState(false);
 
   useEffect(() => {
     async function fetchRecommendations() {
@@ -77,21 +83,54 @@ function ProductDetail({ product }: ProductDetailProps) {
     }
   };
 
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success('Product URL copied!', {
+        description: window.location.href,
+      });
+    } catch (e) {
+      toast.error('Failed to copy URL');
+    }
+  };
+
   return (
     <>
-      <div className="flex flex-col lg:flex-row mb-10 mt-24 w-[90%] lg:w-[1400px] mx-auto bg-white rounded-lg p-6 gap-10">
+      <div className="flex flex-col lg:flex-row mb-10 mt-24 w-[90%] lg:w-[1400px] mx-auto bg-white rounded-lg p-2 gap-10">
         {/* Left: Product Image */}
-        <div className="flex-1 flex items-center justify-center bg-white p-6 rounded-lg border border-gray-100 min-h-[350px] max-w-[420px]">
-          <Image
-            src={
-              product.featuredImage?.url ||
-              '/assets/ProductDetail/placeholder.png'
-            }
-            alt={product.featuredImage?.altText || product.title}
-            width={400}
-            height={400}
-            className="object-contain rounded-md"
-          />
+        <div className="flex flex-col items-center">
+          <div
+            className="flex-1 flex items-center justify-center bg-white p-6 rounded-lg border border-gray-100 min-h-[450px] max-w-[470px] cursor-pointer"
+            onClick={() => setIsCarouselOpen(true)}
+          >
+            <Image
+              src={selectedImage}
+              alt={product.featuredImage?.altText || product.title}
+              width={500}
+              height={500}
+              className="object-contain rounded-md"
+            />
+          </div>
+          {/* Thumbnails */}
+          {images.length > 1 && (
+            <div className="flex gap-2 mt-4">
+              {images.map((img, idx) => (
+                <button
+                  key={img}
+                  onClick={() => setSelectedIndex(idx)}
+                  className={`border rounded-md p-1 ${selectedIndex === idx ? 'border-blue-500' : 'border-gray-200'}`}
+                >
+                  <Image
+                    src={img}
+                    alt={product.title}
+                    width={60}
+                    height={60}
+                    className="object-contain rounded"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         {/* Right: Product Info */}
         <div className="flex-1 flex flex-col gap-6 justify-start">
@@ -105,6 +144,23 @@ function ProductDetail({ product }: ProductDetailProps) {
             <span className="underline cursor-pointer">Shipping</span>{' '}
             calculated at checkout.
           </p>
+          {/* Product Description */}
+          {product.description && (
+            <p className="text-base text-gray-700 mb-2 whitespace-pre-line">
+              {product.description}
+            </p>
+          )}
+          {/* Product Details (if available) */}
+          {product.details && Array.isArray(product.details) && (
+            <div className="mb-2">
+              <h3 className="font-semibold">Details:</h3>
+              <ul className="list-disc ml-5">
+                {product.details.map((detail: string, idx: number) => (
+                  <li key={idx}>{detail}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           {/* Quantity Selector */}
           <div>
             <p className="text-base font-semibold text-gray-700 mb-2">
@@ -139,7 +195,7 @@ function ProductDetail({ product }: ProductDetailProps) {
             >
               {isAdding ? 'Adding...' : 'Add to cart'}
             </button>
-            <button className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#5433EB] w-[220px] h-[55px] flex items-center justify-center gap-2 shadow hover:bg-[#3a1fa3] transition-all">
+            {/* <button className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#5433EB] w-[220px] h-[55px] flex items-center justify-center gap-2 shadow hover:bg-[#3a1fa3] transition-all">
               <Image
                 src="/assets/ProductDetail/shop.svg"
                 alt="shop"
@@ -148,7 +204,7 @@ function ProductDetail({ product }: ProductDetailProps) {
                 className="bg-white"
               />
               <span className="whitespace-nowrap">Buy with shop Pay</span>
-            </button>
+            </button> */}
           </div>
           <Link
             href="#"
@@ -157,7 +213,11 @@ function ProductDetail({ product }: ProductDetailProps) {
             More payment options
           </Link>
           {/* Share */}
-          <div className="flex items-center gap-2 mt-2">
+          <button
+            type="button"
+            onClick={handleShare}
+            className="flex items-center gap-2 mt-2 focus:outline-none"
+          >
             <Image
               src="/assets/ProductDetail/share.svg"
               alt="share"
@@ -165,7 +225,7 @@ function ProductDetail({ product }: ProductDetailProps) {
               height={20}
             />
             <span className="text-base text-gray-700">Share</span>
-          </div>
+          </button>
         </div>
       </div>
       {/* You may also like */}
@@ -223,6 +283,46 @@ function ProductDetail({ product }: ProductDetailProps) {
               ))}
         </div>
       </div>
+      {/* Carousel Modal */}
+      {isCarouselOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+          <div className="relative bg-white rounded-lg p-4 max-w-2xl w-full flex flex-col items-center">
+            <button
+              className="absolute top-2 right-2 text-2xl"
+              onClick={() => setIsCarouselOpen(false)}
+            >
+              &times;
+            </button>
+            <div className="flex items-center">
+              <button
+                onClick={() =>
+                  setSelectedIndex(
+                    (selectedIndex - 1 + images.length) % images.length,
+                  )
+                }
+                className="text-3xl px-4"
+              >
+                &#8592;
+              </button>
+              <Image
+                src={selectedImage}
+                alt={product.featuredImage?.altText || product.title}
+                width={600}
+                height={600}
+                className="object-contain rounded"
+              />
+              <button
+                onClick={() =>
+                  setSelectedIndex((selectedIndex + 1) % images.length)
+                }
+                className="text-3xl px-4"
+              >
+                &#8594;
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

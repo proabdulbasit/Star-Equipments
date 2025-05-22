@@ -34,12 +34,19 @@ function CartItem({ cartId, item, removeFromCart }: CartTypes) {
             <h1 className="text-[#000000] michroma-regular text-xs lg:text-sm lg:text-md">
               {item.node.merchandise.product?.title}
             </h1>
+            {item.node.merchandise.title &&
+              item.node.merchandise.title !== 'Default Title' && (
+                <div className="text-gray-600 text-xs lg:text-sm">
+                  Size: {item.node.merchandise.title}
+                </div>
+              )}
+            {/* Add more details here if needed, e.g., custom attributes */}
             <p className="text-[rgb(0,121,52)] font-bold text-sm lg:text-xl roboto-condensed">
               {unitPrice}$
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-5 lg:gap-12">
+        <div className="flex items-center gap-5 lg:gap-12 mt-10 md:mt-0">
           <div className="flex items-center justify-between p-1 w-[120px] h-[30px] lg:h-[40px] border rounded-full border-[#2C2C2C]">
             <AiFillMinusCircle
               onClick={handleDecrement}

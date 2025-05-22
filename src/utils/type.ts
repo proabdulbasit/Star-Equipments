@@ -20,6 +20,20 @@ export interface Product {
       };
     }[];
   };
+  options?: Array<{
+    name: string;
+    values: string[];
+  }>;
+  metafields?: {
+    edges: Array<{
+      node: {
+        namespace: string;
+        key: string;
+        value: string;
+        type: string;
+      };
+    }>;
+  };
 }
 
 export interface GetProductResponse {
