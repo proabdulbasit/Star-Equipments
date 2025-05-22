@@ -121,7 +121,7 @@ export default function DiscountProduct() {
           className="lg:w-[120px] lg:h-[120px] w-[50px] h-[50px]"
         />
         <div className="flex lg:w-[1440px] w-[95%] mx-auto items-center justify-between">
-          <h1 className="lg:text-3xl text-xs michroma-regular text-center text-[#2C2C2C]">
+          <h1 className="lg:text-3xl text-lg michroma-regular text-center text-[#2C2C2C]">
             Discount Products
           </h1>
         </div>

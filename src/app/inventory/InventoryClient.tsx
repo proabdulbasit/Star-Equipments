@@ -8,6 +8,7 @@ import Filters from '@/components/Inventory/Filters';
 import VehicleCard from '@/components/Inventory/VehicleCard';
 import Pagination from '@/components/Inventory/Pagination';
 import { FaFilter, FaTools } from 'react-icons/fa';
+import FilterTags from '@/components/Inventory/FilterTags';
 
 const PAGE_SIZE = 10;
 
@@ -94,6 +95,30 @@ export default function InventoryClient() {
     setCurrentPage(1);
   };
 
+  const handleRemoveFilter = (key: string) => {
+    switch (key) {
+      case 'type':
+        setType('');
+        break;
+      case 'condition':
+        setCondition('');
+        break;
+      case 'make':
+        setMake('');
+        break;
+      case 'model':
+        setModel('');
+        break;
+    }
+  };
+
+  const activeFilters = {
+    type,
+    condition,
+    make,
+    model,
+  };
+
   useEffect(() => {
     const params = new URLSearchParams();
     let hasParams = false;
@@ -155,11 +180,16 @@ export default function InventoryClient() {
             <span>Filters</span>
           </button>
 
+          {/* Mobile filter tags below Filters button */}
+          <div className="lg:hidden ">
+            <FilterTags filters={activeFilters} onRemove={handleRemoveFilter} />
+          </div>
+
           {showMobileFilters && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-              <div className="bg-white rounded-xl w-[90vw] max-w-sm p-6 relative animate-fadeInUp">
+              <div className="bg-white rounded-xl w-[90vw] max-w-sm relative animate-fadeInUp">
                 <button
-                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 p-3"
                   onClick={() => setShowMobileFilters(false)}
                   aria-label="Close"
                 >
@@ -177,20 +207,24 @@ export default function InventoryClient() {
                     />
                   </svg>
                 </button>
-                <Filters
-                  type={type}
-                  setType={handleFilterChange(setType)}
-                  condition={condition}
-                  setCondition={handleFilterChange(setCondition)}
-                  make={make}
-                  setMake={handleFilterChange(setMake)}
-                  model={model}
-                  setModel={handleFilterChange(setModel)}
-                  types={types}
-                  conditions={conditions}
-                  makes={makes}
-                  models={models}
-                />
+                <div className="mb-4 mt-2">
+                  <Filters
+                    type={type}
+                    setType={handleFilterChange(setType)}
+                    condition={condition}
+                    setCondition={handleFilterChange(setCondition)}
+                    make={make}
+                    setMake={handleFilterChange(setMake)}
+                    model={model}
+                    setModel={handleFilterChange(setModel)}
+                    types={types}
+                    conditions={conditions}
+                    makes={makes}
+                    models={models}
+                    filters={activeFilters}
+                    onRemove={handleRemoveFilter}
+                  />
+                </div>
               </div>
             </div>
           )}
@@ -210,6 +244,8 @@ export default function InventoryClient() {
                 conditions={conditions}
                 makes={makes}
                 models={models}
+                filters={activeFilters}
+                onRemove={handleRemoveFilter}
               />
             </div>
           </aside>

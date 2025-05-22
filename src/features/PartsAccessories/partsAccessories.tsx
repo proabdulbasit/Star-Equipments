@@ -45,7 +45,7 @@ export default function PartsAccessories() {
   }, []);
 
   return (
-    <div className="bg-[#F4F4F4] min-h-screen pb-16">
+    <div className="bg-[#F4F4F4] min-h-screen pb-16 ">
       <div className="w-full flex flex-col items-center justify-center py-16 bg-gradient-to-r from-[#007934]/10 to-[#048B3D]/10">
         <FaTools className="mb-4 text-[#007934]" size={80} />
         <h1 className="text-4xl michroma-regular text-[#007934] mb-4 text-center">
@@ -57,7 +57,7 @@ export default function PartsAccessories() {
           and enthusiasts alike.
         </p>
       </div>
-      <div className="max-w-[1440px] mx-auto px-4 mt-10">
+      <div className="max-w-[1440px] mx-auto px-4 mt-10 lg:px-10 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {loading
             ? [...Array(6)].map((_, idx) => (
@@ -94,14 +94,14 @@ export default function PartsAccessories() {
                       <h2 className="text-xl font-semibold text-[#2C2C2C] mb-2">
                         {truncate(cat.title, 22)}
                       </h2>
-                      <p className="text-gray-600 text-sm mb-4 flex-grow">
+                      <p className="text-gray-600 text-sm mb-2 flex-grow">
                         {cat.description}
                       </p>
-                      <span className="text-[#007934] font-medium text-sm flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+                      <span className="text-[#007934] font-medium text-sm  mb-2 flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
                         {cat.productsCount} Products
                       </span>
                       <span className="mt-2 inline-block px-6 py-2 bg-[#007934] text-white rounded-full font-semibold text-center hover:bg-[#005f27] transition">
-                        Shop Now
+                        View Products
                       </span>
                     </div>
                   </Link>

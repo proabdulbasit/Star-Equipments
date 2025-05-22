@@ -1,17 +1,20 @@
 import Image from 'next/image';
 
-export default function ClothingProductSkeleton() {
+export default function ProductGridSkeleton() {
   return (
     <div className="xl:w-[1440px] w-[95%] mx-auto">
-      <div className="flex items-center mt-5 justify-between">
-        <h1 className="lg:text-2xl text-sm xl:w-[450px] roboto-condensed text-[#007934] font-bold">
-          Product
-        </h1>
-        <h1 className="text-2xl roboto-condensed text-[#007934] font-bold"></h1>
+      {/* Top bar skeleton */}
+      <div className="flex flex-col sm:flex-row sm:items-center mt-8 mb-4 gap-4 sm:gap-0 justify-between">
+        <div className="h-6 w-40 bg-gray-200 rounded animate-pulse mb-2" />
+        <div className="flex gap-4 items-center">
+          <div className="h-10 w-32 bg-gray-200 rounded animate-pulse" />
+          <div className="h-10 w-32 bg-gray-200 rounded animate-pulse" />
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
-        {[...Array(8)].map((_, index) => (
+      {/* Product grid skeleton */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4">
+        {[...Array(12)].map((_, index) => (
           <div
             key={index}
             className="animate-pulse bg-white rounded-2xl shadow p-4 flex flex-col justify-between min-h-[370px]"
@@ -31,9 +34,10 @@ export default function ClothingProductSkeleton() {
         ))}
       </div>
 
+      {/* Pagination dots skeleton */}
       <div className="flex justify-center mt-8">
         <div className="flex gap-2">
-          {[...Array(3)].map((_, index) => (
+          {[...Array(4)].map((_, index) => (
             <div
               key={index}
               className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"

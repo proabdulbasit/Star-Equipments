@@ -9,6 +9,9 @@ import {
 } from 'react-icons/fa';
 import VehicleImageGallery from './VehicleImageGallery';
 import VehicleDescription from './VehicleDescription';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast, Toaster } from 'sonner';
 
 const specIcons: Record<string, JSX.Element> = {
   Engine: <FaCogs className="inline mr-2 text-green-600" />,
@@ -18,13 +21,46 @@ const specIcons: Record<string, JSX.Element> = {
 };
 
 const VehicleDetail = ({ vehicle }: any) => {
+  const router = useRouter();
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success('Link copied to clipboard');
+    } catch (e) {
+      // fallback: do nothing
+    }
+  };
+
+  const handleGetCredit = () => {
+    router.push('/contact-us');
+  };
+
   return (
     <div className="lg:w-[1440px] mx-auto mt-10 overflow-visible font-sans p-4 lg:p-10">
+      {/* Breadcrumbs */}
+      <nav className="mb-6 text-sm text-gray-500 flex items-center gap-2">
+        <Link href="/" className="hover:underline text-green-700">
+          Home
+        </Link>
+        <span>/</span>
+        <Link href="/inventory" className="hover:underline text-green-700">
+          Inventory
+        </Link>
+        <span>/</span>
+        <span
+          className="text-gray-700 font-semibold truncate max-w-xs"
+          title={vehicle.title}
+        >
+          {vehicle.title}
+        </span>
+      </nav>
+      {/* Notification */}
       <div className="flex flex-col lg:flex-row gap-8 mb-10">
-        <div className="w-full lg:w-1/2  rounded-2xl p-0 flex flex-col gap-0 border border-gray-100 animate-fadeInUp">
+        <div className="w-full lg:w-1/2 rounded-2xl p-0 flex flex-col gap-0 border border-gray-100 animate-fadeInUp">
           <VehicleImageGallery images={vehicle.images} title={vehicle.title} />
         </div>
-        <div className="w-full lg:w-1/2 backdrop-blur-xl rounded-2xl md:p-8 flex flex-col gap-6 border border-gray-100 animate-fadeInUp">
+        <div className="w-full lg:w-1/2 backdrop-blur-xl rounded-2xl md:p-8 flex flex-col gap-6  animate-fadeInUp">
           <div className="flex items-center gap-4 mb-2">
             <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight font-michroma">
               {vehicle.title}
@@ -42,13 +78,19 @@ const VehicleDetail = ({ vehicle }: any) => {
           </div>
           <div className="border-t border-gray-200 my-2" />
           <div className="flex gap-3 flex-wrap mb-2">
-            <button className="flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 text-white px-5 py-3 rounded-xl font-semibold shadow transition text-lg">
+            <button className="flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 text-white px-5 py-3 rounded-xl font-semibold shadow transition text-lg  w-full justify-center">
               <FaPhoneAlt /> Call
             </button>
-            <button className="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-3 rounded-xl font-semibold shadow transition text-lg">
+            <button
+              className="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-3 rounded-xl font-semibold shadow transition text-lg lg:w-[49%] w-full justify-center"
+              onClick={handleShare}
+            >
               <FaShareAlt /> Share
             </button>
-            <button className="flex items-center gap-2 bg-green-100 hover:bg-green-200 text-green-700 px-5 py-3 rounded-xl font-semibold shadow transition text-lg">
+            <button
+              className="flex items-center gap-2 bg-green-100 hover:bg-green-200 text-green-700 px-5 py-3 rounded-xl font-semibold shadow transition text-lg lg:w-[49%] w-full justify-center"
+              onClick={handleGetCredit}
+            >
               Get Credit
             </button>
           </div>
@@ -98,14 +140,21 @@ const VehicleDetail = ({ vehicle }: any) => {
           </table>
         </div>
       </div>
+      {/* Mobile action bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 flex lg:hidden bg-white/95 backdrop-blur-md shadow-t px-4 py-3 gap-3 justify-center animate-fadeInUp">
         <button className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 text-white px-4 py-3 rounded-xl font-semibold shadow transition">
           <FaPhoneAlt /> Call
         </button>
-        <button className="flex-1 flex items-center justify-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-3 rounded-xl font-semibold shadow transition">
+        {/* <button
+          className="flex-1 flex items-center justify-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-3 rounded-xl font-semibold shadow transition"
+          onClick={handleShare}
+        >
           <FaShareAlt /> Share
-        </button>
-        <button className="flex-1 flex items-center justify-center gap-2 bg-green-100 hover:bg-green-200 text-green-700 px-4 py-3 rounded-xl font-semibold shadow transition">
+        </button> */}
+        <button
+          className="flex-1 flex items-center justify-center gap-2 bg-green-100 hover:bg-green-200 text-green-700 px-4 py-3 rounded-xl font-semibold shadow transition"
+          onClick={handleGetCredit}
+        >
           Get Credit
         </button>
       </div>

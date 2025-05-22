@@ -101,6 +101,7 @@ export default async function CollectionPage({ params, searchParams }: Props) {
             currentPriceFrom={priceFrom}
             currentPriceTo={priceTo}
             currentPage={page}
+            collectionId={id}
           />
         </div>
       </Suspense>

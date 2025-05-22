@@ -11,6 +11,8 @@ import { Product } from '@/utils/type';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { toast } from 'sonner';
+import { Dialog } from '@headlessui/react';
+import { IoClose } from 'react-icons/io5';
 
 const sortOptions = [
   { value: 'RELEVANCE', label: 'Featured', reverse: false, id: 'relevance' },
@@ -62,6 +64,7 @@ interface ClothingProductProps {
   currentPriceFrom?: number;
   currentPriceTo?: number;
   currentPage: number;
+  collectionId: string;
 }
 
 const Clothing: React.FC<ClothingProductProps> = ({
@@ -71,6 +74,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
   currentPriceFrom,
   currentPriceTo,
   currentPage,
+  collectionId,
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -91,6 +95,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
     initialSortOption?.id || 'relevance',
   );
   const { cart, setCart } = useCart();
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   // Get min/max price
   const prices = products
@@ -175,6 +180,13 @@ const Clothing: React.FC<ClothingProductProps> = ({
   const isLastPage = currentPage >= pageInfo.totalPages;
 
   if (!products || products.length === 0) {
+    // Determine if any filters are active
+    const filtersActive = !!(
+      currentPriceFrom ||
+      currentPriceTo ||
+      (currentSort && currentSort !== 'RELEVANCE')
+    );
+    const collectionUrl = `/collections/${collectionId}`;
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center bg-[#F4F4F4] px-4">
         <Image
@@ -187,38 +199,89 @@ const Clothing: React.FC<ClothingProductProps> = ({
         <h1 className="text-3xl font-bold text-[#2C2C2C] mb-4">
           No Products Found
         </h1>
-        <p className="text-gray-600 mb-8 text-center">
-          This collection is currently empty. Please check back later.
-        </p>
-        <Link
-          href="/"
-          className="bg-[#007934] text-white px-6 py-3 rounded-md hover:bg-[#006529] transition-colors"
-        >
-          Return Home
-        </Link>
+        {filtersActive ? (
+          <>
+            <p className="text-gray-600 mb-8 text-center">
+              No products match your filters. Try resetting your filters.
+            </p>
+            <button
+              className="bg-[#007934] text-white px-6 py-3 rounded-md hover:bg-[#006529] transition-colors mb-2"
+              onClick={() => {
+                // Remove all filters and reload collection
+                router.push(collectionUrl);
+              }}
+            >
+              Reset Filters
+            </button>
+          </>
+        ) : (
+          <>
+            <p className="text-gray-600 mb-8 text-center">
+              This collection is currently empty. Please check back later.
+            </p>
+            <Link
+              href={collectionUrl}
+              className="bg-[#007934] text-white px-6 py-3 rounded-md hover:bg-[#006529] transition-colors"
+            >
+              Return to Collection
+            </Link>
+          </>
+        )}
       </div>
     );
   }
 
+  const title = collectionId
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
   return (
     <div>
-      <div className="flex bg-[#F4F4F4] items-center">
+      <div className="flex lg:mt-16 mt-0 items-center max-w-[1440px] mx-auto lg:px-10 px-5 lg:py-0 py-4">
         <Image
           src="/assets/Homepage/dots-icon.svg"
           alt="dots"
           width={120}
           height={120}
-          className="lg:w-[100px] lg:h-[120px] lg:mt-0 mt-16 w-[40px] h-[50px]"
+          className="lg:w-[100px] lg:h-[120px] lg:mt-0 mt-4 w-[40px] h-[50px]"
         />
-        <div className="flex w-full pr-24 lg:mt-0 mt-16 items-center justify-center">
-          <h1 className="lg:text-3xl text-sm michroma-regular text-center text-[#2C2C2C]">
-            PORTWEST
+        <div className="flex w-full pr-24 lg:mt-0 mt-4 max-w-[1440px] mx-auto">
+          <h1 className="lg:text-3xl text-lg michroma-regular lg:text-center text-left text-[#2C2C2C]">
+            {title}
           </h1>
         </div>
       </div>
 
-      <div className="bg-[#F4F4F4]  lg:px-0 px-5 mx-auto lg:w-full">
-        <div className="text-[#2C2C2C]  xl:w-[1440px] mx-auto mt-8 pt-3 flex items-center justify-between  roboto-condensed text-xl">
+      <div className="bg-[#F4F4F4]  lg:px-12 px-5 mx-auto lg:w-full ">
+        {/* Mobile: Filter & Sort Button at top */}
+        <div className="lg:hidden flex flex-col gap-5 pt-4">
+          <button
+            className="bg-[#007934] text-white px-4 py-2 rounded font-semibold text-base flex items-center justify-center gap-2 shadow hover:bg-[#005f27] w-full mb-2"
+            onClick={() => setMobileFilterOpen(true)}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707l-6.414 6.414A1 1 0 0013 13.414V19a1 1 0 01-1.447.894l-2-1A1 1 0 019 18v-4.586a1 1 0 00-.293-.707L2.293 6.707A1 1 0 012 6V4z"
+              />
+            </svg>
+            Filter & Sort
+          </button>
+        </div>
+        {/* Mobile: Product count below button */}
+        <div className="lg:hidden text-base font-semibold text-[#2C2C2C] mb-2 mt-2">
+          Showing {products.length} of{' '}
+          {pageInfo.hasMoreProducts ? '1000+' : pageInfo.totalProducts} Products
+        </div>
+        {/* Desktop: Inline filter/sort */}
+        <div className="text-[#2C2C2C] lg:px-10 px-5  xl:w-[1440px] mx-auto mt-8 pt-3 items-center justify-between roboto-condensed text-xl hidden lg:flex">
           <h1>
             Showing {products.length} of{' '}
             {pageInfo.hasMoreProducts ? '1000+' : pageInfo.totalProducts}{' '}
@@ -226,6 +289,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
             {pageInfo.hasMoreProducts && ' (More available)'}
           </h1>
           <div className="flex items-center gap-8">
+            {/* Price filter (desktop) */}
             <div className="relative">
               <button
                 className="border border-gray-300 bg-white rounded px-3 py-1 text-base flex items-center gap-2 min-w-[100px]"
@@ -290,6 +354,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
                 </div>
               )}
             </div>
+            {/* Sort (desktop) */}
             <div className="flex items-center gap-3">
               <span className="text-base text-[#2C2C2C]">Sort by:</span>
               <select
@@ -306,8 +371,126 @@ const Clothing: React.FC<ClothingProductProps> = ({
             </div>
           </div>
         </div>
+        {/* Mobile Filter & Sort Modal */}
+        <Dialog
+          open={mobileFilterOpen}
+          onClose={() => setMobileFilterOpen(false)}
+          className="relative z-50 lg:hidden"
+        >
+          <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
+          <div className="fixed inset-0 flex items-end sm:items-center justify-center">
+            <Dialog.Panel className="w-full max-w-md mx-auto bg-white rounded-t-2xl sm:rounded-2xl p-6 shadow-xl relative animate-fadeInUp">
+              <button
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 p-2"
+                onClick={() => setMobileFilterOpen(false)}
+                aria-label="Close"
+              >
+                <IoClose className="w-6 h-6" />
+              </button>
+              <Dialog.Title className="text-lg font-bold text-center mb-2">
+                Filter & Sort
+              </Dialog.Title>
+              <div className="text-center text-gray-500 text-sm mb-4">
+                {products.length} of{' '}
+                {pageInfo.hasMoreProducts ? '1000+' : pageInfo.totalProducts}{' '}
+                products
+              </div>
+              {/* Price Filter */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Price
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="number"
+                    min={minPrice}
+                    max={maxPrice}
+                    value={priceFrom}
+                    onChange={(e) => setPriceFrom(e.target.value)}
+                    className="border border-gray-300 rounded px-2 py-2 w-1/2"
+                    placeholder={`From $${minPrice.toFixed(2)}`}
+                  />
+                  <input
+                    type="number"
+                    min={minPrice}
+                    max={maxPrice}
+                    value={priceTo}
+                    onChange={(e) => setPriceTo(e.target.value)}
+                    className="border border-gray-300 rounded px-2 py-2 w-1/2"
+                    placeholder={`To $${maxPrice.toFixed(2)}`}
+                  />
+                </div>
+              </div>
+              {/* Sort Dropdown */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Sort by
+                </label>
+                <select
+                  className="w-full border border-gray-300 rounded px-2 py-2"
+                  value={selectedSortId}
+                  onChange={(e) => setSelectedSortId(e.target.value)}
+                >
+                  {sortOptions.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex justify-between items-center mt-8 gap-4">
+                <button
+                  className="text-[#007934] underline text-base"
+                  onClick={() => {
+                    setPriceFrom('');
+                    setPriceTo('');
+                    setSelectedSortId('relevance');
+                  }}
+                  type="button"
+                >
+                  Clear all
+                </button>
+                <button
+                  className="bg-[#007934] text-white px-6 py-2 rounded font-semibold text-base shadow hover:bg-[#005f27]"
+                  onClick={() => {
+                    // Apply both sort and price filter in one URL update
+                    const selectedOption =
+                      sortOptions.find(
+                        (option) => option.id === selectedSortId,
+                      ) || sortOptions[0];
+                    const fromPrice = priceFrom
+                      ? parseFloat(priceFrom)
+                      : undefined;
+                    const toPrice = priceTo ? parseFloat(priceTo) : undefined;
+                    const params: Record<string, string | number | undefined> =
+                      {
+                        sort: selectedOption.value,
+                        reverse: selectedOption.reverse ? 'true' : undefined,
+                        'filter.v.price.gte': fromPrice,
+                        'filter.v.price.lte': toPrice,
+                        page: 1,
+                        cursor: undefined,
+                        direction: undefined,
+                      };
+                    // Remove undefined or empty
+                    Object.keys(params).forEach((key) => {
+                      if (params[key] === undefined || params[key] === '') {
+                        delete params[key];
+                      }
+                    });
+                    updateQuery(params);
+                    setMobileFilterOpen(false);
+                  }}
+                  type="button"
+                >
+                  Apply
+                </button>
+              </div>
+            </Dialog.Panel>
+          </div>
+        </Dialog>
 
-        <div className="py-12 xl:w-[1440px] mx-auto bg-[#F4F4F4] pt-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:grid-cols-4 gap-10">
+        <div className="py-12 lg:px-10  xl:w-[1440px] mx-auto bg-[#F4F4F4] pt-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:grid-cols-4 gap-10">
           {products.map((product) => (
             <div
               key={product.node.id}

@@ -19,10 +19,10 @@ export default function NotFound() {
         Sorry, we couldn&apos;t find the collection you&apos;re looking for.
       </p>
       <Link
-        href="/"
+        href="/parts-accessories"
         className="bg-[#007934] text-white px-6 py-3 rounded-md hover:bg-[#006529] transition-colors"
       >
-        Return Home
+        Return to Collections
       </Link>
     </div>
   );

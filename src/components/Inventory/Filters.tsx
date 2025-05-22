@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import vehicleData from '@/data/vehicleData.json';
+import FilterTags from './FilterTags';
 
 const Filters = ({
   type,
@@ -14,6 +15,8 @@ const Filters = ({
   conditions,
   makes,
   models,
+  filters,
+  onRemove,
 }: any) => {
   // Get filtered options based on current selections
   const filteredConditions = useMemo(() => {
@@ -69,6 +72,10 @@ const Filters = ({
 
   return (
     <div className="bg-white rounded-xl p-6 shadow-sm">
+      {/* Filter tags at the top */}
+      {filters && onRemove && (
+        <FilterTags filters={filters} onRemove={onRemove} className="mb-4" />
+      )}
       <h2 className="text-xl font-semibold text-gray-900 mb-6">Filters</h2>
       <div className="space-y-6">
         <div>
