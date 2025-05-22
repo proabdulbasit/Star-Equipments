@@ -2,14 +2,14 @@
   "NavigationLinks": [
     { "name": "Home", "link": "/" },
     { "name": "Inventory", "link": "/inventory" },
-    { "name": "Parts & Accessories", "link": "/parts" },
+    { "name": "Parts & Accessories", "link": "/parts-accessories" },
     { "name": "Gallery", "link": "/gallery" },
-    { "name": "Contact", "link": "/contact" }
+    { "name": "Contact", "link": "/contact-us" }
   ],
   "SupportLinks": [
-    { "name": "NRC Parts", "link": "/" },
-    { "name": "B/A Products", "link": "/" },
-    { "name": "Clothing ", "link": "/" },
-    { "name": "Towmate", "link": "/" }
+    { "name": "NRC Parts", "link": "/collections/nrc-parts" },
+    { "name": "B/A Products", "link": "/collections/baproducts" },
+    { "name": "Clothing ", "link": "/collections/clothing" },
+    { "name": "Towmate", "link": "/collections/towmate" }
   ]
 }

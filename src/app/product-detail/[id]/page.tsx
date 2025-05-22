@@ -1,6 +1,7 @@
 import { getProduct } from '@/utils/shopify';
 import ProductDetail from '@/features/ProductDetail';
 import { Suspense } from 'react';
+import ProductDetailSkeleton from '@/features/ProductDetail/skeleton';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -16,7 +17,7 @@ export default async function ProductPage({ params }: Props) {
     }
 
     return (
-      <Suspense fallback={<div>Loading product details...</div>}>
+      <Suspense fallback={<ProductDetailSkeleton />}>
         <ProductDetail product={product} />
       </Suspense>
     );

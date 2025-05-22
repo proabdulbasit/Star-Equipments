@@ -7,6 +7,8 @@ import { retrieveCart, getCheckoutUrl } from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
 import CartItem from '@/components/CartItem';
 import Link from 'next/link';
+import { toast } from 'sonner';
+import ConfirmationModal from '@/components/ConfirmationModal';
 
 function Cart() {
   const searchParams = useSearchParams();
@@ -18,6 +20,11 @@ function Cart() {
   const { cart, setCart, removeFromCart } = useCart();
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [itemToRemove, setItemToRemove] = useState<{
+    cartId: string;
+    itemId: string;
+  } | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -35,6 +42,9 @@ function Cart() {
           }
         } catch (error) {
           console.error('Error fetching cart data:', error);
+          toast.error('Failed to load cart', {
+            description: 'Please try again later.',
+          });
         } finally {
           if (mounted) {
             setIsLoading(false);
@@ -53,6 +63,30 @@ function Cart() {
       mounted = false;
     };
   }, [cartid, setCart]);
+
+  const handleRemoveClick = (cartId: string, itemId: string) => {
+    setItemToRemove({ cartId, itemId });
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmRemove = async () => {
+    if (!itemToRemove) return;
+
+    try {
+      await removeFromCart(itemToRemove.cartId, itemToRemove.itemId);
+      toast.success('Item removed from cart', {
+        description: 'The item has been removed from your cart.',
+      });
+    } catch (error) {
+      console.error('Error removing item:', error);
+      toast.error('Failed to remove item', {
+        description: 'Please try again later.',
+      });
+    } finally {
+      setIsModalOpen(false);
+      setItemToRemove(null);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -91,10 +125,30 @@ function Cart() {
     );
   }
 
-  if (!cartid) {
+  if (!cartid || !cart?.lines?.edges?.length) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl">No cart found</div>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F4F4F4]">
+        <div className="text-center space-y-6">
+          <Image
+            src="/assets/Homepage/dots-icon.svg"
+            alt="dots"
+            width={120}
+            height={120}
+            className="mx-auto"
+          />
+          <h1 className="text-3xl michroma-regular text-[#2C2C2C]">
+            Your cart is empty
+          </h1>
+          <p className="text-gray-600 max-w-md mx-auto">
+            Looks like you haven&apos;t added any items to your cart yet. Start
+            shopping to fill your cart with amazing products!
+          </p>
+          <Link href="/">
+            <button className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#007934] px-8 py-3 hover:bg-[#005f27] transition-colors mt-3">
+              Start Shopping
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }
@@ -114,9 +168,11 @@ function Cart() {
             <h1 className="lg:text-3xl text-sm michroma-regular text-center  text-[#2C2C2C]">
               Your cart{' '}
             </h1>
-            <button className="cursor-pointer text-white text-center rounded-full text-xs lg:text-sm font-bold bg-[#007934] lg:w-[253px] w-[130px] h-[30px] lg:h-[45px]">
-              Continue shopping
-            </button>
+            <Link href="/">
+              <button className="cursor-pointer text-white text-center rounded-full text-xs lg:text-sm font-bold bg-[#007934] lg:w-[253px] w-[130px] h-[30px] lg:h-[45px] hover:bg-[#005f27] transition-colors">
+                Continue shopping
+              </button>
+            </Link>
           </div>
         </div>
         <div className="xl:w-[1440px] w-[95%] mx-auto">
@@ -131,75 +187,22 @@ function Cart() {
               key={item.node.id}
               cartId={cart.id}
               item={item}
-              removeFromCart={removeFromCart}
+              removeFromCart={handleRemoveClick}
             />
           ))}
         </div>
-        {/* <hr className="my-5" />
-        <div className="w-[1440px]  mx-auto ">
-          <div className="float-right  mb-10 w-[350px]">
-            <div className=" flex justify-between">
-              <h1 className="text-white">g</h1>
-              <h1 className="text-[#1d1d1d] text-center text-2xl font-bold">
-                Subtotal
-              </h1>
-              <p className="text-[#007934]  font-bold text-2xl roboto-condensed">
-                {cart?.lines?.edges
-                  ?.reduce(
-                    (total: number, item: any) =>
-                      total +
-                      parseFloat(
-                        item.node.merchandise.product.priceRange.minVariantPrice
-                          .amount,
-                      ),
-                    0,
-                  )
-                  .toFixed(2)}{' '}
-              </p>
-            </div>
-            <p className="text-xl my-4 text-[#2C2C2C] opacity-60">
-              Tax included. Shipping calculated at checkout.
-            </p>
-            {checkoutUrl && (
-              <Link href={checkoutUrl}>
-                <button className="cursor-pointer  text-white text-center rounded-full text-lg font-bold bg-[#007934] w-full h-[55px]">
-                  Check out{' '}
-                </button>
-              </Link>
-            )}
-            <div className="flex  items-center  my-6 gap-5">
-              <button className="cursor-pointer text-white text-center rounded-full text-xl font-bold bg-white border border-[#5433EB] flex justify-center items-center w-[203px] h-[50px]">
-                {' '}
-                <Image
-                  src="/assets/ProductDetail/shop.svg"
-                  alt="shop"
-                  width={68}
-                  height={34}
-                />
-              </button>{' '}
-              <button className="cursor-pointer border text-gray-700 text-center rounded-full text-xl  bg-white border-gray-800 flex justify-center items-center w-[203px] h-[50px]">
-                Goggle Play
-              </button>
-            </div>
-          </div>
-        </div> */}
       </div>
-      {/* <div className="flex bg-[#F4F4F4] items-center">
-        <Image
-          src="/assets/Homepage/dots-icon.svg"
-          alt="dots"
-          width={120}
-          height={120}
-        />
-        <div className="flex w-full pr-24 items-center justify-center">
-          <h1 className="text-3xl  michroma-regular text-center  text-[#2C2C2C]">
-            You may also like{' '}
-          </h1>
-        </div>
-      </div>
-      <div>
-        <Product />
-      </div> */}
+
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setItemToRemove(null);
+        }}
+        onConfirm={handleConfirmRemove}
+        title="Remove Item"
+        description="Are you sure you want to remove this item from your cart?"
+      />
     </>
   );
 }

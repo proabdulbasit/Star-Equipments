@@ -3,6 +3,7 @@ import { ProductDetailProps } from '@/features/ProductDetail/type';
 
 async function getProductData() {
   return {
+    id: 'sample-product-id',
     title: 'Sample Product',
     priceRange: {
       minVariantPrice: {
@@ -17,6 +18,10 @@ async function getProductData() {
           },
         },
       ],
+    },
+    featuredImage: {
+      url: '/assets/ProductDetail/placeholder.png',
+      altText: 'Sample Product Image',
     },
   };
 }

@@ -7,13 +7,14 @@ import { addToCart, updateCart, retrieveCart } from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
 import ProductCard from '@/components/ProductCard';
 import Image from 'next/image';
+import { toast } from 'sonner';
 
 export default function DiscountProduct() {
   const [products, setProducts] = useState<DiscountedProduct[]>([]);
   const [fallbackProducts, setFallbackProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { setCart } = useCart();
+  const { cart, setCart } = useCart();
 
   useEffect(() => {
     async function fetchDiscountedProducts() {
@@ -41,6 +42,20 @@ export default function DiscountProduct() {
 
   const handleAddToCart = async (variantId: string) => {
     let cartId: any = sessionStorage.getItem('cartId');
+
+    if (cart?.lines?.edges) {
+      const existingItem = cart.lines.edges.find(
+        (edge: CartLineEdge) => edge.node.merchandise.id === variantId,
+      );
+
+      if (existingItem) {
+        toast.error('Item already in cart', {
+          description: 'This item is already in your cart.',
+        });
+        return;
+      }
+    }
+
     try {
       if (cartId) {
         await updateCart(cartId, variantId, 1);
@@ -51,10 +66,14 @@ export default function DiscountProduct() {
       }
       const updatedCart = await retrieveCart(cartId);
       setCart(updatedCart);
-      alert('Item added to cart!');
+      toast.success('Item added to cart!', {
+        description: 'Your item has been added to your cart.',
+      });
     } catch (err) {
       console.error('Error adding to cart:', err);
-      alert('Failed to add item to cart');
+      toast.error('Failed to add item to cart', {
+        description: 'Please try again later.',
+      });
     }
   };
 

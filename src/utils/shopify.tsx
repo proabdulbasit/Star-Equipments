@@ -217,8 +217,6 @@ export async function deleteCart(
       cartId,
       lineIds: [lineItemId],
     });
-
-    alert('Item successfully removed from the cart!');
     return response;
   } catch (error) {
     alert('Failed to remove item from the cart!');
