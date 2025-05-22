@@ -1,170 +1,175 @@
 'use client';
-import Carousel from '@/components/Carousel';
 import Link from 'next/link';
-import Product from '@/components/Product';
 import Image from 'next/image';
-import { useState } from 'react';
-import { addToCart, updateCart, retrieveCart } from '@/utils/shopify';
+import { useState, useEffect } from 'react';
+import {
+  addToCart,
+  updateCart,
+  retrieveCart,
+  getProductRecommendations,
+} from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
-import { CiCircleMinus, CiCirclePlus } from 'react-icons/ci';
 import { ProductDetailProps } from './type';
+import { toast } from 'sonner';
+import ProductCard from '@/components/ProductCard';
 
 function ProductDetail({ product }: ProductDetailProps) {
   const [count, setCount] = useState(0);
   const [checkout, setCheckout] = useState(false);
   const { cart, setCart } = useCart();
-  const [selectedSize, setSelectedSize] = useState('');
+  const [isAdding, setIsAdding] = useState(false);
+  const [recommended, setRecommended] = useState<any[]>([]);
+  const [loadingRecs, setLoadingRecs] = useState(true);
+
+  useEffect(() => {
+    async function fetchRecommendations() {
+      if (product?.id) {
+        setLoadingRecs(true);
+        try {
+          const recs = await getProductRecommendations(product.id);
+          setRecommended(recs || []);
+        } catch (e) {
+          setRecommended([]);
+        }
+        setLoadingRecs(false);
+      }
+    }
+    fetchRecommendations();
+  }, [product?.id]);
 
   if (!product) {
     return <div>Loading product details...</div>;
   }
 
   const handleAddToCart = async () => {
+    if (isAdding) return;
+    setIsAdding(true);
     let cartId: any = sessionStorage.getItem('cartId');
+    const variantId = product.variants.edges[0]?.node.id;
 
-    if (count > 0 && product.variants.edges[0]?.node.id) {
+    if (count > 0 && variantId) {
       try {
         if (cartId) {
-          await updateCart(cartId, product.variants.edges[0].node.id, count);
-          alert('item added successfully');
+          await updateCart(cartId, variantId, count);
         } else {
-          let data: any = await addToCart(
-            product.variants.edges[0].node.id,
-            count,
-          );
+          const data: any = await addToCart(variantId, count);
           cartId = data.cartCreate.cart.id;
           sessionStorage.setItem('cartId', cartId);
         }
-
         const updatedCart = await retrieveCart(cartId);
         setCart(updatedCart);
-        setCheckout(true);
+        toast.success('Item added to cart!', {
+          description: `${product.title} has been added to your cart.`,
+        });
       } catch (error) {
         console.error('Error adding to cart:', error);
-        alert('Failed to add item to cart');
+        toast.error('Failed to add item to cart', {
+          description: 'Please try again later.',
+        });
+      } finally {
+        setIsAdding(false);
       }
+    } else {
+      toast.error('Please select a quantity.', {
+        description: 'You must add at least one item.',
+      });
+      setIsAdding(false);
     }
   };
 
   return (
     <>
-      <div className="flex mb-10 mt-24  w-[90%] lg:w-[1440px] mx-auto">
-        {/* <Carousel images={product.featuredImage.url} /> */}
-        <div className="space-y-4 roboto-condensed mt-">
-          <h1 className="text-[#000000] capitalize michroma-regular text-2xl">
+      <div className="flex flex-col lg:flex-row mb-10 mt-24 w-[90%] lg:w-[1400px] mx-auto bg-white rounded-lg p-6 gap-10">
+        {/* Left: Product Image */}
+        <div className="flex-1 flex items-center justify-center bg-white p-6 rounded-lg border border-gray-100 min-h-[350px] max-w-[420px]">
+          <Image
+            src={
+              product.featuredImage?.url ||
+              '/assets/ProductDetail/placeholder.png'
+            }
+            alt={product.featuredImage?.altText || product.title}
+            width={400}
+            height={400}
+            className="object-contain rounded-md"
+          />
+        </div>
+        {/* Right: Product Info */}
+        <div className="flex-1 flex flex-col gap-6 justify-start">
+          <h1 className="text-[#2C2C2C] capitalize michroma-regular text-3xl font-semibold mb-2">
             {product.title}
           </h1>
-          <p className="text-[#007934] font-bold text-xl roboto-condensed">
-            {product.priceRange.minVariantPrice.amount} USD
+          <p className="text-[#2C2C2C] font-bold text-2xl mb-1">
+            ${product.priceRange.minVariantPrice.amount} USD
           </p>
-          <p className="text-lg  text-gray-500">
-            Shipping calculated at checkout.
+          <p className="text-base text-gray-500 mb-2">
+            <span className="underline cursor-pointer">Shipping</span>{' '}
+            calculated at checkout.
           </p>
-          <div className="flex roboto-condensed text-lg items-center gap-1">
-            <p className="text-lg text-gray-500">
-              Pay over time for orders over
+          {/* Quantity Selector */}
+          <div>
+            <p className="text-base font-semibold text-gray-700 mb-2">
+              Quantity
             </p>
-            <h1 className="text-lg text-[#000000]">$35.00</h1>
-            <p className="text-gray-500">with</p>
-            <Image
-              src="/assets/ProductDetail/shop.svg"
-              alt="shop"
-              width={58}
-              height={14}
-            />
-            <Link
-              href="#"
-              className="text-[#007934] opacity-50 underline cursor-pointer"
-            >
-              Learn more
-            </Link>
-          </div>
-          <p className="text-lg font-semibold text-gray-500">Size </p>
-          <div className="flex items-center gap-5">
-            {['SM', 'MD', 'LG', 'XL', 'XXL'].map((size) => (
+            <div className="flex items-center gap-3">
               <button
-                key={size}
-                onClick={() => setSelectedSize(size)}
-                className={`text-[#000000] text-sm w-[34px] h-[22px] border border-[#000000] opacity-60 rounded-tr-md rounded-bl-md cursor-pointer ${
-                  selectedSize === size ? 'bg-black text-white' : ''
-                }`}
+                onClick={() => setCount(Math.max(count - 1, 0))}
+                className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded text-2xl text-[#2C2C2C] hover:bg-gray-100"
+                aria-label="Decrease quantity"
               >
-                {size}
+                –
               </button>
-            ))}
-          </div>
-
-          <p className="text-lg font-semibold text-gray-500">Quantity </p>
-          <div className="flex lg:justify-start justify-center items-center gap-2 lg:gap-4">
-            <CiCircleMinus
-              className="text-[#6F4B9D] lg:w-[56px] w-[45px] h-[45px] lg:h-[56px] cursor-pointer"
-              onClick={() => setCount(Math.max(count - 1, 0))}
-            />
-            <div className="text-white bg-[#6F4B9D] lg:w-[51px] w-[40px] h-[40px] lg:h-[51px] rounded-full flex flex-col justify-center lg:text-xl text-lg items-center">
-              {count}
+              <span className="w-12 h-10 flex items-center justify-center border border-gray-200 rounded text-lg bg-gray-50">
+                {count}
+              </span>
+              <button
+                onClick={() => setCount(count + 1)}
+                className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded text-2xl text-[#2C2C2C] hover:bg-gray-100"
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
             </div>
-            <CiCirclePlus
-              className="text-[#6F4B9D] lg:w-[56px] w-[45px] h-[45px] lg:h-[56px] cursor-pointer"
-              onClick={() => setCount(count + 1)}
-            />
           </div>
-          <div className="flex items-center gap-5">
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
             <button
               onClick={handleAddToCart}
-              className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#007934] w-[203px] h-[55px]"
+              className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#007934] w-[220px] h-[55px] shadow hover:bg-[#005f27] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={isAdding}
             >
-              Add to cart
+              {isAdding ? 'Adding...' : 'Add to cart'}
             </button>
-            <button className="cursor-pointer text-white text-center rounded-full text-xl font-bold bg-white border border-[#5433EB] flex justify-center items-center w-[203px] h-[55px]">
-              {' '}
+            <button className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#5433EB] w-[220px] h-[55px] flex items-center justify-center gap-2 shadow hover:bg-[#3a1fa3] transition-all">
               <Image
                 src="/assets/ProductDetail/shop.svg"
                 alt="shop"
-                width={98}
-                height={34}
+                width={28}
+                height={28}
+                className="bg-white"
               />
+              <span className="whitespace-nowrap">Buy with shop Pay</span>
             </button>
           </div>
-          <p className="text-lg roboto-condensed w-[550px] text-gray-500 list-disc">
-            {' '}
-            This high-performing glove is multi-purpose and suitable for any
-            job. Lightweight and comfortable for the wearer without compromising
-            the gloves performance. Reinforced thumb crotch and fingertips adds
-            abrasion resistance in hard wearing areas. Highly durable synthetic
-            leather palm. This glove can be used on most touchscreen devices.
-          </p>
-          <p className="text-lg font-semibold text-gray-500">Materials </p>
-          <p className="text-lg roboto-condensed w-[550px] text-gray-500 list-disc">
-            Nylon, Polyester, Polyurethane, TPR
-          </p>
-          <div className="flex items-center gap-1">
-            <Link
-              href="#"
-              className="text-lg flex gap-1 items-start  text-gray-500"
-            >
-              <Image
-                src="/assets/ProductDetail/warning.svg"
-                alt="shop"
-                width={24}
-                height={24}
-              />{' '}
-              WARNING: Cancer and reproductive harm WWW.p65warnings.ca.gov
-              california residents click here
-            </Link>
-          </div>
-          <p className="text-lg flex gap-3 text-gray-800 ">
-            {' '}
+          <Link
+            href="#"
+            className="text-base underline text-gray-700 mt-1 mb-2 w-fit"
+          >
+            More payment options
+          </Link>
+          {/* Share */}
+          <div className="flex items-center gap-2 mt-2">
             <Image
               src="/assets/ProductDetail/share.svg"
-              alt="shop"
-              width={17}
-              height={18}
-            />{' '}
-            Share{' '}
-          </p>
+              alt="share"
+              width={20}
+              height={20}
+            />
+            <span className="text-base text-gray-700">Share</span>
+          </div>
         </div>
       </div>
-      <div className="flex bg-[#F4F4F4] items-center">
+      {/* You may also like */}
+      <div className="flex bg-[#F4F4F4] items-center mt-10">
         <Image
           src="/assets/Homepage/dots-icon.svg"
           alt="dots"
@@ -172,13 +177,51 @@ function ProductDetail({ product }: ProductDetailProps) {
           height={120}
         />
         <div className="flex w-full pr-24 items-center justify-center">
-          <h1 className="text-3xl  michroma-regular text-center  text-[#2C2C2C]">
-            You may also like{' '}
+          <h1 className="text-3xl michroma-regular text-center text-[#2C2C2C]">
+            You may also like
           </h1>
         </div>
       </div>
-      <div>
-        <Product />
+      <div className="xl:w-[1440px] mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-10">
+          {loadingRecs &&
+            [...Array(4)].map((_, idx) => (
+              <div
+                key={idx}
+                className="group w-full bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden relative animate-pulse"
+              >
+                <div className="relative w-full aspect-[4/3] bg-gray-200 flex items-center justify-center overflow-hidden" />
+                <div className="flex-1 flex flex-col justify-between p-4">
+                  <div className="h-6 w-3/4 bg-gray-200 rounded mb-2" />
+                  <div className="flex items-end justify-between mt-auto">
+                    <div className="h-4 w-1/2 bg-gray-200 rounded mb-4" />
+                    <div className="ml-2 h-10 w-10 bg-gray-200 rounded-full mt-auto" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          {!loadingRecs && recommended.length === 0 && (
+            <div className="col-span-4 text-center text-gray-500">
+              No recommendations found.
+            </div>
+          )}
+          {!loadingRecs &&
+            recommended
+              .slice(0, 4)
+              .map((rec) => (
+                <ProductCard
+                  key={rec.id}
+                  id={rec.id}
+                  title={rec.title}
+                  image={
+                    rec.featuredImage?.url ||
+                    '/assets/ProductDetail/placeholder.png'
+                  }
+                  price={rec.priceRange?.minVariantPrice?.amount || ''}
+                  altText={rec.featuredImage?.altText || rec.title}
+                />
+              ))}
+        </div>
       </div>
     </>
   );

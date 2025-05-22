@@ -1,7 +1,6 @@
 [
-  { "id": 1, "name": "B/A Products", "url": "/" },
-  { "id": 2, "name": "Clothing", "url": "/" },
-  { "id": 3, "name": "Towmate", "url": "/" },
-  { "id": 4, "name": "Portwest", "url": "/" },
-  { "id": 5, "name": "NRC Parts", "url": "/" }
+  { "id": 1, "name": "B/A Products", "url": "/collections/baproducts" },
+  { "id": 2, "name": "Clothing", "url": "/collections/clothing" },
+  { "id": 3, "name": "Towmate", "url": "/collections/towmate" },
+  { "id": 5, "name": "NRC Parts", "url": "/collections/nrc-parts" }
 ]

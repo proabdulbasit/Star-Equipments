@@ -48,7 +48,7 @@ const HeroSection: React.FC<HeroPropsType> = ({ title, para, image }) => {
       {/* Gradient overlay for left side */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#14532d] via-[#14532d]/90 to-transparent z-10 pointer-events-none" />
       <div className="relative z-20 w-full">
-        <div className="max-w-[1440px] mx-auto flex flex-col justify-center h-full px-4 md:px-12 lg:px-24">
+        <div className="max-w-[1440px] mx-auto flex flex-col justify-center h-full px-4 md:px-12 lg:px-12">
           <Swiper
             spaceBetween={0}
             autoplay={{

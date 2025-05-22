@@ -115,24 +115,24 @@ function Gallery() {
             exit={{ opacity: 0 }}
           >
             <div className="relative max-w-3xl w-full flex flex-col items-center">
-              {/* Controls outside image */}
+              {/* Desktop: Navigation and close buttons outside the image */}
               <button
                 onClick={closeModal}
-                className="absolute -top-12 right-0 text-white text-3xl bg-black/60 rounded-full w-10 h-10 flex items-center justify-center z-10 hover:bg-black/80 transition"
+                className="hidden md:flex absolute -top-12 right-0 text-white text-3xl bg-black/60 rounded-full w-10 h-10 items-center justify-center z-10 hover:bg-black/80 transition"
                 aria-label="Close"
               >
                 &times;
               </button>
               <button
                 onClick={prevImg}
-                className="absolute left-[-60px] top-1/2 -translate-y-1/2 text-white text-3xl bg-black/60 rounded-full w-10 h-10 flex items-center justify-center z-10 hover:bg-black/80 transition"
+                className="hidden md:flex absolute left-[-60px] top-1/2 -translate-y-1/2 text-white text-3xl bg-black/60 rounded-full w-10 h-10 items-center justify-center z-10 hover:bg-black/80 transition"
                 aria-label="Previous"
               >
                 &#8592;
               </button>
               <button
                 onClick={nextImg}
-                className="absolute right-[-60px] top-1/2 -translate-y-1/2 text-white text-3xl bg-black/60 rounded-full w-10 h-10 flex items-center justify-center z-10 hover:bg-black/80 transition"
+                className="hidden md:flex absolute right-[-60px] top-1/2 -translate-y-1/2 text-white text-3xl bg-black/60 rounded-full w-10 h-10 items-center justify-center z-10 hover:bg-black/80 transition"
                 aria-label="Next"
               >
                 &#8594;
@@ -146,6 +146,30 @@ function Gallery() {
                 exit={{ scale: 0.95, opacity: 0 }}
                 transition={{ duration: 0.3 }}
               />
+              {/* Mobile: Navigation and close buttons at the bottom */}
+              <div className="flex md:hidden w-full justify-center gap-6 mt-4">
+                <button
+                  onClick={prevImg}
+                  className="text-white text-2xl bg-black/60 rounded-full w-10 h-10 flex items-center justify-center z-10 hover:bg-black/80 transition"
+                  aria-label="Previous"
+                >
+                  &#8592;
+                </button>
+                <button
+                  onClick={closeModal}
+                  className="text-white text-2xl bg-black/60 rounded-full w-10 h-10 flex items-center justify-center z-10 hover:bg-black/80 transition"
+                  aria-label="Close"
+                >
+                  &times;
+                </button>
+                <button
+                  onClick={nextImg}
+                  className="text-white text-2xl bg-black/60 rounded-full w-10 h-10 flex items-center justify-center z-10 hover:bg-black/80 transition"
+                  aria-label="Next"
+                >
+                  &#8594;
+                </button>
+              </div>
             </div>
           </motion.div>
         )}

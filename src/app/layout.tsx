@@ -4,7 +4,8 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
-import { FavouriteProvider } from '@/context/FavouriteContext';
+import { Toaster } from 'sonner';
+import ScrollToTopOnRouteChange from '@/components/ScrollToTopOnRouteChange';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -30,15 +31,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <CartProvider>
-        <FavouriteProvider>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
-            <Header />
-            {children}
-            <Footer />
-          </body>
-        </FavouriteProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Header />
+          {children}
+          <Footer />
+          <Toaster />
+          <ScrollToTopOnRouteChange />
+        </body>
       </CartProvider>
     </html>
   );
