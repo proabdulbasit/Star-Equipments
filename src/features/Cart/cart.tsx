@@ -143,7 +143,7 @@ function Cart() {
             Looks like you haven&apos;t added any items to your cart yet. Start
             shopping to fill your cart with amazing products!
           </p>
-          <Link href="/">
+          <Link href="/parts-accessories">
             <button className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#007934] px-8 py-3 hover:bg-[#005f27] transition-colors mt-3">
               Start Shopping
             </button>
@@ -175,10 +175,10 @@ function Cart() {
             </Link>
           </div>
         </div>
-        <div className="xl:w-[1440px] w-[95%] mx-auto">
+        <div className="xl:w-[1440px]  mx-auto lg:px-12 px-5">
           <div className="flex items-center mt-5 justify-between">
             <h1 className="lg:text-2xl text-sm  xl:w-[450px] roboto-condensed text-[#007934] font-bold">
-              Product
+              Products
             </h1>
             <h1 className="text-2xl  roboto-condensed text-[#007934] font-bold"></h1>
           </div>
@@ -196,7 +196,7 @@ function Cart() {
             href={checkoutUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#007934] px-8 py-3 hover:bg-[#005f27] transition-colors block mt-6 w-full max-w-xs mx-auto"
+            className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#007934] px-8 py-3 hover:bg-[#005f27] transition-colors block mt-6 w-[95%] max-w-xs mx-auto mb-10 "
           >
             Checkout
           </a>

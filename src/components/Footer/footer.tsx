@@ -24,10 +24,10 @@ function Footer() {
             </Link>
 
             <p className="lg:text-[18px] leading-[2] text-[14px] text-[#FFFFFF] mb-3 mt-5 lg:w-72">
-              644 Star Lane Roberts, WI 54023
+              644 Starr Ln, Roberts, WI 54023, United States
             </p>
             <Link href="#" className="cursor-pointer text-white">
-              <p>(715) 760-4004</p>
+              <p>(715) 749-4450</p>
             </Link>
           </div>
           <RenderSection title="Quick Links" items={NavigationLinks} />
@@ -38,15 +38,10 @@ function Footer() {
             </h1>
             <div className="flex items-center mt-5 lg:justify-start justify-center gap-4">
               <div className="bg-[#007934] shadow-lg rounded-full w-[40px] h-[40px] flex items-center flex-col justify-center">
-                <Link href="https://www.facebook.com/bigrigtowingandrecovery/">
+                <Link href="https://www.facebook.com/starequipmentsales/">
                   <FaFacebookF className="text-white text-2xl" />
                 </Link>
               </div>{' '}
-              <div className="bg-[#007934] shadow-lg rounded-full w-[40px] h-[40px] flex items-center flex-col justify-center">
-                <Link href="">
-                  <FaInstagram className="text-white text-2xl" />
-                </Link>
-              </div>
             </div>
           </div>
           <div className="xl:mt-0 my-5">

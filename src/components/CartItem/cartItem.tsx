@@ -20,7 +20,7 @@ function CartItem({ cartId, item, removeFromCart }: CartTypes) {
   );
   const totalPrice = (unitPrice * count).toFixed(2);
   return (
-    <div className="lg:mb-0 mb-20">
+    <div className="lg:mb-0 mb-20 border-b border-[#007934] pb-5 ">
       <div key={item.node.id} className="lg:flex items-center justify-between">
         <div className="flex mt-14 gap-5 xl:w-[600px] items-center">
           <Image

@@ -3,8 +3,13 @@ import Image from 'next/image';
 export default function ProductGridSkeleton() {
   return (
     <div className="xl:w-[1440px] w-[95%] mx-auto">
-      {/* Top bar skeleton */}
-      <div className="flex flex-col sm:flex-row sm:items-center mt-8 mb-4 gap-4 sm:gap-0 justify-between">
+      {/* Mobile: Filter & Sort button skeleton and product count skeleton */}
+      <div className="lg:hidden flex flex-col gap-3 pt-4">
+        <div className="h-12 w-full bg-green-200 rounded animate-pulse mb-2" />
+        <div className="h-6 w-1/2 bg-gray-200 rounded animate-pulse mb-2" />
+      </div>
+      {/* Desktop: Top bar skeleton */}
+      <div className="hidden lg:flex flex-col sm:flex-row sm:items-center mt-8 mb-4 gap-4 sm:gap-0 justify-between">
         <div className="h-6 w-40 bg-gray-200 rounded animate-pulse mb-2" />
         <div className="flex gap-4 items-center">
           <div className="h-10 w-32 bg-gray-200 rounded animate-pulse" />

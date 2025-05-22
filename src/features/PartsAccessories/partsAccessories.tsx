@@ -92,7 +92,7 @@ export default function PartsAccessories() {
                     </div>
                     <div className="p-6 flex flex-col flex-grow">
                       <h2 className="text-xl font-semibold text-[#2C2C2C] mb-2">
-                        {truncate(cat.title, 22)}
+                        {truncate(cat.title, 20)}
                       </h2>
                       <p className="text-gray-600 text-sm mb-2 flex-grow">
                         {cat.description}

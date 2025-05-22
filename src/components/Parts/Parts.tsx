@@ -75,7 +75,7 @@ function Parts() {
           <div className="text-3xl michroma-regular text-center text-[#007934] mb-12 animate-pulse">
             Shop by Category
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 lg:px-12">
             {[...Array(4)].map((_, idx) => (
               <div
                 key={idx}
@@ -103,7 +103,7 @@ function Parts() {
         <h2 className="text-3xl michroma-regular text-center text-[#007934] mb-12">
           Shop by Category
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 lg:px-6">
           {collections.map((collection) => (
             <Link
               key={collection.id}

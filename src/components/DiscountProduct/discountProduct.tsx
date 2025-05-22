@@ -126,7 +126,7 @@ export default function DiscountProduct() {
           </h1>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4 max-w-[1440px] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4 max-w-[1440px] mx-auto lg:px-12">
         {products.length > 0 &&
           products.map((product) => (
             <ProductCard

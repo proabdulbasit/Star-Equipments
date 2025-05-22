@@ -66,7 +66,7 @@ export default function Home() {
           Product Categories
         </motion.h1>
         <motion.div
-          className="mt-10 mx-auto grid grid-cols-2 gap-x-6 gap-y-8 max-w-[500px] px-5 mb-10 lg:flex lg:items-center lg:justify-between lg:max-w-[1440px] lg:px-12"
+          className="mt-10 mx-auto flex items-center justify-between max-w-[1440px] mx-auto px-5 lg:px-12 mb-10"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -90,7 +90,7 @@ export default function Home() {
                 height={82}
                 className="transition-transform duration-300"
               />
-              <h1 className="text-lg text-white roboto-condensed mt-2 text-center">
+              <h1 className="text-lg text-white roboto-condensed mt-2">
                 {cat.label}
               </h1>
             </motion.div>
