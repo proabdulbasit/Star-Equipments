@@ -191,6 +191,16 @@ function Cart() {
             />
           ))}
         </div>
+        {checkoutUrl && (
+          <a
+            href={checkoutUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#007934] px-8 py-3 hover:bg-[#005f27] transition-colors block mt-6 w-full max-w-xs mx-auto"
+          >
+            Checkout
+          </a>
+        )}
       </div>
 
       <ConfirmationModal
