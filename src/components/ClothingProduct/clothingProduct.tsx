@@ -10,6 +10,7 @@ import { useCart } from '@/context/CartContext';
 import { Product } from '@/utils/type';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
+import { toast } from 'sonner';
 
 const sortOptions = [
   { value: 'RELEVANCE', label: 'Featured', reverse: false, id: 'relevance' },
@@ -156,7 +157,9 @@ const Clothing: React.FC<ClothingProductProps> = ({
     }
     const updatedCart = await retrieveCart(cartId);
     setCart(updatedCart);
-    alert('Item added to cart!');
+    toast.success('Item added to cart!', {
+      description: 'Your item has been added to your cart.',
+    });
   };
 
   const handlePageChange = (newPage: number) => {
