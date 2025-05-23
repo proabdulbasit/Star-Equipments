@@ -112,6 +112,14 @@ export async function getProduct(id: string): Promise<Product> {
           url
           altText
         }
+        images(first: 10) {
+          edges {
+            node {
+              url
+              altText
+            }
+          }
+        }
         variants(first: 10) {
           edges {
             node {

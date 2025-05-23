@@ -291,13 +291,13 @@ const Clothing: React.FC<ClothingProductProps> = ({
           <div className="flex items-center gap-8">
             {/* Price filter (desktop) */}
             <div className="relative">
-              <button
+              {/* <button
                 className="border border-gray-300 bg-white rounded px-3 py-1 text-base flex items-center gap-2 min-w-[100px]"
                 onClick={() => setPriceOpen((v) => !v)}
                 type="button"
               >
                 Price
-              </button>
+              </button> */}
               {priceOpen && (
                 <div className="absolute z-20 mt-2 w-80 bg-white border border-gray-200 rounded shadow-lg p-4">
                   <div className="flex items-center justify-between mb-2">
@@ -498,7 +498,8 @@ const Clothing: React.FC<ClothingProductProps> = ({
             >
               <Link
                 href={`/product-detail/${encodeURIComponent(product.node.id)}`}
-                className="block"
+                className="block flex-1"
+                tabIndex={-1}
               >
                 <div className="relative w-full aspect-[4/3] bg-gray-100 flex items-center justify-center overflow-hidden">
                   <Image
@@ -512,29 +513,29 @@ const Clothing: React.FC<ClothingProductProps> = ({
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>
-              </Link>
-              <div className="flex-1 flex flex-col justify-between p-4">
-                <h1 className="roboto-condensed font-semibold text-base text-black mb-2 line-clamp-2 min-h-[48px]">
-                  {product.node.title}
-                </h1>
-                <div className="flex items-end justify-between mt-auto">
-                  <span className="text-xl font-bold text-[#007934]">
-                    ${product.node.priceRange.minVariantPrice.amount}
-                  </span>
-                  <button
-                    className="ml-2 bg-[#007934] hover:bg-[#005f27] text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#007934]"
-                    onClick={() =>
-                      handleQuickAddToCart(
-                        product.node.variants.edges[0].node.id,
-                      )
-                    }
-                    aria-label="Add to cart"
-                    type="button"
-                  >
-                    <FaCirclePlus className="text-2xl" />
-                  </button>
+                <div className="flex-1 flex flex-col justify-between p-4">
+                  <h1 className="roboto-condensed font-semibold text-base text-black mb-2 line-clamp-2 min-h-[48px] group-hover:underline group-hover:text-[#007934]">
+                    {product.node.title}
+                  </h1>
+                  <div className="flex items-end justify-between mt-auto">
+                    <span className="text-xl font-bold text-[#007934]">
+                      ${product.node.priceRange.minVariantPrice.amount}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </Link>
+              <button
+                className="absolute bottom-6 right-6 bg-[#007934] hover:bg-[#005f27] text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#007934] z-10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleQuickAddToCart(product.node.variants.edges[0].node.id);
+                }}
+                aria-label="Add to cart"
+                type="button"
+              >
+                <FaCirclePlus className="text-2xl" />
+              </button>
             </div>
           ))}
         </div>
