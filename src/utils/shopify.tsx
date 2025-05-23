@@ -124,6 +124,10 @@ export async function getProduct(id: string): Promise<Product> {
           edges {
             node {
               id
+              selectedOptions {
+                name
+                value
+              }
             }
           }
         }
@@ -151,6 +155,10 @@ export async function retrieveCart(cartId: string): Promise<Cart> {
               merchandise {
                 ... on ProductVariant {
                   id
+                  selectedOptions {
+                    name
+                    value
+                  }
                   product {
                     id
                     title

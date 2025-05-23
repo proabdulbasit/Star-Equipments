@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import {
@@ -7,17 +6,21 @@ import {
   updateCart,
   retrieveCart,
   getProductRecommendations,
+  getCheckoutUrl,
 } from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
 import { ProductDetailProps } from './type';
 import { toast } from 'sonner';
 import ProductCard from '@/components/ProductCard';
+import { SiShopify } from 'react-icons/si';
+import { FaGooglePay } from 'react-icons/fa6';
 
 function ProductDetail({ product }: ProductDetailProps) {
   const [count, setCount] = useState(0);
   const [checkout, setCheckout] = useState(false);
   const { cart, setCart } = useCart();
   const [isAdding, setIsAdding] = useState(false);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [recommended, setRecommended] = useState<any[]>([]);
   const [loadingRecs, setLoadingRecs] = useState(true);
   const images = product.images?.edges?.map((edge) => edge.node.url) || [
@@ -26,6 +29,46 @@ function ProductDetail({ product }: ProductDetailProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedImage = images[selectedIndex];
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+
+  // Extract all unique options and their values from variants if product.options is missing
+  let options: { name: string; values: string[] }[] = [];
+  if (product.options && product.options.length > 0) {
+    options = product.options;
+  } else {
+    const optionMap: Record<string, Set<string>> = {};
+    product.variants.edges.forEach(({ node }) => {
+      node.selectedOptions?.forEach((opt) => {
+        if (!optionMap[opt.name]) optionMap[opt.name] = new Set();
+        optionMap[opt.name].add(opt.value);
+      });
+    });
+    options = Object.entries(optionMap).map(([name, values]) => ({
+      name,
+      values: Array.from(values),
+    }));
+  }
+
+  // State for selected options
+  const initialOptions = options.reduce(
+    (acc, option) => {
+      acc[option.name] = option.values[0];
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
+  const [selectedOptions, setSelectedOptions] =
+    useState<Record<string, string>>(initialOptions);
+
+  // Find the variant that matches the selected options
+  const getSelectedVariantId = () => {
+    const variant = product.variants.edges.find(({ node }) =>
+      node.selectedOptions?.every(
+        (opt) => selectedOptions[opt.name] === opt.value,
+      ),
+    );
+    return variant?.node.id;
+  };
+  const selectedVariantId = getSelectedVariantId();
 
   useEffect(() => {
     async function fetchRecommendations() {
@@ -51,7 +94,7 @@ function ProductDetail({ product }: ProductDetailProps) {
     if (isAdding) return;
     setIsAdding(true);
     let cartId: any = sessionStorage.getItem('cartId');
-    const variantId = product.variants.edges[0]?.node.id;
+    const variantId = selectedVariantId;
 
     if (count > 0 && variantId) {
       try {
@@ -83,6 +126,38 @@ function ProductDetail({ product }: ProductDetailProps) {
     }
   };
 
+  const handleBuyNow = async () => {
+    if (isCheckingOut) return;
+    setIsCheckingOut(true);
+    const variantId = selectedVariantId;
+
+    if (count > 0 && variantId) {
+      try {
+        // Create a new cart with the item
+        const data: any = await addToCart(variantId, count);
+        const cartId = data.cartCreate.cart.id;
+
+        // Get the checkout URL
+        const checkoutData = await getCheckoutUrl(cartId);
+        const checkoutUrl = checkoutData.cart.checkoutUrl;
+
+        // Redirect to checkout
+        window.location.href = checkoutUrl;
+      } catch (error) {
+        console.error('Error during checkout:', error);
+        toast.error('Failed to proceed to checkout', {
+          description: 'Please try again later.',
+        });
+        setIsCheckingOut(false);
+      }
+    } else {
+      toast.error('Please select a quantity.', {
+        description: 'You must add at least one item.',
+      });
+      setIsCheckingOut(false);
+    }
+  };
+
   const handleShare = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
@@ -100,14 +175,14 @@ function ProductDetail({ product }: ProductDetailProps) {
         {/* Left: Product Image */}
         <div className="flex flex-col items-center">
           <div
-            className="flex-1 flex items-center justify-center bg-white p-6 rounded-lg border border-gray-100 min-h-[450px] max-w-[470px] cursor-pointer"
+            className="flex-1 flex items-center justify-center bg-white p-6 rounded-lg border border-gray-100 min-h-[600px] max-w-[600px] cursor-pointer"
             onClick={() => setIsCarouselOpen(true)}
           >
             <Image
               src={selectedImage}
               alt={product.featuredImage?.altText || product.title}
-              width={500}
-              height={500}
+              width={600}
+              height={600}
               className="object-contain rounded-md"
             />
           </div>
@@ -141,9 +216,53 @@ function ProductDetail({ product }: ProductDetailProps) {
             ${product.priceRange.minVariantPrice.amount} USD
           </p>
           <p className="text-base text-gray-500 mb-2">
-            <span className="underline cursor-pointer">Shipping</span>{' '}
+            <button
+              type="button"
+              onClick={() => (window.location.href = '/shipping-policy')}
+              className="underline-offset-2 cursor-pointer hover:underline focus:underline text-inherit bg-transparent border-none p-0 m-0 font-inherit"
+              style={{ textDecoration: 'underline' }}
+            >
+              Shipping
+            </button>{' '}
             calculated at checkout.
           </p>
+          {/* Option selectors (Size, Color, etc.) */}
+          {options.length > 0 && (
+            <div className="flex flex-col gap-4 mb-2">
+              {options.map((option) => (
+                <div key={option.name}>
+                  {option.values.length > 1 && (
+                    <div className="text-base font-semibold text-gray-700 mb-2">
+                      {option.name}
+                    </div>
+                  )}
+                  <div className="flex gap-2 flex-wrap">
+                    {option.values.map((value) => (
+                      <button
+                        key={value}
+                        type="button"
+                        onClick={() =>
+                          setSelectedOptions((prev) => ({
+                            ...prev,
+                            [option.name]: value,
+                          }))
+                        }
+                        className={`px-5 py-2 rounded-full border text-base font-semibold transition-colors
+                          ${
+                            selectedOptions[option.name] === value
+                              ? 'bg-black text-white border-black'
+                              : 'bg-white text-black border-gray-400 hover:bg-gray-100'
+                          }`}
+                        style={{ minWidth: 60 }}
+                      >
+                        {value}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           {/* Product Description */}
           {product.description && (
             <p className="text-base text-gray-700 mb-2 whitespace-pre-line">
@@ -195,23 +314,39 @@ function ProductDetail({ product }: ProductDetailProps) {
             >
               {isAdding ? 'Adding...' : 'Add to cart'}
             </button>
-            {/* <button className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#5433EB] w-[220px] h-[55px] flex items-center justify-center gap-2 shadow hover:bg-[#3a1fa3] transition-all">
-              <Image
-                src="/assets/ProductDetail/shop.svg"
-                alt="shop"
-                width={28}
-                height={28}
-                className="bg-white"
-              />
-              <span className="whitespace-nowrap">Buy with shop Pay</span>
-            </button> */}
+            <button
+              onClick={handleBuyNow}
+              className="cursor-pointer text-white text-center rounded-full text-lg font-bold bg-[#357a43] w-[220px] h-[55px] shadow hover:bg-[#005f27] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={isCheckingOut}
+            >
+              {'Buy Now'}
+            </button>
           </div>
-          <Link
-            href="#"
-            className="text-base underline text-gray-700 mt-1 mb-2 w-fit"
-          >
-            More payment options
-          </Link>
+          {/* Express checkout note */}
+          <div className="flex flex-col items-start mt-3 mb-2">
+            <span className="text-gray-500 text-sm mb-1">Express checkout</span>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={handleBuyNow}
+                className="flex items-center px-4 py-2 rounded-lg bg-[#5A31F4] text-white text-lg font-semibold transition-colors hover:bg-[#4A2FD4] focus:outline-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                disabled={isCheckingOut}
+                aria-label="Checkout with Shop Pay"
+              >
+                <SiShopify className="mr-2 text-2xl" /> Shop Pay
+              </button>
+              <button
+                type="button"
+                onClick={handleBuyNow}
+                className="flex items-center px-4 py-2 rounded-lg bg-black text-white text-lg font-semibold transition-colors hover:bg-gray-800 focus:outline-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                disabled={isCheckingOut}
+                aria-label="Checkout with Google Pay"
+              >
+                <FaGooglePay className="mr-2 text-2xl" /> G Pay
+              </button>
+            </div>
+            {/* <span className="text-xs text-gray-500 mt-2 text-left">Shop Pay and G Pay will be available on the next page.</span> */}
+          </div>
           {/* Share */}
           <button
             type="button"
@@ -277,7 +412,7 @@ function ProductDetail({ product }: ProductDetailProps) {
                     rec.featuredImage?.url ||
                     '/assets/ProductDetail/placeholder.png'
                   }
-                  price={rec.priceRange?.minVariantPrice?.amount || ''}
+                  price={`$${rec.priceRange?.minVariantPrice?.amount}` || ''}
                   altText={rec.featuredImage?.altText || rec.title}
                 />
               ))}

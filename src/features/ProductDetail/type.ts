@@ -16,6 +16,7 @@ export type ProductDetailProps = {
       edges: Array<{
         node: {
           id: string;
+          selectedOptions?: { name: string; value: string }[];
         };
       }>;
     };
