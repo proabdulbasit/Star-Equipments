@@ -12,7 +12,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onAddToCart,
   discount,
   compareAtPrice,
+  isLoading = false,
 }) => {
+  const handleAddToCartClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Add to cart button clicked in ProductCard');
+    if (onAddToCart && !isLoading) {
+      onAddToCart();
+    }
+  };
+
   return (
     <div className="group w-full bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden relative">
       <Link
@@ -51,16 +61,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
       </Link>
       <button
-        className="absolute bottom-6 right-6 bg-[#007934] hover:bg-[#005f27] text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#007934] z-10"
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          if (onAddToCart) onAddToCart();
-        }}
+        className="absolute bottom-3 right-6 bg-[#007934] hover:bg-[#005f27] text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#007934] z-10 disabled:opacity-50 disabled:cursor-not-allowed"
+        onClick={handleAddToCartClick}
         aria-label="Add to cart"
         type="button"
+        disabled={isLoading}
       >
-        <FaCirclePlus className="text-2xl" />
+        {isLoading ? (
+          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        ) : (
+          <FaCirclePlus className="text-2xl" />
+        )}
       </button>
     </div>
   );

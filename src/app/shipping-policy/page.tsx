@@ -1,4 +1,17 @@
 import React from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Shipping Policy - Star Equipment Sales',
+  description:
+    'Learn about our shipping policies, costs, and return shipping procedures. Understand how shipping times and costs are calculated for your orders.',
+  openGraph: {
+    title: 'Shipping Policy - Star Equipment Sales',
+    description:
+      'Learn about our shipping policies, costs, and return shipping procedures. Understand how shipping times and costs are calculated for your orders.',
+    type: 'website',
+  },
+};
 
 export default function ShippingPolicy() {
   return (

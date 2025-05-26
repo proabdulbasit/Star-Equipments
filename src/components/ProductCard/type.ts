@@ -7,4 +7,5 @@ export interface ProductCardProps {
   onAddToCart?: () => void;
   discount?: string;
   compareAtPrice?: string;
+  isLoading?: boolean;
 }

@@ -73,6 +73,27 @@ export async function addToCart(
   return graphQLClient.request(createCartMutation, variables);
 }
 
+export async function updateCartItem(
+  cartId: string,
+  lineId: string,
+  quantity: number,
+): Promise<any> {
+  const updateCartMutation = gql`
+    mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+      cartLinesUpdate(cartId: $cartId, lines: $lines) {
+        cart {
+          id
+        }
+      }
+    }
+  `;
+  const variables = {
+    cartId,
+    lines: [{ id: lineId, quantity }],
+  };
+  return graphQLClient.request(updateCartMutation, variables);
+}
+
 export async function updateCart(
   cartId: string,
   itemId: string,
@@ -1071,5 +1092,179 @@ export async function getDiscountedProducts(): Promise<DiscountedProduct[]> {
   } catch (error) {
     console.error('Error fetching discounted products:', error);
     return [];
+  }
+}
+
+export async function searchProducts(
+  query: string,
+  options?: {
+    pageSize?: number;
+    sortKey?:
+      | 'TITLE'
+      | 'PRICE'
+      | 'CREATED_AT'
+      | 'BEST_SELLING'
+      | 'ID'
+      | 'RELEVANCE';
+    reverse?: boolean;
+    priceFrom?: number;
+    priceTo?: number;
+    availability?: 'in' | 'out';
+  },
+): Promise<{
+  products: { node: Product }[];
+  pageInfo: {
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    currentPage: number;
+    totalPages: number;
+    totalProducts: number;
+  };
+}> {
+  const {
+    pageSize = 16,
+    sortKey = 'RELEVANCE',
+    reverse = false,
+    priceFrom,
+    priceTo,
+    availability,
+  } = options || {};
+
+  // Build the search query
+  let searchQueryString = query;
+
+  // Add price range to search query
+  if (typeof priceFrom === 'number' || typeof priceTo === 'number') {
+    let priceQuery = '';
+    if (typeof priceFrom === 'number') {
+      priceQuery += `price:>=${priceFrom}`;
+    }
+    if (typeof priceTo === 'number') {
+      if (priceQuery) priceQuery += ' AND ';
+      priceQuery += `price:<=${priceTo}`;
+    }
+    if (priceQuery) {
+      searchQueryString = searchQueryString
+        ? `${searchQueryString} AND ${priceQuery}`
+        : priceQuery;
+    }
+  }
+
+  // Add availability to search query
+  if (availability === 'in') {
+    searchQueryString = searchQueryString
+      ? `${searchQueryString} AND available_for_sale:true`
+      : 'available_for_sale:true';
+  } else if (availability === 'out') {
+    searchQueryString = searchQueryString
+      ? `${searchQueryString} AND available_for_sale:false`
+      : 'available_for_sale:false';
+  }
+
+  const searchQuery = gql`
+    query searchProducts(
+      $query: String!
+      $first: Int!
+      $sortKey: ProductSortKeys!
+      $reverse: Boolean!
+    ) {
+      products(
+        first: $first
+        query: $query
+        sortKey: $sortKey
+        reverse: $reverse
+      ) {
+        edges {
+          node {
+            id
+            title
+            handle
+            description
+            featuredImage {
+              url
+              altText
+            }
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+              maxVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            availableForSale
+            variants(first: 1) {
+              edges {
+                node {
+                  id
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  compareAtPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+        }
+      }
+    }
+  `;
+
+  try {
+    console.log('Final search query:', searchQueryString); // Debug log
+
+    const response = await graphQLClient.request<{
+      products: {
+        edges: { node: Product }[];
+        pageInfo: {
+          hasNextPage: boolean;
+          hasPreviousPage: boolean;
+        };
+      };
+    }>(searchQuery, {
+      query: searchQueryString,
+      first: pageSize,
+      sortKey,
+      reverse,
+    });
+
+    // Log the response for debugging
+    console.log('Search response:', {
+      totalProducts: response.products.edges.length,
+      firstProduct: response.products.edges[0]?.node,
+    });
+
+    return {
+      products: response.products.edges,
+      pageInfo: {
+        hasNextPage: response.products.pageInfo.hasNextPage,
+        hasPreviousPage: response.products.pageInfo.hasPreviousPage,
+        currentPage: 1,
+        totalPages: Math.ceil(response.products.edges.length / pageSize),
+        totalProducts: response.products.edges.length,
+      },
+    };
+  } catch (error) {
+    console.error('Error searching products:', error);
+    return {
+      products: [],
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        currentPage: 1,
+        totalPages: 0,
+        totalProducts: 0,
+      },
+    };
   }
 }

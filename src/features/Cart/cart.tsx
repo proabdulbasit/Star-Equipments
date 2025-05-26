@@ -8,18 +8,21 @@ import CartItem from '@/components/CartItem';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import { Suspense } from 'react';
+import Cookies from 'js-cookie';
 
-function Cart() {
+function CartContent() {
   const searchParams = useSearchParams();
   let cartid = searchParams.get('cartid');
   if (!cartid && typeof window !== 'undefined') {
-    cartid = sessionStorage.getItem('cartId');
+    cartid = Cookies.get('cartId') || null;
   }
 
-  const { cart, setCart, removeFromCart } = useCart();
+  const { cart, setCart, removeFromCart, updateCartItem } = useCart();
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
   const [itemToRemove, setItemToRemove] = useState<{
     cartId: string;
     itemId: string;
@@ -44,6 +47,7 @@ function Cart() {
           toast.error('Failed to load cart', {
             description: 'Please try again later.',
           });
+          Cookies.remove('cartId');
         } finally {
           if (mounted) {
             setIsLoading(false);
@@ -63,25 +67,54 @@ function Cart() {
     };
   }, [cartid, setCart]);
 
+  const handleRemoveItem = async (lineId: string) => {
+    try {
+      if (cart?.id) {
+        await removeFromCart(cart.id, lineId);
+      }
+    } catch (error) {
+      console.error('Error removing item:', error);
+      toast.error('Failed to remove item from cart');
+    }
+  };
+
+  const handleUpdateQuantity = async (lineId: string, quantity: number) => {
+    try {
+      if (cart?.id) {
+        await updateCartItem(cart.id, lineId, quantity);
+      }
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+      toast.error('Failed to update item quantity');
+    }
+  };
+
   const handleRemoveClick = (cartId: string, itemId: string) => {
     setItemToRemove({ cartId, itemId });
     setIsModalOpen(true);
   };
 
   const handleConfirmRemove = async () => {
-    if (!itemToRemove) return;
+    if (!itemToRemove || isRemoving) return;
 
+    setIsRemoving(true);
     try {
       await removeFromCart(itemToRemove.cartId, itemToRemove.itemId);
-      toast.success('Item removed from cart', {
-        description: 'The item has been removed from your cart.',
-      });
+      const updatedCart = await retrieveCart(itemToRemove.cartId);
+      setCart(updatedCart);
+      const checkoutData = await getCheckoutUrl(itemToRemove.cartId);
+      setCheckoutUrl(checkoutData.cart.checkoutUrl);
+
+      // toast.success('Item removed from cart', {
+      //   description: 'The item has been removed from your cart.',
+      // });
     } catch (error) {
       console.error('Error removing item:', error);
       toast.error('Failed to remove item', {
         description: 'Please try again later.',
       });
     } finally {
+      setIsRemoving(false);
       setIsModalOpen(false);
       setItemToRemove(null);
     }
@@ -166,7 +199,7 @@ function Cart() {
           <h1 className="lg:text-3xl text-sm michroma-regular text-center text-[#2C2C2C]">
             Your cart
           </h1>
-          <Link href="/">
+          <Link href="/parts-accessories">
             <button className="cursor-pointer text-white text-center rounded-full text-xs lg:text-sm font-bold bg-[#007934] lg:w-[253px] w-[130px] h-[30px] lg:h-[45px] hover:bg-[#005f27] transition-colors">
               Continue shopping
             </button>
@@ -200,8 +233,11 @@ function Cart() {
           </span>
         </div>
         <div className="text-gray-600 text-lg mb-6">
-          Taxes and <span className="underline">shipping</span> calculated at
-          checkout
+          Taxes and{' '}
+          <Link href="/shipping-policy" className="underline">
+            shipping
+          </Link>{' '}
+          calculated at checkout
         </div>
       </div>
       {checkoutUrl && (
@@ -218,15 +254,61 @@ function Cart() {
       <ConfirmationModal
         isOpen={isModalOpen}
         onClose={() => {
-          setIsModalOpen(false);
-          setItemToRemove(null);
+          if (!isRemoving) {
+            setIsModalOpen(false);
+            setItemToRemove(null);
+          }
         }}
         onConfirm={handleConfirmRemove}
         title="Remove Item"
         description="Are you sure you want to remove this item from your cart?"
+        isConfirming={isRemoving}
       />
     </>
   );
 }
 
-export default Cart;
+const CartLoader = () => {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F4F4F4]">
+      <div className="lg:w-[1440px] w-[95%] mx-auto">
+        {[...Array(3)].map((_, idx) => (
+          <div
+            key={idx}
+            className="lg:flex items-center justify-between mb-10 animate-pulse"
+          >
+            <div className="flex mt-14 gap-5 xl:w-[600px] items-center">
+              <div className="bg-gray-200 rounded-lg w-[140px] h-[140px]" />
+              <div className="space-y-3">
+                <div className="h-4 w-40 bg-gray-200 rounded mb-2" />
+                <div className="h-6 w-24 bg-gray-200 rounded" />
+              </div>
+            </div>
+            <div className="flex items-center gap-5 lg:gap-12 mt-8 lg:mt-0">
+              <div className="flex items-center justify-between p-1 w-[120px] h-[40px] border rounded-full border-[#2C2C2C] bg-gray-100">
+                <div className="h-6 w-6 bg-gray-200 rounded-full" />
+                <div className="h-4 w-6 bg-gray-200 rounded" />
+                <div className="h-6 w-6 bg-gray-200 rounded-full" />
+              </div>
+              <div className="bg-gray-200 rounded-full w-[30px] h-[30px] flex justify-center items-center" />
+              <div className="lg:hidden block">
+                <div className="h-6 w-16 bg-gray-200 rounded" />
+              </div>
+            </div>
+            <div className="lg:block hidden">
+              <div className="h-8 w-24 bg-gray-200 rounded" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default function Cart() {
+  return (
+    <Suspense fallback={<CartLoader />}>
+      <CartContent />
+    </Suspense>
+  );
+}
