@@ -34,13 +34,20 @@ function CartItem({ cartId, item, removeFromCart }: CartTypes) {
             <h1 className="text-[#000000] michroma-regular text-xs lg:text-sm lg:text-md">
               {item.node.merchandise.product?.title}
             </h1>
-            {item.node.merchandise.title &&
-              item.node.merchandise.title !== 'Default Title' && (
-                <div className="text-gray-600 text-xs lg:text-sm">
-                  Size: {item.node.merchandise.title}
-                </div>
-              )}
-            {/* Add more details here if needed, e.g., custom attributes */}
+            {item.node.merchandise.selectedOptions &&
+              item.node.merchandise.selectedOptions
+                .filter(
+                  (opt: any) =>
+                    !(opt.name === 'Title' && opt.value === 'Default Title'),
+                )
+                .map((opt: any) => (
+                  <div
+                    key={opt.name}
+                    className="text-gray-600 text-xs lg:text-sm"
+                  >
+                    {opt.name}: {opt.value}
+                  </div>
+                ))}
             <p className="text-[rgb(0,121,52)] font-bold text-sm lg:text-xl roboto-condensed">
               {unitPrice}$
             </p>

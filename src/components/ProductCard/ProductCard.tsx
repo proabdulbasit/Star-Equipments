@@ -40,7 +40,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </h1>
           <div className="flex items-end justify-between mt-auto">
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold text-[#007934]">${price}</span>
+              <span className="text-xl font-bold text-[#007934]">{price}</span>
               {compareAtPrice && (
                 <span className="text-sm text-gray-500 line-through">
                   {compareAtPrice}
