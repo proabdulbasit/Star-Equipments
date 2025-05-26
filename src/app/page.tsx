@@ -66,7 +66,8 @@ export default function Home() {
           Product Categories
         </motion.h1>
         <motion.div
-          className="mt-10 mx-auto flex items-center justify-between max-w-[1440px] mx-auto px-5 lg:px-12 mb-10"
+          className="mt-10 mx-auto grid grid-cols-2 gap-8 max-w-[1440px] px-5 lg:px-12 mb-10
+             md:flex md:items-center md:justify-between"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"

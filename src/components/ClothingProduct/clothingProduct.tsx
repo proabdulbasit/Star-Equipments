@@ -494,7 +494,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
           {products.map((product) => (
             <div
               key={product.node.id}
-              className="group w-full bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden relative"
+              className="group w-full bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden relative "
             >
               <Link
                 href={`/product-detail/${encodeURIComponent(product.node.id)}`}
@@ -525,7 +525,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
                 </div>
               </Link>
               <button
-                className="absolute bottom-6 right-6 bg-[#007934] hover:bg-[#005f27] text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#007934] z-10"
+                className="absolute bottom-3 right-6 bg-[#007934] hover:bg-[#005f27] text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#007934] z-10"
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
