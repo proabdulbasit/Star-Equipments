@@ -37,14 +37,19 @@ const HeroSection: React.FC<HeroPropsType> = ({ title, para, image }) => {
   ];
 
   return (
-    <div
-      className="relative w-full h-[60vh] min-h-[400px] flex items-center"
-      style={{
-        backgroundImage: `url(${slides[activeIndex].image})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
+    <div className="relative w-full h-[60vh] min-h-[400px] flex items-center">
+      {/* Smooth background image transition */}
+      <div
+        key={slides[activeIndex].image}
+        className="absolute inset-0 w-full h-full z-0 transition-opacity duration-700"
+        style={{
+          backgroundImage: `url(${slides[activeIndex].image})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 1,
+          transition: 'opacity 0.7s ease',
+        }}
+      />
       {/* Gradient overlay for left side */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#14532d] via-[#14532d]/90 to-transparent z-10 pointer-events-none" />
       <div className="relative z-20 w-full">
@@ -62,58 +67,56 @@ const HeroSection: React.FC<HeroPropsType> = ({ title, para, image }) => {
           >
             {slides.map((slide, index) => (
               <SwiperSlide key={slide.id}>
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, ease: 'easeOut' }}
-                  className="text-white text-left w-full md:w-1/2 roboto-condensed flex flex-col justify-center py-8 md:py-0"
-                >
+                <div className="text-white text-left w-full  roboto-condensed flex flex-col justify-center py-8 md:py-0">
                   <motion.h1
+                    key={`title-${activeIndex}`}
                     className="text-3xl md:text-5xl font-bold"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.6,
+                      ease: 'easeInOut',
+                      delay: 0.2,
+                    }}
                   >
                     {slide.title}
                   </motion.h1>
                   <motion.p
+                    key={`para-${activeIndex}`}
                     className="text-lg md:text-2xl mt-5"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: 'easeOut', delay: 0.15 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.6,
+                      ease: 'easeInOut',
+                      delay: 0.4,
+                    }}
                   >
                     {slide.para}
                   </motion.p>
-                </motion.div>
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
-          <motion.div
-            className="w-full flex justify-start mt-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
+          <div
+            className="w-full flex justify-start md:mt-6 mt-0"
             key={activeIndex + '-dots'}
           >
             {slides.map((slide, idx) => (
               <div
                 key={slide.title}
                 onClick={() => swiperRef.current?.slideTo(idx)}
-                className={`cursor-pointer mx-2 ${
+                className={`cursor-pointer mr-4 ${
                   idx === activeIndex ? 'text-[#048B3D]' : 'text-white'
                 }`}
               >
                 <FaDiamond size={20} />
               </div>
             ))}
-          </motion.div>
+          </div>
           {/* Action Buttons */}
-          <motion.div
+          <div
             className="mt-8 flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5, ease: 'easeOut' }}
             key={activeIndex + '-btns'}
           >
             <a
@@ -128,7 +131,7 @@ const HeroSection: React.FC<HeroPropsType> = ({ title, para, image }) => {
             >
               Contact Us
             </a>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
