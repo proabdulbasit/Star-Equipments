@@ -3,22 +3,53 @@ import Image from 'next/image';
 import { AiFillMinusCircle } from 'react-icons/ai';
 import { FaCirclePlus } from 'react-icons/fa6';
 import { CartTypes } from './type';
+import { updateCartItem, retrieveCart } from '@/utils/shopify';
+import { useCart } from '@/context/CartContext';
+import { toast } from 'sonner';
 
 function CartItem({ cartId, item, removeFromCart }: CartTypes) {
-  const [count, setCount] = useState(1);
+  const { setCart } = useCart();
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const handleIncrement = () => {
-    setCount((prev) => prev + 1);
+  const handleIncrement = async () => {
+    if (isUpdating) return;
+    setIsUpdating(true);
+    try {
+      await updateCartItem(cartId, item.node.id, item.node.quantity + 1);
+      const updatedCart = await retrieveCart(cartId);
+      setCart(updatedCart);
+    } catch (error) {
+      console.error('Error updating cart:', error);
+      toast.error('Failed to update quantity', {
+        description: 'Please try again later.',
+      });
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
-  const handleDecrement = () => {
-    setCount((prev) => (prev > 1 ? prev - 1 : 1));
+  const handleDecrement = async () => {
+    if (isUpdating || item.node.quantity <= 1) return;
+    setIsUpdating(true);
+    try {
+      await updateCartItem(cartId, item.node.id, item.node.quantity - 1);
+      const updatedCart = await retrieveCart(cartId);
+      setCart(updatedCart);
+    } catch (error) {
+      console.error('Error updating cart:', error);
+      toast.error('Failed to update quantity', {
+        description: 'Please try again later.',
+      });
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   const unitPrice = parseFloat(
     item.node.merchandise.product.priceRange.minVariantPrice.amount,
   );
-  const totalPrice = (unitPrice * count).toFixed(2);
+  const totalPrice = (unitPrice * item.node.quantity).toFixed(2);
+
   return (
     <div className="lg:mb-0 mb-20 border-b border-[#007934] pb-5 ">
       <div key={item.node.id} className="lg:flex items-center justify-between">
@@ -57,12 +88,14 @@ function CartItem({ cartId, item, removeFromCart }: CartTypes) {
           <div className="flex items-center justify-between p-1 w-[120px] h-[30px] lg:h-[40px] border rounded-full border-[#2C2C2C]">
             <AiFillMinusCircle
               onClick={handleDecrement}
-              className="text-[#007934] text-2xl lg:text-3xl cursor-pointer"
+              className={`text-[#007934] text-2xl lg:text-3xl cursor-pointer ${isUpdating || item.node.quantity <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
             />
-            <p className="text-gray-900 text-sm lg:text-xl">{count}</p>
+            <p className="text-gray-900 text-sm lg:text-xl">
+              {item.node.quantity}
+            </p>
             <FaCirclePlus
               onClick={handleIncrement}
-              className="text-[#007934] text-2xl lg:text-3xl cursor-pointer"
+              className={`text-[#007934] text-2xl lg:text-3xl cursor-pointer ${isUpdating ? 'opacity-50 cursor-not-allowed' : ''}`}
             />
           </div>
           <div

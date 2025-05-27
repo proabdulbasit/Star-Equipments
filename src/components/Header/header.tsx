@@ -1,27 +1,39 @@
 'use client';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Image from 'next/image';
 import NavLink from '@/data/navLinks.json';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { RxCross2 } from 'react-icons/rx';
 import { FiMenu } from 'react-icons/fi';
 import HeaderLink from '@/data/headerLinks.json';
 import { FiShoppingCart } from 'react-icons/fi';
 import { useCart } from '@/context/CartContext';
+import SearchBar from '@/components/SearchBar/SearchBar';
 
-function Header() {
+function HeaderContent() {
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(true);
   const toggleClose = () => setIsOpen(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { cart } = useCart();
+  const isHomePage = pathname === '/';
   const cartCount =
     cart?.lines?.edges?.reduce(
       (sum: any, item: { node: { quantity: any } }) =>
         sum + (item.node.quantity || 0),
       0,
     ) || 0;
+
+  const handleSearch = (query: string) => {
+    if (query.trim()) {
+      router.push(`/?q=${encodeURIComponent(query.trim())}`);
+    } else {
+      router.push('/');
+    }
+  };
 
   return (
     <>
@@ -46,7 +58,7 @@ function Header() {
                         href={item.url}
                         className={`lg:block hidden text-[14px] xl:text-[18px] ${
                           pathname === item.url
-                            ? 'text-[#007934] font-bold' // Active link styling
+                            ? 'text-[#007934] font-bold'
                             : 'text-[#000000] font-normal'
                         } hover:text-[#007934]`}
                       >
@@ -83,12 +95,22 @@ function Header() {
                   : 'loading'}
               </ul>
             </div>
-            <div className="flex items-center gap-7">
-              <Link href="/cart" className="cursor-pointer relative">
-                <FiShoppingCart className="text-2xl text-black" />
-                <span className="absolute -top-2 -right-2 bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartCount}
-                </span>
+            <div className="flex items-center space-x-4">
+              {isHomePage && (
+                <div className="relative group">
+                  <SearchBar
+                    className="w-64 transition-all duration-300 ease-in-out group-hover:w-72"
+                    onSearch={handleSearch}
+                  />
+                </div>
+              )}
+              <Link href="/cart" className="relative">
+                <FiShoppingCart className="w-6 h-6" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
             </div>
           </div>
@@ -98,10 +120,11 @@ function Header() {
           <span className="text-[16px] font-medium text-black">Your Cart</span>
           <Link href="/cart" className="relative">
             <FiShoppingCart className="text-2xl text-black" />
-
-            <span className="absolute -top-2 -right-2 bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-              {cartCount}
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </Link>
         </div>
       </div>
@@ -115,6 +138,11 @@ function Header() {
                 <RxCross2 className="text-[#048B3D] text-xl" />
               </button>
             </div>
+            {isHomePage && (
+              <div className="mb-4">
+                <SearchBar className="w-full" onSearch={handleSearch} />
+              </div>
+            )}
             <ul className="flex flex-col space-y-3 mb-4">
               {NavLink &&
                 NavLink.map((item) => (
@@ -152,9 +180,11 @@ function Header() {
                 onClick={toggleClose}
               >
                 <FiShoppingCart className="text-2xl" /> Cart
-                <span className="bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-1">
-                  {cartCount}
-                </span>
+                {cartCount > 0 && (
+                  <span className="bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-1">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
             </div>
           </div>
@@ -163,4 +193,11 @@ function Header() {
     </>
   );
 }
-export default Header;
+
+export default function Header() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HeaderContent />
+    </Suspense>
+  );
+}

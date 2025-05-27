@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { getDiscountedProducts, getProducts } from '@/utils/shopify';
 import { DiscountedProduct, Product } from '@/utils/type';
-import { addToCart, updateCart, retrieveCart } from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
 import ProductCard from '@/components/ProductCard';
 import Image from 'next/image';
@@ -14,7 +13,8 @@ export default function DiscountProduct() {
   const [fallbackProducts, setFallbackProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { cart, setCart } = useCart();
+  const { addToCart } = useCart();
+  const [isAdding, setIsAdding] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     async function fetchDiscountedProducts() {
@@ -41,39 +41,24 @@ export default function DiscountProduct() {
   }, []);
 
   const handleAddToCart = async (variantId: string) => {
-    let cartId: any = sessionStorage.getItem('cartId');
-
-    if (cart?.lines?.edges) {
-      const existingItem = cart.lines.edges.find(
-        (edge: CartLineEdge) => edge.node.merchandise.id === variantId,
-      );
-
-      if (existingItem) {
-        toast.error('Item already in cart', {
-          description: 'This item is already in your cart.',
-        });
-        return;
-      }
+    console.log('handleAddToCart called with variantId:', variantId);
+    if (!variantId) {
+      console.log('No variant ID available');
+      toast.error('Product variant not available');
+      return;
     }
 
+    setIsAdding((prev) => ({ ...prev, [variantId]: true }));
     try {
-      if (cartId) {
-        await updateCart(cartId, variantId, 1);
-      } else {
-        const data: any = await addToCart(variantId, 1);
-        cartId = data.cartCreate.cart.id;
-        sessionStorage.setItem('cartId', cartId);
-      }
-      const updatedCart = await retrieveCart(cartId);
-      setCart(updatedCart);
-      toast.success('Item added to cart!', {
-        description: 'Your item has been added to your cart.',
-      });
-    } catch (err) {
-      console.error('Error adding to cart:', err);
-      toast.error('Failed to add item to cart', {
-        description: 'Please try again later.',
-      });
+      console.log('Attempting to add to cart...');
+      await addToCart(variantId, 1);
+      console.log('Successfully added to cart');
+      toast.success('Added to cart successfully');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('Failed to add item to cart');
+    } finally {
+      setIsAdding((prev) => ({ ...prev, [variantId]: false }));
     }
   };
 
@@ -139,6 +124,7 @@ export default function DiscountProduct() {
               discount={'Discount'}
               compareAtPrice={product.compareAtPrice}
               onAddToCart={() => handleAddToCart(product.variantId)}
+              isLoading={isAdding[product.variantId]}
             />
           ))}
         {showFallback &&
@@ -154,6 +140,7 @@ export default function DiscountProduct() {
               onAddToCart={() =>
                 handleAddToCart(product.variants.edges[0]?.node.id)
               }
+              isLoading={isAdding[product.variants.edges[0]?.node.id]}
             />
           ))}
         {!loading && products.length === 0 && fallbackProducts.length === 0 && (

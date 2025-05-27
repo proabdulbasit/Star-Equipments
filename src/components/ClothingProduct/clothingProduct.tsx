@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import Image from 'next/image';
 import { FaAngleRight, FaAngleLeft } from 'react-icons/fa6';
 import Link from 'next/link';
 import { FaCirclePlus } from 'react-icons/fa6';
-import { addToCart, updateCart, retrieveCart } from '@/utils/shopify';
+import { updateCart, retrieveCart } from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
 import { Product } from '@/utils/type';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -13,6 +13,7 @@ import React from 'react';
 import { toast } from 'sonner';
 import { Dialog } from '@headlessui/react';
 import { IoClose } from 'react-icons/io5';
+import { ImSpinner8 } from 'react-icons/im';
 
 const sortOptions = [
   { value: 'RELEVANCE', label: 'Featured', reverse: false, id: 'relevance' },
@@ -67,6 +68,31 @@ interface ClothingProductProps {
   collectionId: string;
 }
 
+const ProductGridLoader = () => {
+  return (
+    <div className="py-12 lg:px-10 xl:w-[1440px] mx-auto bg-[#F4F4F4] pt-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:grid-cols-4 gap-10">
+      {[...Array(8)].map((_, idx) => (
+        <div
+          key={idx}
+          className="group w-full bg-white rounded-2xl shadow-md flex flex-col overflow-hidden relative animate-pulse"
+        >
+          <div className="relative w-full aspect-[4/3] bg-gray-200" />
+          <div className="flex-1 flex flex-col justify-between p-4">
+            <div className="space-y-3">
+              <div className="h-4 w-3/4 bg-gray-200 rounded mb-2" />
+              <div className="h-4 w-1/2 bg-gray-200 rounded" />
+            </div>
+            <div className="flex items-end justify-between mt-auto">
+              <div className="h-6 w-24 bg-gray-200 rounded" />
+              <div className="h-10 w-10 bg-gray-200 rounded-full" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const Clothing: React.FC<ClothingProductProps> = ({
   products,
   pageInfo,
@@ -94,8 +120,9 @@ const Clothing: React.FC<ClothingProductProps> = ({
   const [selectedSortId, setSelectedSortId] = useState(
     initialSortOption?.id || 'relevance',
   );
-  const { cart, setCart } = useCart();
+  const { cart, setCart, addToCart } = useCart();
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [isAdding, setIsAdding] = useState<Record<string, boolean>>({});
 
   // Get min/max price
   const prices = products
@@ -152,19 +179,25 @@ const Clothing: React.FC<ClothingProductProps> = ({
   };
 
   const handleQuickAddToCart = async (variantId: string) => {
-    let cartId: any = sessionStorage.getItem('cartId');
-    if (cartId) {
-      await updateCart(cartId, variantId, 1);
-    } else {
-      const data: any = await addToCart(variantId, 1);
-      cartId = data.cartCreate.cart.id;
-      sessionStorage.setItem('cartId', cartId);
+    console.log('handleQuickAddToCart called with variantId:', variantId);
+    if (!variantId) {
+      console.log('No variant ID available');
+      toast.error('Product variant not available');
+      return;
     }
-    const updatedCart = await retrieveCart(cartId);
-    setCart(updatedCart);
-    toast.success('Item added to cart!', {
-      description: 'Your item has been added to your cart.',
-    });
+
+    setIsAdding((prev) => ({ ...prev, [variantId]: true }));
+    try {
+      console.log('Attempting to add to cart...');
+      await addToCart(variantId, 1);
+      console.log('Successfully added to cart');
+      toast.success('Added to cart successfully');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('Failed to add item to cart');
+    } finally {
+      setIsAdding((prev) => ({ ...prev, [variantId]: false }));
+    }
   };
 
   const handlePageChange = (newPage: number) => {
@@ -396,7 +429,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
                 products
               </div>
               {/* Price Filter */}
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Price
                 </label>
@@ -420,7 +453,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
                     placeholder={`To $${maxPrice.toFixed(2)}`}
                   />
                 </div>
-              </div>
+              </div> */}
               {/* Sort Dropdown */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -490,55 +523,64 @@ const Clothing: React.FC<ClothingProductProps> = ({
           </div>
         </Dialog>
 
-        <div className="py-12 lg:px-10  xl:w-[1440px] mx-auto bg-[#F4F4F4] pt-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:grid-cols-4 gap-10">
-          {products.map((product) => (
-            <div
-              key={product.node.id}
-              className="group w-full bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden relative "
-            >
-              <Link
-                href={`/product-detail/${encodeURIComponent(product.node.id)}`}
-                className="block flex-1"
-                tabIndex={-1}
+        <Suspense fallback={<ProductGridLoader />}>
+          <div className="py-12 lg:px-10 xl:w-[1440px] mx-auto bg-[#F4F4F4] pt-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:grid-cols-4 gap-10">
+            {products.map((product) => (
+              <div
+                key={product.node.id}
+                className="group w-full bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden relative"
               >
-                <div className="relative w-full aspect-[4/3] bg-gray-100 flex items-center justify-center overflow-hidden">
-                  <Image
-                    src={
-                      product.node.featuredImage?.url ??
-                      '/placeholder-image.jpg'
-                    }
-                    alt={product.node.title}
-                    fill
-                    className="object-contain transition-transform duration-300 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-                <div className="flex-1 flex flex-col justify-between p-4">
-                  <h1 className="roboto-condensed font-semibold text-base text-black mb-2 line-clamp-2 min-h-[48px] group-hover:underline group-hover:text-[#007934]">
-                    {product.node.title}
-                  </h1>
-                  <div className="flex items-end justify-between mt-auto">
-                    <span className="text-xl font-bold text-[#007934]">
-                      ${product.node.priceRange.minVariantPrice.amount}
-                    </span>
+                <Link
+                  href={`/product-detail/${encodeURIComponent(product.node.id)}`}
+                  className="block flex-1"
+                  tabIndex={-1}
+                >
+                  <div className="relative w-full aspect-[4/3] bg-gray-100 flex items-center justify-center overflow-hidden">
+                    <Image
+                      src={
+                        product.node.featuredImage?.url ??
+                        '/placeholder-image.jpg'
+                      }
+                      alt={product.node.title}
+                      fill
+                      className="object-contain transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
                   </div>
-                </div>
-              </Link>
-              <button
-                className="absolute bottom-3 right-6 bg-[#007934] hover:bg-[#005f27] text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#007934] z-10"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  handleQuickAddToCart(product.node.variants.edges[0].node.id);
-                }}
-                aria-label="Add to cart"
-                type="button"
-              >
-                <FaCirclePlus className="text-2xl" />
-              </button>
-            </div>
-          ))}
-        </div>
+                  <div className="flex-1 flex flex-col justify-between p-4">
+                    <h1 className="roboto-condensed font-semibold text-base text-black mb-2 line-clamp-2 min-h-[48px] group-hover:underline group-hover:text-[#007934]">
+                      {product.node.title}
+                    </h1>
+                    <div className="flex items-end justify-between mt-auto">
+                      <span className="text-xl font-bold text-[#007934]">
+                        ${product.node.priceRange.minVariantPrice.amount}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+                <button
+                  className="absolute bottom-3 right-6 bg-[#007934] hover:bg-[#005f27] text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#007934] z-10"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    handleQuickAddToCart(
+                      product.node.variants.edges[0].node.id,
+                    );
+                  }}
+                  aria-label="Add to cart"
+                  type="button"
+                  disabled={isAdding[product.node.variants.edges[0].node.id]}
+                >
+                  {isAdding[product.node.variants.edges[0].node.id] ? (
+                    <ImSpinner8 className="text-2xl animate-spin" />
+                  ) : (
+                    <FaCirclePlus className="text-2xl" />
+                  )}
+                </button>
+              </div>
+            ))}
+          </div>
+        </Suspense>
 
         <div className="flex justify-center xl:w-[1440px] mx-auto bg-[#F4F4F4] items-center pb-5 space-x-4">
           <button

@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import {
-  addToCart,
   updateCart,
   retrieveCart,
   getProductRecommendations,
@@ -18,7 +17,7 @@ import { FaGooglePay } from 'react-icons/fa6';
 function ProductDetail({ product }: ProductDetailProps) {
   const [count, setCount] = useState(0);
   const [checkout, setCheckout] = useState(false);
-  const { cart, setCart } = useCart();
+  const { cart, setCart, addToCart } = useCart();
   const [isAdding, setIsAdding] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [recommended, setRecommended] = useState<any[]>([]);
@@ -91,37 +90,24 @@ function ProductDetail({ product }: ProductDetailProps) {
   }
 
   const handleAddToCart = async () => {
-    if (isAdding) return;
-    setIsAdding(true);
-    let cartId: any = sessionStorage.getItem('cartId');
-    const variantId = selectedVariantId;
+    if (!selectedVariantId) {
+      toast.error('Please select a variant');
+      return;
+    }
 
-    if (count > 0 && variantId) {
-      try {
-        if (cartId) {
-          await updateCart(cartId, variantId, count);
-        } else {
-          const data: any = await addToCart(variantId, count);
-          cartId = data.cartCreate.cart.id;
-          sessionStorage.setItem('cartId', cartId);
-        }
-        const updatedCart = await retrieveCart(cartId);
-        setCart(updatedCart);
-        toast.success('Item added to cart!', {
-          description: `${product.title} has been added to your cart.`,
-        });
-      } catch (error) {
-        console.error('Error adding to cart:', error);
-        toast.error('Failed to add item to cart', {
-          description: 'Please try again later.',
-        });
-      } finally {
-        setIsAdding(false);
-      }
-    } else {
-      toast.error('Please select a quantity.', {
-        description: 'You must add at least one item.',
-      });
+    if (count <= 0) {
+      toast.error('Please select a quantity');
+      return;
+    }
+
+    setIsAdding(true);
+    try {
+      await addToCart(selectedVariantId, count);
+      setCount(0); // Reset quantity after successful add
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('Failed to add item to cart');
+    } finally {
       setIsAdding(false);
     }
   };

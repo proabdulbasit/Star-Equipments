@@ -8,6 +8,7 @@ interface ConfirmationModalProps {
   onConfirm: () => void;
   title: string;
   description: string;
+  isConfirming?: boolean;
 }
 
 export default function ConfirmationModal({
@@ -16,10 +17,15 @@ export default function ConfirmationModal({
   onConfirm,
   title,
   description,
+  isConfirming,
 }: ConfirmationModalProps) {
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+      <Dialog
+        as="div"
+        className="relative z-50"
+        onClose={isConfirming ? () => {} : onClose}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -65,17 +71,19 @@ export default function ConfirmationModal({
                 <div className="mt-6 flex justify-center gap-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center rounded-full border border-transparent bg-gray-100 px-6 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
+                    className="inline-flex justify-center rounded-full border border-transparent bg-gray-100 px-6 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={onClose}
+                    disabled={isConfirming}
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
-                    className="inline-flex justify-center rounded-full border border-transparent bg-[#007934] px-6 py-2 text-sm font-medium text-white hover:bg-[#005f27] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#007934] focus-visible:ring-offset-2"
+                    className="inline-flex justify-center rounded-full border border-transparent bg-[#007934] px-6 py-2 text-sm font-medium text-white hover:bg-[#005f27] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#007934] focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={onConfirm}
+                    disabled={isConfirming}
                   >
-                    Confirm
+                    {isConfirming ? 'Removing...' : 'Confirm'}
                   </button>
                 </div>
               </Dialog.Panel>

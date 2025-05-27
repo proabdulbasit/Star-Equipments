@@ -69,7 +69,7 @@ function Gallery() {
               </h1>
             </div>
             <a
-              href="/parts"
+              href="/parts-accessories"
               className="flex items-center justify-center gap-2 px-8 py-3 bg-[#048B3D] text-white rounded-full font-semibold shadow-lg hover:bg-[#02682e] transition text-lg mt-4 md:mt-0 text-center w-full md:w-auto"
               style={{ boxShadow: '0 4px 16px 0 rgba(0,0,0,0.10)' }}
             >
