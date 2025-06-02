@@ -30,7 +30,7 @@ function ContactUs() {
             </h2>
             <div className="flex items-center gap-4 mb-6">
               <MdOutlineMail className="text-2xl text-[#007934]" />
-              <span className="text-[#2C2C2C] text-lg">info@example.com</span>
+              <span className="text-[#2C2C2C] text-lg">lisab@jttr.net</span>
             </div>
             <div className="flex items-center gap-4 mb-6">
               <MdOutlinePhoneInTalk className="text-2xl text-[#007934]" />
