@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import type { Product } from '@/utils/type';
 import ProductCard from '@/components/ProductCard';
-import { FiSearch } from 'react-icons/fi';
+import { FiSearch, FiArrowLeft } from 'react-icons/fi';
 import { searchProducts } from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
 import { toast } from 'sonner';
@@ -38,6 +38,7 @@ function SearchContent() {
   const [isLoading, setIsLoading] = useState(true);
   const { addToCart } = useCart();
   const [isAdding, setIsAdding] = useState<Record<string, boolean>>({});
+  const router = useRouter();
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -97,6 +98,15 @@ function SearchContent() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Back button */}
+      <button
+        className="mb-4 flex items-center gap-2 text-gray-600 hover:text-[#007934] font-medium"
+        onClick={() => router.back()}
+        aria-label="Back"
+      >
+        <FiArrowLeft className="text-xl" />
+        Back
+      </button>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Search Results for `{query}`

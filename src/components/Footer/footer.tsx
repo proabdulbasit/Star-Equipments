@@ -45,11 +45,11 @@ function Footer() {
             </div>
           </div>
           <div className="xl:mt-0 my-5">
-            <h1 className="text-[#007934] mb-5 font-bold  lg:text-[24px]  text-[20px]">
+            <h1 className="text-[#007934] mb-5 font-bold text-center lg:text-[24px]  text-[20px]">
               Payment Options{' '}
             </h1>
             <Image
-              src="/assets/Header/icons.svg"
+              src="/images/payment-card-logos.jpg"
               alt="icons"
               width={204}
               height={200}

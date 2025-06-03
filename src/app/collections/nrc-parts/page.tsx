@@ -76,7 +76,7 @@ export default async function NRCCategoriesPage() {
             </Link>
             <span>/</span>
             <Link
-              href="/parts-accessories"
+              href="/collections"
               className="hover:text-[#007934] transition-colors"
             >
               Collections

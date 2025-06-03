@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
 
 interface VehicleImageGalleryProps {
   images: string[];
@@ -30,17 +30,27 @@ const VehicleImageGallery = ({ images, title }: VehicleImageGalleryProps) => {
   return (
     <>
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fadeInUp">
-          <button
-            onClick={closeModal}
-            className="absolute top-6 right-10 text-white text-xl font-bold z-50"
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fadeInUp"
+          onClick={closeModal}
+        >
+          <div
+            className="relative w-full max-w-3xl flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
           >
-            &times;
-          </button>
-          <div className="relative w-full max-w-3xl flex items-center justify-center">
+            <button
+              onClick={closeModal}
+              className="absolute top-5 right-4 bg-black/60 hover:bg-green-600 text-white rounded-full p-3 transition z-50"
+              aria-label="Close modal"
+            >
+              <FaTimes size={16} />
+            </button>
             <button
               className="absolute left-2 top-1/2 -translate-y-1/2 z-50 bg-black/60 hover:bg-green-600 text-white rounded-full p-3 transition"
-              onClick={() => swiperRef.current?.slidePrev()}
+              onClick={(e) => {
+                e.stopPropagation();
+                swiperRef.current?.slidePrev();
+              }}
               aria-label="Previous image"
               type="button"
             >
@@ -48,7 +58,10 @@ const VehicleImageGallery = ({ images, title }: VehicleImageGalleryProps) => {
             </button>
             <button
               className="absolute right-2 top-1/2 -translate-y-1/2 z-50 bg-black/60 hover:bg-green-600 text-white rounded-full p-3 transition"
-              onClick={() => swiperRef.current?.slideNext()}
+              onClick={(e) => {
+                e.stopPropagation();
+                swiperRef.current?.slideNext();
+              }}
               aria-label="Next image"
               type="button"
             >

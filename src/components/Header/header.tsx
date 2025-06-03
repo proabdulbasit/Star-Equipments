@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect } from 'react';
 import Image from 'next/image';
 import NavLink from '@/data/navLinks.json';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -10,6 +10,8 @@ import HeaderLink from '@/data/headerLinks.json';
 import { FiShoppingCart } from 'react-icons/fi';
 import { useCart } from '@/context/CartContext';
 import SearchBar from '@/components/SearchBar/SearchBar';
+import { FiSearch, FiX } from 'react-icons/fi';
+import { FiArrowLeft } from 'react-icons/fi';
 
 function HeaderContent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,11 +29,24 @@ function HeaderContent() {
       0,
     ) || 0;
 
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    // When the route or search params change, stop loading
+    setIsSearching(false);
+  }, [pathname, searchParams]);
+
   const handleSearch = (query: string) => {
     if (query.trim()) {
+      setIsSearching(true);
       router.push(`/?q=${encodeURIComponent(query.trim())}`);
     } else {
-      router.push('/');
+      // Remove 'q' param from URL (or set to empty)
+      const url = new URL(window.location.href);
+      url.searchParams.delete('q');
+      setIsSearching(false);
+      router.push(url.pathname + (url.search ? url.search : ''));
     }
   };
 
@@ -96,14 +111,13 @@ function HeaderContent() {
               </ul>
             </div>
             <div className="flex items-center space-x-4">
-              {isHomePage && (
-                <div className="relative group">
-                  <SearchBar
-                    className="w-64 transition-all duration-300 ease-in-out group-hover:w-72"
-                    onSearch={handleSearch}
-                  />
-                </div>
-              )}
+              <div className="relative group">
+                <SearchBar
+                  className="w-64 transition-all duration-300 ease-in-out group-hover:w-72"
+                  onSearch={handleSearch}
+                />
+              </div>
+
               <Link href="/cart" className="relative">
                 <FiShoppingCart className="w-6 h-6" />
                 {cartCount > 0 && (
@@ -127,6 +141,30 @@ function HeaderContent() {
             )}
           </Link>
         </div>
+        {/* On mobile, show animatic search bar below the cart bar */}
+        <div className="lg:hidden">
+          {!showMobileSearch ? (
+            <button
+              className="fixed top-[130px] right-4 z-50 rounded-full bg-white shadow w-14 h-14 flex items-center justify-center"
+              onClick={() => setShowMobileSearch(true)}
+              aria-label="Open search"
+              style={{ boxShadow: '0 4px 32px 0 rgba(0,0,0,0.18)' }}
+            >
+              <FiSearch className="text-2xl text-gray-400" />
+            </button>
+          ) : (
+            <div className="fixed top-[130px] right-4 z-50 w-[90vw] max-w-xs bg-white rounded-xl shadow-2xl flex items-center px-4 py-2 transition-all duration-300">
+              <SearchBar className="w-full" onSearch={handleSearch} />
+              <button
+                className="ml-2"
+                onClick={() => setShowMobileSearch(false)}
+                aria-label="Close search"
+              >
+                <FiX className="text-2xl text-gray-500" />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       {/* Mobile Hamburger Menu Dropdown */}
       {isOpen && (
@@ -138,11 +176,6 @@ function HeaderContent() {
                 <RxCross2 className="text-[#048B3D] text-xl" />
               </button>
             </div>
-            {isHomePage && (
-              <div className="mb-4">
-                <SearchBar className="w-full" onSearch={handleSearch} />
-              </div>
-            )}
             <ul className="flex flex-col space-y-3 mb-4">
               {NavLink &&
                 NavLink.map((item) => (
@@ -188,6 +221,12 @@ function HeaderContent() {
               </Link>
             </div>
           </div>
+        </div>
+      )}
+      {/* Global search loading spinner overlay */}
+      {isSearching && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/80">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#007934]"></div>
         </div>
       )}
     </>

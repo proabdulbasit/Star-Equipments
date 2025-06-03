@@ -11,20 +11,24 @@ const VehicleCard = ({ vehicle }: any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const totalSlides = vehicle.images.length;
 
-  const handlePrev = () => {
+  const handlePrev = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (swiperRef.current) {
       swiperRef.current.slidePrev();
     }
   };
 
-  const handleNext = () => {
+  const handleNext = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (swiperRef.current) {
       swiperRef.current.slideNext();
     }
   };
 
   return (
-    <div className="bg-white border border-[#e6f2ed] rounded-2xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 overflow-hidden flex flex-col group cursor-pointer">
+    <div className="bg-white border border-[#e6f2ed] rounded-2xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 overflow-hidden flex flex-col group">
       <div className="relative w-full h-56 bg-gray-100">
         <Swiper
           modules={[Pagination]}
@@ -54,7 +58,7 @@ const VehicleCard = ({ vehicle }: any) => {
         {currentIndex > 0 && (
           <button
             onClick={handlePrev}
-            className="absolute left-2 top-1/2 z-20 -translate-y-1/2 bg-white/90 text-black rounded-full w-8 h-8 flex items-center justify-center shadow border border-gray-200"
+            className="absolute left-2 top-1/2 z-20 -translate-y-1/2 bg-white/90 text-black rounded-full w-8 h-8 flex items-center justify-center shadow border border-gray-200 hover:bg-white transition-colors"
             tabIndex={0}
             aria-label="Previous image"
           >
@@ -72,7 +76,7 @@ const VehicleCard = ({ vehicle }: any) => {
         {currentIndex < totalSlides - 1 && (
           <button
             onClick={handleNext}
-            className="absolute right-2 top-1/2 z-20 -translate-y-1/2 bg-white/90 text-black rounded-full w-8 h-8 flex items-center justify-center shadow border border-gray-200"
+            className="absolute right-2 top-1/2 z-20 -translate-y-1/2 bg-white/90 text-black rounded-full w-8 h-8 flex items-center justify-center shadow border border-gray-200 hover:bg-white transition-colors"
             tabIndex={0}
             aria-label="Next image"
           >
@@ -95,16 +99,20 @@ const VehicleCard = ({ vehicle }: any) => {
           </span>
         )}
       </div>
-      <div className="p-5 flex flex-col flex-1">
-        <h2 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-green-700 transition">
-          {vehicle.title}
-        </h2>
-        <div className="text-green-700 font-semibold text-xl mb-3">
-          {vehicle.price}
+      <Link href={`/inventory/${vehicle.slug}`} className="flex-1">
+        <div className="p-5 flex flex-col flex-1 cursor-pointer">
+          <h2 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-green-700 transition">
+            {vehicle.title}
+          </h2>
+          <div className="text-green-700 font-semibold text-xl mb-3">
+            {vehicle.price}
+          </div>
         </div>
+      </Link>
+      <div className="px-5 pb-5">
         <Link
           href={`/inventory/${vehicle.slug}`}
-          className="mt-auto bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 text-white text-center rounded-lg py-2 px-4 font-semibold transition shadow"
+          className="w-full bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 text-white text-center rounded-lg py-2 px-4 font-semibold transition shadow block"
         >
           More Info & Photos
         </Link>

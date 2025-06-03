@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   updateCart,
   retrieveCart,
@@ -13,8 +14,11 @@ import { toast } from 'sonner';
 import ProductCard from '@/components/ProductCard';
 import { SiShopify } from 'react-icons/si';
 import { FaGooglePay } from 'react-icons/fa6';
+import { IoArrowBack } from 'react-icons/io5';
+import { FaTimes } from 'react-icons/fa';
 
 function ProductDetail({ product }: ProductDetailProps) {
+  const router = useRouter();
   const [count, setCount] = useState(0);
   const [checkout, setCheckout] = useState(false);
   const { cart, setCart, addToCart } = useCart();
@@ -37,6 +41,8 @@ function ProductDetail({ product }: ProductDetailProps) {
     const optionMap: Record<string, Set<string>> = {};
     product.variants.edges.forEach(({ node }) => {
       node.selectedOptions?.forEach((opt) => {
+        if (opt.name === 'Title' && opt.value === 'Default Title') return;
+
         if (!optionMap[opt.name]) optionMap[opt.name] = new Set();
         optionMap[opt.name].add(opt.value);
       });
@@ -46,6 +52,8 @@ function ProductDetail({ product }: ProductDetailProps) {
       values: Array.from(values),
     }));
   }
+
+  options = options.filter((option) => option.values.length > 0);
 
   // State for selected options
   const initialOptions = options.reduce(
@@ -84,6 +92,10 @@ function ProductDetail({ product }: ProductDetailProps) {
     }
     fetchRecommendations();
   }, [product?.id]);
+
+  const handleBack = () => {
+    router.back();
+  };
 
   if (!product) {
     return <div>Loading product details...</div>;
@@ -156,8 +168,21 @@ function ProductDetail({ product }: ProductDetailProps) {
   };
 
   return (
-    <>
-      <div className="flex flex-col lg:flex-row mb-10 mt-24 w-[90%] lg:w-[1400px] mx-auto bg-white rounded-lg p-2 gap-10">
+    <div className="w-full">
+      {/* Back Button and Title Section */}
+      <div className="w-[90%] lg:w-[1400px] mx-auto mt-12 mb-6">
+        <button
+          onClick={handleBack}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          aria-label="Go back"
+        >
+          <IoArrowBack className="w-5 h-5" />
+          <span className="text-sm font-medium">Back</span>
+        </button>
+      </div>
+
+      {/* Main Product Content */}
+      <div className="flex flex-col lg:flex-row mb-10 w-[90%] lg:w-[1400px] mx-auto bg-white rounded-lg p-2 gap-10">
         {/* Left: Product Image */}
         <div className="flex flex-col items-center">
           <div
@@ -169,6 +194,7 @@ function ProductDetail({ product }: ProductDetailProps) {
               alt={product.featuredImage?.altText || product.title}
               width={600}
               height={600}
+              sizes="(max-width: 768px) 300px, 600px"
               className="object-contain rounded-md"
             />
           </div>
@@ -186,6 +212,7 @@ function ProductDetail({ product }: ProductDetailProps) {
                     alt={product.title}
                     width={60}
                     height={60}
+                    sizes="(max-width: 768px) 40px, 60px"
                     className="object-contain rounded"
                   />
                 </button>
@@ -406,21 +433,29 @@ function ProductDetail({ product }: ProductDetailProps) {
       </div>
       {/* Carousel Modal */}
       {isCarouselOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-          <div className="relative bg-white rounded-lg p-4 max-w-2xl w-full flex flex-col items-center">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+          onClick={() => setIsCarouselOpen(false)}
+        >
+          <div
+            className="relative rounded-lg p-4 w-fit bg-white border border-white flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
-              className="absolute top-2 right-2 text-2xl"
+              className="absolute top-5 right-4 bg-black/60 hover:bg-green-600 text-white rounded-full p-3 transition z-50"
               onClick={() => setIsCarouselOpen(false)}
+              aria-label="Close modal"
             >
-              &times;
+              <FaTimes size={16} />
             </button>
             <div className="flex items-center">
               <button
-                onClick={() =>
+                onClick={(e) => {
+                  e.stopPropagation();
                   setSelectedIndex(
                     (selectedIndex - 1 + images.length) % images.length,
-                  )
-                }
+                  );
+                }}
                 className="text-3xl px-4"
               >
                 &#8592;
@@ -428,14 +463,16 @@ function ProductDetail({ product }: ProductDetailProps) {
               <Image
                 src={selectedImage}
                 alt={product.featuredImage?.altText || product.title}
-                width={600}
-                height={600}
+                width={800}
+                height={800}
+                sizes="(max-width: 768px) 250px, 800px"
                 className="object-contain rounded"
               />
               <button
-                onClick={() =>
-                  setSelectedIndex((selectedIndex + 1) % images.length)
-                }
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedIndex((selectedIndex + 1) % images.length);
+                }}
                 className="text-3xl px-4"
               >
                 &#8594;
@@ -444,7 +481,7 @@ function ProductDetail({ product }: ProductDetailProps) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
