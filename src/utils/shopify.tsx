@@ -539,16 +539,6 @@ export async function getAllCollections(): Promise<Collection[]> {
       }),
     );
 
-    // Log the collections with their counts for debugging
-    console.log(
-      'Collections with product counts:',
-      collections.map((c) => ({
-        title: c.title,
-        handle: c.handle,
-        productsCount: c.productsCount,
-      })),
-    );
-
     return collections;
   } catch (error) {
     console.error('Error fetching collections:', error);
@@ -1266,5 +1256,31 @@ export async function searchProducts(
         totalProducts: 0,
       },
     };
+  }
+}
+
+export async function getAllProductTitles(): Promise<
+  { title: string; handle: string }[]
+> {
+  const query = gql`
+    {
+      products(first: 250) {
+        edges {
+          node {
+            title
+            handle
+          }
+        }
+      }
+    }
+  `;
+  try {
+    const response = await graphQLClient.request<{
+      products: { edges: { node: { title: string; handle: string } }[] };
+    }>(query);
+    return response.products.edges.map((edge) => edge.node);
+  } catch (error) {
+    console.error('Error fetching product titles:', error);
+    return [];
   }
 }

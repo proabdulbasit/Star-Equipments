@@ -1,20 +1,20 @@
 'use client';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import {
-  updateCart,
-  retrieveCart,
-  getProductRecommendations,
-  getCheckoutUrl,
-} from '@/utils/shopify';
+import { useRouter } from 'next/navigation';
+import { getProductRecommendations } from '@/utils/shopify';
 import { useCart } from '@/context/CartContext';
 import { ProductDetailProps } from './type';
 import { toast } from 'sonner';
 import ProductCard from '@/components/ProductCard';
 import { SiShopify } from 'react-icons/si';
 import { FaGooglePay } from 'react-icons/fa6';
+import { IoArrowBack } from 'react-icons/io5';
+import { FaTimes } from 'react-icons/fa';
+import Cookies from 'js-cookie';
 
 function ProductDetail({ product }: ProductDetailProps) {
+  const router = useRouter();
   const [count, setCount] = useState(0);
   const [checkout, setCheckout] = useState(false);
   const { cart, setCart, addToCart } = useCart();
@@ -29,6 +29,19 @@ function ProductDetail({ product }: ProductDetailProps) {
   const selectedImage = images[selectedIndex];
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
 
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isCarouselOpen) {
+        setIsCarouselOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscKey);
+    return () => {
+      window.removeEventListener('keydown', handleEscKey);
+    };
+  }, [isCarouselOpen]);
+
   // Extract all unique options and their values from variants if product.options is missing
   let options: { name: string; values: string[] }[] = [];
   if (product.options && product.options.length > 0) {
@@ -37,6 +50,8 @@ function ProductDetail({ product }: ProductDetailProps) {
     const optionMap: Record<string, Set<string>> = {};
     product.variants.edges.forEach(({ node }) => {
       node.selectedOptions?.forEach((opt) => {
+        if (opt.name === 'Title' && opt.value === 'Default Title') return;
+
         if (!optionMap[opt.name]) optionMap[opt.name] = new Set();
         optionMap[opt.name].add(opt.value);
       });
@@ -46,6 +61,8 @@ function ProductDetail({ product }: ProductDetailProps) {
       values: Array.from(values),
     }));
   }
+
+  options = options.filter((option) => option.values.length > 0);
 
   // State for selected options
   const initialOptions = options.reduce(
@@ -60,6 +77,12 @@ function ProductDetail({ product }: ProductDetailProps) {
 
   // Find the variant that matches the selected options
   const getSelectedVariantId = () => {
+    // If no options exist, return the first variant ID
+    if (!options.length) {
+      return product.variants.edges[0]?.node.id;
+    }
+
+    // For products with options, find the matching variant
     const variant = product.variants.edges.find(({ node }) =>
       node.selectedOptions?.every(
         (opt) => selectedOptions[opt.name] === opt.value,
@@ -85,12 +108,17 @@ function ProductDetail({ product }: ProductDetailProps) {
     fetchRecommendations();
   }, [product?.id]);
 
+  const handleBack = () => {
+    router.back();
+  };
+
   if (!product) {
     return <div>Loading product details...</div>;
   }
 
   const handleAddToCart = async () => {
-    if (!selectedVariantId) {
+    // Only check for variant selection if the product has options
+    if (options.length > 0 && !selectedVariantId) {
       toast.error('Please select a variant');
       return;
     }
@@ -102,7 +130,11 @@ function ProductDetail({ product }: ProductDetailProps) {
 
     setIsAdding(true);
     try {
-      await addToCart(selectedVariantId, count);
+      const variantIdToUse = selectedVariantId;
+      if (!variantIdToUse) {
+        throw new Error('No variant available');
+      }
+      await addToCart(variantIdToUse, count);
       setCount(0); // Reset quantity after successful add
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -115,31 +147,51 @@ function ProductDetail({ product }: ProductDetailProps) {
   const handleBuyNow = async () => {
     if (isCheckingOut) return;
     setIsCheckingOut(true);
-    const variantId = selectedVariantId;
 
-    if (count > 0 && variantId) {
-      try {
-        // Create a new cart with the item
-        const data: any = await addToCart(variantId, count);
-        const cartId = data.cartCreate.cart.id;
-
-        // Get the checkout URL
-        const checkoutData = await getCheckoutUrl(cartId);
-        const checkoutUrl = checkoutData.cart.checkoutUrl;
-
-        // Redirect to checkout
-        window.location.href = checkoutUrl;
-      } catch (error) {
-        console.error('Error during checkout:', error);
-        toast.error('Failed to proceed to checkout', {
-          description: 'Please try again later.',
-        });
-        setIsCheckingOut(false);
-      }
-    } else {
+    if (count <= 0) {
       toast.error('Please select a quantity.', {
         description: 'You must add at least one item.',
       });
+      setIsCheckingOut(false);
+      return;
+    }
+
+    try {
+      // Get the variant ID to use
+      const variantIdToUse =
+        options.length > 0
+          ? selectedVariantId
+          : product.variants.edges[0]?.node.id;
+
+      if (!variantIdToUse) {
+        throw new Error('No variant available');
+      }
+
+      // Create a new cart with just this item
+      const response = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          variantId: variantIdToUse,
+          quantity: count,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout');
+      }
+
+      const { checkoutUrl } = await response.json();
+
+      window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      console.error('Error during checkout:', error);
+      toast.error('Failed to proceed to checkout', {
+        description: 'Please try again later.',
+      });
+    } finally {
       setIsCheckingOut(false);
     }
   };
@@ -156,12 +208,23 @@ function ProductDetail({ product }: ProductDetailProps) {
   };
 
   return (
-    <>
-      <div className="flex flex-col lg:flex-row mb-10 mt-24 w-[90%] lg:w-[1400px] mx-auto bg-white rounded-lg p-2 gap-10">
-        {/* Left: Product Image */}
+    <div className="w-full">
+      <div className="w-[90%] lg:w-[1400px] mx-auto mt-12 mb-6">
+        <button
+          onClick={handleBack}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          aria-label="Go back"
+        >
+          <IoArrowBack className="w-5 h-5" />
+          <span className="text-sm font-medium">Back</span>
+        </button>
+      </div>
+
+      {/* Main Product Content */}
+      <div className="flex flex-col lg:flex-row mb-10 w-[90%] lg:w-[1400px] mx-auto bg-white rounded-lg p-2 gap-10">
         <div className="flex flex-col items-center">
           <div
-            className="flex-1 flex items-center justify-center bg-white p-6 rounded-lg border border-gray-100 min-h-[600px] max-w-[600px] cursor-pointer"
+            className="p-6 rounded-lg border md:h-fit max-w-[600px] cursor-pointer"
             onClick={() => setIsCarouselOpen(true)}
           >
             <Image
@@ -169,6 +232,7 @@ function ProductDetail({ product }: ProductDetailProps) {
               alt={product.featuredImage?.altText || product.title}
               width={600}
               height={600}
+              sizes="(max-width: 768px) 300px, 600px"
               className="object-contain rounded-md"
             />
           </div>
@@ -186,6 +250,7 @@ function ProductDetail({ product }: ProductDetailProps) {
                     alt={product.title}
                     width={60}
                     height={60}
+                    sizes="(max-width: 768px) 40px, 60px"
                     className="object-contain rounded"
                   />
                 </button>
@@ -195,7 +260,7 @@ function ProductDetail({ product }: ProductDetailProps) {
         </div>
         {/* Right: Product Info */}
         <div className="flex-1 flex flex-col gap-6 justify-start">
-          <h1 className="text-[#2C2C2C] capitalize michroma-regular text-3xl font-semibold mb-2">
+          <h1 className="text-[#2C2C2C] capitalize michroma-regular md:text-3xl font-semibold mb-2">
             {product.title}
           </h1>
           <p className="text-[#2C2C2C] font-bold text-2xl mb-1">
@@ -406,45 +471,59 @@ function ProductDetail({ product }: ProductDetailProps) {
       </div>
       {/* Carousel Modal */}
       {isCarouselOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-          <div className="relative bg-white rounded-lg p-4 max-w-2xl w-full flex flex-col items-center">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+          onClick={() => setIsCarouselOpen(false)}
+        >
+          <div
+            className="relative rounded-lg p-4 w-fit bg-white border border-white flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
-              className="absolute top-2 right-2 text-2xl"
+              className="absolute top-5 right-4 bg-black/60 hover:bg-green-600 text-white rounded-full p-3 transition z-50"
               onClick={() => setIsCarouselOpen(false)}
+              aria-label="Close modal"
             >
-              &times;
+              <FaTimes size={16} />
             </button>
             <div className="flex items-center">
-              <button
-                onClick={() =>
-                  setSelectedIndex(
-                    (selectedIndex - 1 + images.length) % images.length,
-                  )
-                }
-                className="text-3xl px-4"
-              >
-                &#8592;
-              </button>
+              {images.length > 1 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedIndex(
+                      (selectedIndex - 1 + images.length) % images.length,
+                    );
+                  }}
+                  className="text-3xl px-4"
+                >
+                  &#8592;
+                </button>
+              )}
               <Image
                 src={selectedImage}
                 alt={product.featuredImage?.altText || product.title}
-                width={600}
-                height={600}
+                width={800}
+                height={800}
+                sizes="(max-width: 768px) 250px, 800px"
                 className="object-contain rounded"
               />
-              <button
-                onClick={() =>
-                  setSelectedIndex((selectedIndex + 1) % images.length)
-                }
-                className="text-3xl px-4"
-              >
-                &#8594;
-              </button>
+              {images.length > 1 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedIndex((selectedIndex + 1) % images.length);
+                  }}
+                  className="text-3xl px-4"
+                >
+                  &#8594;
+                </button>
+              )}
             </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
