@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -21,6 +21,19 @@ const VehicleImageGallery = ({ images, title }: VehicleImageGalleryProps) => {
     setModalOpen(true);
   };
   const closeModal = () => setModalOpen(false);
+
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && modalOpen) {
+        closeModal();
+      }
+    };
+
+    window.addEventListener('keydown', handleEscKey);
+    return () => {
+      window.removeEventListener('keydown', handleEscKey);
+    };
+  }, [modalOpen]);
 
   const maxThumbs = 3;
   const showMore = images.length > maxThumbs;
