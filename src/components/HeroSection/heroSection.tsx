@@ -1,6 +1,5 @@
 'use client';
 import React, { useRef, useState } from 'react';
-import Image from 'next/image';
 import { FaDiamond } from 'react-icons/fa6';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
