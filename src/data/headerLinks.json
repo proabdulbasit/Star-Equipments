@@ -1,6 +1,32 @@
 [
   { "id": 1, "name": "B/A Products", "url": "/collections/baproducts" },
   { "id": 2, "name": "Clothing", "url": "/collections/clothing" },
-  { "id": 3, "name": "Towmate", "url": "/collections/towmate" },
-  { "id": 5, "name": "NRC Parts", "url": "/collections/nrc-parts" }
+  {
+    "id": 3,
+    "name": "Towmate",
+    "url": "/collections/towmate",
+    "types": [
+      { "id": 0, "name": "All", "url": "/collections/towmate" },
+      { "id": 1, "name": "Vests", "url": "/collections/vests" },
+      { "id": 2, "name": "Sweatshirts", "url": "/collections/sweatshirts" },
+      { "id": 3, "name": "Gloves", "url": "/collections/gloves" },
+      { "id": 4, "name": "Pants", "url": "/collections/pants" },
+      { "id": 5, "name": "Jackets", "url": "/collections/jackets" }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "NRC Parts",
+    "url": "/collections/nrc-parts",
+    "types": [
+      { "id": 0, "name": "All", "url": "/collections/nrc-parts" },
+      { "id": 1, "name": "Brackets", "url": "/collections/nrc-parts/brackets" },
+      { "id": 2, "name": "Forks", "url": "/collections/nrc-parts/forks" },
+      {
+        "id": 3,
+        "name": "Tool Mounts",
+        "url": "/collections/nrc-parts/tool-mounts"
+      }
+    ]
+  }
 ]

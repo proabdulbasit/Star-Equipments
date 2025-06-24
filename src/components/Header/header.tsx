@@ -101,8 +101,7 @@ function HeaderContent() {
               >
                 <FaRegStar className="w-4 h-4" />
                 <span className="text-sm ml-2">
-                  Get 10% off all glass shower door installs now through May
-                  31st
+                  Get 10% off all of our products now through July 15th
                 </span>
               </div>
             ))}
@@ -121,8 +120,7 @@ function HeaderContent() {
                     <div className="flex items-center gap-2">
                       <FaRegStar className="w-4 h-4" />
                       <span>
-                        Get 10% off all glass shower door installs now through
-                        May 31st
+                        Get 10% off all of our products now through July 15th
                       </span>
                     </div>
                     {j < 3 && <span>•</span>}
@@ -215,14 +213,43 @@ function HeaderContent() {
             <div className="flex items-center xl:gap-16 lg:gap-10">
               <ul className="flex items-center xl:gap-16 lg:gap-10 justify-between">
                 {HeaderLink
-                  ? HeaderLink.map((item, index) => (
-                      <li key={item.id}>
-                        <Link
-                          href={item.url}
-                          className={`lg:block hidden text-[14px] xl:text-[18px] text-black`}
-                        >
-                          {item.name}
-                        </Link>
+                  ? HeaderLink.map((item) => (
+                      <li key={item.id} className="relative group">
+                        {item.types && item.types.length > 0 ? (
+                          <>
+                            <button className="lg:inline-flex hidden text-[14px] xl:text-[18px] text-black items-center gap-1 hover:text-[#048B3D] transition-colors">
+                              {item.name}
+                              <svg
+                                className="w-3 h-3 ml-1"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </button>
+                            <ul className="absolute left-0 mt-2 bg-white border rounded shadow-lg z-10 min-w-[160px] hidden group-hover:block">
+                              {item.types.map((type) => (
+                                <li key={type.id}>
+                                  <Link
+                                    href={type.url}
+                                    className="block px-4 py-2 text-[#666] hover:text-[#048B3D] hover:bg-gray-100 text-[15px]"
+                                  >
+                                    {type.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        ) : (
+                          <Link
+                            href={item.url}
+                            className="lg:block hidden text-[14px] xl:text-[18px] text-black hover:text-[#048B3D] transition-colors"
+                          >
+                            {item.name}
+                          </Link>
+                        )}
                       </li>
                     ))
                   : 'loading'}
@@ -378,13 +405,46 @@ function HeaderContent() {
               {HeaderLink &&
                 HeaderLink.map((item) => (
                   <li key={item.id}>
-                    <Link
-                      href={item.url}
-                      className="text-[#666] hover:text-[#048B3D] font-normal text-[15px]"
-                      onClick={toggleClose}
-                    >
-                      {item.name}
-                    </Link>
+                    {item.types && item.types.length > 0 ? (
+                      <div className="group relative">
+                        <button
+                          className="text-[#666] hover:text-[#048B3D] font-normal text-[15px] flex items-center gap-1"
+                          // Optionally add onClick to toggle dropdown on mobile
+                        >
+                          {item.name}
+                          <svg
+                            className="w-3 h-3 ml-1"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                        <ul className="absolute left-0 mt-1 bg-white border rounded shadow-lg z-10 hidden group-hover:block min-w-[160px]">
+                          {item.types.map((type) => (
+                            <li key={type.id}>
+                              <Link
+                                href={type.url}
+                                className="block px-4 py-2 text-[#666] hover:text-[#048B3D] hover:bg-gray-100 text-[15px]"
+                                onClick={toggleClose}
+                              >
+                                {type.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : (
+                      <Link
+                        href={item.url}
+                        className="text-[#666] hover:text-[#048B3D] font-normal text-[15px]"
+                        onClick={toggleClose}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
             </ul>
