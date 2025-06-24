@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "name": "Trucks",
+    "url": "/inventory",
+    "hasDropdown": true,
+    "isDynamic": true
+  }
+]

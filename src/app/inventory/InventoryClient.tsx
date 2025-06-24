@@ -85,31 +85,111 @@ export default function InventoryClient() {
     return filteredVehicles.slice(start, start + PAGE_SIZE);
   }, [filteredVehicles, currentPage]);
 
-  const handleFilterChange = (setter: any) => (value: any) => {
-    if (setter === setSearch) {
-      const trimmedValue = value.trim();
-      setter(trimmedValue);
-    } else {
-      setter(value);
-    }
+  // Batch update function for multiple filter changes
+  const handleBatchFilterChange = (updates: { [key: string]: string }) => {
+    // Update all states first
+    Object.entries(updates).forEach(([key, value]) => {
+      switch (key) {
+        case 'type':
+          setType(value);
+          break;
+        case 'condition':
+          setCondition(value);
+          break;
+        case 'make':
+          setMake(value);
+          break;
+        case 'model':
+          setModel(value);
+          break;
+        case 'search':
+          setSearch(value);
+          break;
+        case 'sort':
+          setSort(value);
+          break;
+      }
+    });
+
     setCurrentPage(1);
+
+    // Build URL params with all updated values
+    const params = new URLSearchParams();
+    const finalType = updates.type !== undefined ? updates.type : type;
+    const finalCondition =
+      updates.condition !== undefined ? updates.condition : condition;
+    const finalMake = updates.make !== undefined ? updates.make : make;
+    const finalModel = updates.model !== undefined ? updates.model : model;
+    const finalSearch = updates.search !== undefined ? updates.search : search;
+    const finalSort = updates.sort !== undefined ? updates.sort : sort;
+
+    if (finalType) params.set('type', finalType);
+    if (finalCondition) params.set('condition', finalCondition);
+    if (finalMake) params.set('make', finalMake);
+    if (finalModel) params.set('model', finalModel);
+    if (finalSearch?.trim()) params.set('search', finalSearch.trim());
+    if (finalSort && finalSort !== 'default') params.set('sort', finalSort);
+
+    const newUrl = params.toString() ? `?${params.toString()}` : '/inventory';
+    router.replace(newUrl, { scroll: false });
+  };
+
+  // Unified filter change handler: updates state and URL
+  const handleFilterChange = (setter: any, key: string) => (value: any) => {
+    setter(value);
+    setCurrentPage(1);
+
+    // Build new params based on the new value
+    const params = new URLSearchParams();
+    if ((key === 'type' && value) || (key !== 'type' && type))
+      params.set('type', key === 'type' ? value : type);
+    if ((key === 'condition' && value) || (key !== 'condition' && condition))
+      params.set('condition', key === 'condition' ? value : condition);
+    if ((key === 'make' && value) || (key !== 'make' && make))
+      params.set('make', key === 'make' ? value : make);
+    if ((key === 'model' && value) || (key !== 'model' && model))
+      params.set('model', key === 'model' ? value : model);
+    if (search?.trim()) params.set('search', search.trim());
+    if (sort !== 'default') params.set('sort', sort);
+    const newUrl = params.toString() ? `?${params.toString()}` : '/inventory';
+    router.replace(newUrl, { scroll: false });
   };
 
   const handleRemoveFilter = (key: string) => {
+    let newType = type;
+    let newCondition = condition;
+    let newMake = make;
+    let newModel = model;
     switch (key) {
       case 'type':
+        newType = '';
         setType('');
         break;
       case 'condition':
+        newCondition = '';
         setCondition('');
         break;
       case 'make':
+        newMake = '';
         setMake('');
         break;
       case 'model':
+        newModel = '';
         setModel('');
         break;
     }
+    setCurrentPage(1);
+    // Update the URL to reflect the new state
+    const params = new URLSearchParams();
+    if (search?.trim()) params.set('search', search.trim());
+    if (newType) params.set('type', newType);
+    if (newCondition) params.set('condition', newCondition);
+    if (newMake) params.set('make', newMake);
+    if (newModel) params.set('model', newModel);
+    if (sort !== 'default') params.set('sort', sort);
+
+    const newUrl = params.toString() ? `?${params.toString()}` : '/inventory';
+    router.replace(newUrl, { scroll: false });
   };
 
   const activeFilters = {
@@ -119,44 +199,25 @@ export default function InventoryClient() {
     model,
   };
 
+  // Sync state from URL when searchParams change (e.g., navigation from header)
   useEffect(() => {
-    const params = new URLSearchParams();
-    let hasParams = false;
+    const urlType = searchParams.get('type') || '';
+    const urlCondition = searchParams.get('condition') || '';
+    const urlMake = searchParams.get('make') || '';
+    const urlModel = searchParams.get('model') || '';
+    const urlSearch = searchParams.get('search') || '';
+    const urlSort = searchParams.get('sort') || 'default';
+    const urlPage = Number(searchParams.get('page')) || 1;
 
-    // Add parameters only if they have values
-    if (search?.trim()) {
-      params.set('search', search.trim());
-      hasParams = true;
-    }
-    if (type) {
-      params.set('type', type);
-      hasParams = true;
-    }
-    if (condition) {
-      params.set('condition', condition);
-      hasParams = true;
-    }
-    if (make) {
-      params.set('make', make);
-      hasParams = true;
-    }
-    if (model) {
-      params.set('model', model);
-      hasParams = true;
-    }
-    if (sort !== 'default') {
-      params.set('sort', sort);
-      hasParams = true;
-    }
-    if (currentPage > 1) {
-      params.set('page', currentPage.toString());
-      hasParams = true;
-    }
-
-    // If we have any parameters, use them, otherwise use the base path
-    const newUrl = hasParams ? `?${params.toString()}` : '/inventory';
-    router.replace(newUrl, { scroll: false });
-  }, [search, type, condition, make, model, sort, currentPage, router]);
+    if (urlType !== type) setType(urlType);
+    if (urlCondition !== condition) setCondition(urlCondition);
+    if (urlMake !== make) setMake(urlMake);
+    if (urlModel !== model) setModel(urlModel);
+    if (urlSearch !== search) setSearch(urlSearch);
+    if (urlSort !== sort) setSort(urlSort);
+    if (urlPage !== currentPage) setCurrentPage(urlPage);
+    // eslint-disable-next-line
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f4f8fb] to-[#e6f2ed]">
@@ -164,9 +225,9 @@ export default function InventoryClient() {
         <div className="mb-8">
           <SearchSortBar
             search={search}
-            setSearch={handleFilterChange(setSearch)}
+            setSearch={handleFilterChange(setSearch, 'search')}
             sort={sort}
-            setSort={handleFilterChange(setSort)}
+            setSort={handleFilterChange(setSort, 'sort')}
             resultCount={filteredVehicles.length}
           />
         </div>
@@ -210,19 +271,20 @@ export default function InventoryClient() {
                 <div className="mb-4 mt-2">
                   <Filters
                     type={type}
-                    setType={handleFilterChange(setType)}
+                    setType={handleFilterChange(setType, 'type')}
                     condition={condition}
-                    setCondition={handleFilterChange(setCondition)}
+                    setCondition={handleFilterChange(setCondition, 'condition')}
                     make={make}
-                    setMake={handleFilterChange(setMake)}
+                    setMake={handleFilterChange(setMake, 'make')}
                     model={model}
-                    setModel={handleFilterChange(setModel)}
+                    setModel={handleFilterChange(setModel, 'model')}
                     types={types}
                     conditions={conditions}
                     makes={makes}
                     models={models}
                     filters={activeFilters}
                     onRemove={handleRemoveFilter}
+                    onBatchUpdate={handleBatchFilterChange}
                   />
                 </div>
               </div>
@@ -233,19 +295,20 @@ export default function InventoryClient() {
             <div className="sticky top-8">
               <Filters
                 type={type}
-                setType={handleFilterChange(setType)}
+                setType={handleFilterChange(setType, 'type')}
                 condition={condition}
-                setCondition={handleFilterChange(setCondition)}
+                setCondition={handleFilterChange(setCondition, 'condition')}
                 make={make}
-                setMake={handleFilterChange(setMake)}
+                setMake={handleFilterChange(setMake, 'make')}
                 model={model}
-                setModel={handleFilterChange(setModel)}
+                setModel={handleFilterChange(setModel, 'model')}
                 types={types}
                 conditions={conditions}
                 makes={makes}
                 models={models}
                 filters={activeFilters}
                 onRemove={handleRemoveFilter}
+                onBatchUpdate={handleBatchFilterChange}
               />
             </div>
           </aside>
