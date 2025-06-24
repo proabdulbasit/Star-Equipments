@@ -1,7 +1,24 @@
 [
   { "id": 1, "name": "Home", "url": "/" },
-  { "id": 2, "name": "Inventory", "url": "/inventory" },
-  { "id": 3, "name": "Parts & Accessories", "url": "/parts-accessories" },
+  { "id": 2, "name": "Trucks", "url": "/inventory" },
+  {
+    "id": 3,
+    "name": "Shop Our Product",
+    "url": "/parts-accessories",
+    "subcategories": [
+      { "id": 1, "name": "B/A Products", "url": "/collections/baproducts" },
+      { "id": 2, "name": "Clothing", "url": "/collections/clothing" },
+      { "id": 3, "name": "Towmate", "url": "/collections/towmate" },
+      { "id": 4, "name": "NRC Parts", "url": "/collections/nrc-parts" },
+      {
+        "id": 5,
+        "name": "Parts & Accessories",
+        "url": "/parts-accessories",
+        "types": [],
+        "isDynamic": true
+      }
+    ]
+  },
   { "id": 4, "name": "Gallery", "url": "/gallery" },
   { "id": 5, "name": "Contact", "url": "/contact-us" }
 ]

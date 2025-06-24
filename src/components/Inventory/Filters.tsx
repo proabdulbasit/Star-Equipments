@@ -17,6 +17,7 @@ const Filters = ({
   models,
   filters,
   onRemove,
+  onBatchUpdate,
 }: any) => {
   // Get filtered options based on current selections
   const filteredConditions = useMemo(() => {
@@ -53,21 +54,47 @@ const Filters = ({
 
   // Reset dependent filters when parent filter changes
   const handleTypeChange = (value: string) => {
-    setType(value);
-    setCondition('');
-    setMake('');
-    setModel('');
+    if (onBatchUpdate) {
+      // Use batch update to prevent multiple URL updates
+      onBatchUpdate({
+        type: value,
+        condition: '',
+        make: '',
+        model: '',
+      });
+    } else {
+      // Fallback to individual setters
+      setType(value);
+      setCondition('');
+      setMake('');
+      setModel('');
+    }
   };
 
   const handleConditionChange = (value: string) => {
-    setCondition(value);
-    setMake('');
-    setModel('');
+    if (onBatchUpdate) {
+      onBatchUpdate({
+        condition: value,
+        make: '',
+        model: '',
+      });
+    } else {
+      setCondition(value);
+      setMake('');
+      setModel('');
+    }
   };
 
   const handleMakeChange = (value: string) => {
-    setMake(value);
-    setModel('');
+    if (onBatchUpdate) {
+      onBatchUpdate({
+        make: value,
+        model: '',
+      });
+    } else {
+      setMake(value);
+      setModel('');
+    }
   };
 
   return (
