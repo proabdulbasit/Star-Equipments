@@ -13,26 +13,70 @@
         "types": [],
         "isDynamic": true
       },
+      { "id": 3, "name": "Towmate", "url": "/collections/towmate" },
       { "id": 1, "name": "B/A Products", "url": "/collections/baproducts" },
-      { "id": 2, "name": "Clothing", "url": "/collections/clothing" },
       {
-        "id": 3,
-        "name": "Towmate",
-        "url": "/collections/towmate",
+        "id": 2,
+        "name": "Clothing",
+        "url": "/collections/clothing",
         "types": [
-          { "id": 0, "name": "All", "url": "/collections/towmate" },
+          { "id": 0, "name": "All", "url": "/collections/clothing" },
           { "id": 1, "name": "Vests", "url": "/collections/vests" },
-          {
-            "id": 2,
-            "name": "Sweatshirts",
-            "url": "/collections/sweatshirts"
-          },
+          { "id": 2, "name": "Sweatshirts", "url": "/collections/sweatshirts" },
           { "id": 3, "name": "Gloves", "url": "/collections/gloves" },
           { "id": 4, "name": "Pants", "url": "/collections/pants" },
           { "id": 5, "name": "Jackets", "url": "/collections/jackets" }
         ]
       },
-      { "id": 4, "name": "NRC Parts", "url": "/collections/nrc-parts" }
+      {
+        "id": 4,
+        "name": "NRC Parts",
+        "url": "/collections/nrc-parts",
+        "types": [
+          { "id": 0, "name": "All NRC Parts", "url": "/collections/nrc-parts" },
+          {
+            "id": 1,
+            "name": "Brackets for 4 x 4 T-Bar",
+            "url": "/collections/nrc-parts/brackets-for-4-x-4-t-bar"
+          },
+          {
+            "id": 2,
+            "name": "Brackets for 5 x 5 T-Bar",
+            "url": "/collections/nrc-parts/brackets-for-5-x-5-t-bar"
+          },
+          {
+            "id": 3,
+            "name": "Forks & Accessories",
+            "url": "/collections/nrc-parts/forks-accessories"
+          },
+          {
+            "id": 4,
+            "name": "Tool Mounts & Storage",
+            "url": "/collections/nrc-parts/tool-mounts-storage"
+          },
+          {
+            "id": 5,
+            "name": "Stabilizer Grips",
+            "url": "/collections/nrc-parts/stabilizer-grips"
+          },
+          {
+            "id": 6,
+            "name": "Car Carrier Brackets 10-20,000 lbs",
+            "url": "/collections/nrc-parts/car-carrier-brackets-10-20-000-lbs"
+          },
+          {
+            "id": 7,
+            "name": "Car Carrier Brackets 40,000 lbs",
+            "url": "/collections/nrc-parts/car-carrier-brackets-40-000-lbs"
+          },
+          { "id": 8, "name": "Ketchs", "url": "/collections/nrc-parts/ketchs" },
+          {
+            "id": 9,
+            "name": "Others (Towings)",
+            "url": "/collections/nrc-parts/others-towings"
+          }
+        ]
+      }
     ]
   },
   { "id": 4, "name": "Gallery", "url": "/gallery" },

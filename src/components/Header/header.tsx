@@ -39,6 +39,7 @@ function HeaderContent() {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [nrcCategories, setNrcCategories] = useState<NRCCategory[]>([]);
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
   useEffect(() => {
     // When the route or search params change, stop loading
@@ -152,7 +153,45 @@ function HeaderContent() {
 
                     return (
                       <li key={item.id} className="relative">
-                        {dropdownItem ? (
+                        {item.name === 'NRC Parts' &&
+                        item?.subcategories &&
+                        item?.subcategories?.length > 0 ? (
+                          <>
+                            <button
+                              onClick={() =>
+                                setOpenDropdown(
+                                  openDropdown === item.id ? null : item.id,
+                                )
+                              }
+                              className="w-full flex justify-between items-center py-2"
+                            >
+                              {item.name}
+                              <svg
+                                className="w-3 h-3 ml-1"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </button>
+                            {openDropdown === item.id && (
+                              <ul className="pl-4">
+                                {item.subcategories?.map((subcategory) => (
+                                  <li key={subcategory.id}>
+                                    <Link
+                                      href={subcategory.url}
+                                      className="block py-1"
+                                    >
+                                      {subcategory.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </>
+                        ) : dropdownItem ? (
                           // Dropdown menu item
                           <div className="relative">
                             <button
@@ -229,7 +268,7 @@ function HeaderContent() {
                                 <path d="M19 9l-7 7-7-7" />
                               </svg>
                             </button>
-                            <ul className="absolute left-0 mt-2 bg-white border rounded shadow-lg z-10 min-w-[160px] hidden group-hover:block">
+                            <ul className="absolute left-0 top-full mt-0 bg-white border rounded shadow-lg z-10 min-w-[220px] opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-opacity duration-100">
                               {item.types.map((type) => (
                                 <li key={type.id}>
                                   <Link
@@ -314,7 +353,7 @@ function HeaderContent() {
       {/* Mobile Hamburger Menu Dropdown */}
       {isOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 flex justify-end">
-          <div className="bg-white shadow-2xl w-64 h-full flex flex-col p-5 relative animate-fadeInRight">
+          <div className="bg-white shadow-2xl w-64 h-full max-h-screen overflow-y-auto flex flex-col p-5 relative animate-fadeInRight">
             <div className="flex justify-between items-center mb-4">
               <span className="font-bold text-lg text-[#048B3D]">Menu</span>
               <button onClick={toggleClose} aria-label="Close menu">
@@ -322,86 +361,135 @@ function HeaderContent() {
               </button>
             </div>
             <ul className="flex flex-col space-y-3 mb-4">
-              {NavLink &&
-                NavLink.map((item) => {
-                  const dropdownItem = getDropdownItem(item);
-                  const isDropdownActive = activeDropdown === item.id;
-
-                  return (
-                    <li key={item.id}>
-                      {dropdownItem ? (
-                        // Mobile dropdown menu item
-                        <div className="space-y-2">
-                          <button
-                            onClick={() => handleDropdownToggle(item.id)}
-                            className="flex items-center justify-between w-full text-[#222] hover:text-[#048B3D] font-medium text-[16px]"
-                          >
-                            {item.name}
-                            <FiChevronDown
-                              className={`transition-transform ${isDropdownActive ? 'rotate-180' : ''}`}
-                            />
-                          </button>
-                          {isDropdownActive && dropdownItem.subcategories && (
-                            <div className="ml-4 space-y-2 border-l-2 border-gray-200 pl-4">
-                              {dropdownItem.subcategories.map((subcategory) => (
-                                <div key={subcategory.id} className="space-y-1">
-                                  <button
-                                    onClick={() => {
-                                      toggleClose();
-                                      if (
-                                        subcategory.url.startsWith('/inventory')
-                                      ) {
-                                        router.push(subcategory.url);
-                                      } else {
-                                        window.location.href = subcategory.url;
-                                      }
-                                    }}
-                                    className="block w-full text-left text-[#666] hover:text-[#048B3D] font-normal text-[15px]"
-                                  >
-                                    {subcategory.name}
-                                  </button>
-                                  <div className="ml-4 space-y-1">
-                                    {subcategory.types.map((type) => (
-                                      <button
-                                        key={type.id}
-                                        onClick={() => {
-                                          toggleClose();
-                                          if (
-                                            type.url.startsWith('/inventory')
-                                          ) {
-                                            router.push(type.url);
-                                          } else {
-                                            window.location.href = type.url;
-                                          }
-                                        }}
-                                        className="block w-full text-left text-[#888] hover:text-[#048B3D] font-normal text-[14px]"
-                                      >
-                                        • {type.name}
-                                      </button>
-                                    ))}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        // Regular mobile menu item
-                        <Link
-                          href={item.url}
-                          className="text-[#222] hover:text-[#048B3D] font-medium text-[16px]"
-                          onClick={toggleClose}
+              {NavLink.map((item) => (
+                <li key={item.id}>
+                  {item.name === 'NRC Parts' &&
+                  item?.subcategories &&
+                  item?.subcategories?.length > 0 ? (
+                    <>
+                      <button
+                        onClick={() =>
+                          setOpenDropdown(
+                            openDropdown === item.id ? null : item.id,
+                          )
+                        }
+                        className="w-full flex justify-between items-center py-2"
+                      >
+                        {item.name}
+                        <svg
+                          className="w-3 h-3 ml-1"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          viewBox="0 0 24 24"
                         >
-                          {item.name}
-                        </Link>
+                          <path d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      {openDropdown === item.id && (
+                        <ul className="pl-4">
+                          {item?.subcategories?.map((subcategory) => (
+                            <li key={subcategory.id}>
+                              <Link
+                                href={subcategory.url}
+                                className="block py-1"
+                              >
+                                {subcategory.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
                       )}
-                    </li>
-                  );
-                })}
+                    </>
+                  ) : getDropdownItem(item) ? (
+                    // Mobile dropdown menu item
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => handleDropdownToggle(item.id)}
+                        className="flex items-center justify-between w-full text-[#222] hover:text-[#048B3D] font-medium text-[16px]"
+                      >
+                        {item.name}
+                        <FiChevronDown
+                          className={`transition-transform ${activeDropdown === item.id ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+                      {activeDropdown === item.id &&
+                        getDropdownItem(item)?.subcategories && (
+                          <div className="ml-4 space-y-2 border-l-2 border-gray-200 pl-4">
+                            {getDropdownItem(item)?.subcategories?.map(
+                              (subcategory) => (
+                                <div key={subcategory.id} className="space-y-1">
+                                  {subcategory.types &&
+                                  subcategory.types.length > 0 ? (
+                                    <>
+                                      <button
+                                        onClick={() =>
+                                          setOpenDropdown(
+                                            openDropdown === subcategory.id
+                                              ? null
+                                              : subcategory.id,
+                                          )
+                                        }
+                                        className="flex items-center w-full text-left text-[#666] hover:text-[#048B3D] font-normal text-[15px] gap-1"
+                                      >
+                                        {subcategory.name}
+                                        <svg
+                                          className={`w-3 h-3 ml-1 transition-transform ${openDropdown === subcategory.id ? 'rotate-180' : ''}`}
+                                          fill="none"
+                                          stroke="currentColor"
+                                          strokeWidth="2"
+                                          viewBox="0 0 24 24"
+                                        >
+                                          <path d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                      </button>
+                                      {openDropdown === subcategory.id && (
+                                        <ul className="ml-4">
+                                          {subcategory.types.map((type) => (
+                                            <li key={type.id}>
+                                              <Link
+                                                href={type.url}
+                                                className="block py-1 text-[#888] hover:text-[#048B3D] text-[14px]"
+                                                onClick={toggleClose}
+                                              >
+                                                • {type.name}
+                                              </Link>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <Link
+                                      href={subcategory.url}
+                                      className="block w-full text-left text-[#666] hover:text-[#048B3D] font-normal text-[15px]"
+                                      onClick={toggleClose}
+                                    >
+                                      {subcategory.name}
+                                    </Link>
+                                  )}
+                                </div>
+                              ),
+                            )}
+                          </div>
+                        )}
+                    </div>
+                  ) : (
+                    // Regular mobile menu item
+                    <Link
+                      href={item.url}
+                      className="text-[#222] hover:text-[#048B3D] font-medium text-[16px]"
+                      onClick={toggleClose}
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                </li>
+              ))}
             </ul>
             {/* Divider */}
-            {HeaderLink && HeaderLink.length > 0 && <hr className="my-2" />}
-            <ul className="flex flex-col space-y-3">
+            {/* {HeaderLink && HeaderLink.length > 0 && <hr className="my-2" />} */}
+            <ul className="flex flex-col space-y-3 hidden">
               {HeaderLink &&
                 HeaderLink.map((item) => (
                   <li key={item.id}>
@@ -422,7 +510,7 @@ function HeaderContent() {
                             <path d="M19 9l-7 7-7-7" />
                           </svg>
                         </button>
-                        <ul className="absolute left-0 mt-1 bg-white border rounded shadow-lg z-10 hidden group-hover:block min-w-[160px]">
+                        <ul className="absolute left-0 top-full mt-0 bg-white border rounded shadow-lg z-10 min-w-[220px] opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-opacity duration-100">
                           {item.types.map((type) => (
                             <li key={type.id}>
                               <Link
