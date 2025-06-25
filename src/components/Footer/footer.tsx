@@ -10,7 +10,7 @@ function Footer() {
 
   return (
     <>
-      <div className="bg-[#031E0E] py-20 roboto-condensed lg:flex  lg:justify-between justify-center lg:text-start text-center lg:p-24 p-5">
+      <div className="bg-[#031c0d] py-20 roboto-condensed lg:flex  lg:justify-between justify-center lg:text-start text-center lg:p-24 p-5">
         <div className="max-w-[1440px] mx-auto w-full flex flex-col lg:flex-row lg:justify-between">
           <div>
             <Link href="/" className="cursor-pointer">

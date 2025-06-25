@@ -119,12 +119,6 @@ const HeroSection: React.FC<HeroPropsType> = ({ title, para, image }) => {
             key={activeIndex + '-btns'}
           >
             <a
-              href="/parts-accessories"
-              className="px-8 py-3 bg-[#048B3D] text-white rounded font-semibold text-center hover:bg-[#02682e] transition"
-            >
-              View Products
-            </a>
-            <a
               href="/contact-us"
               className="px-8 py-3 bg-white text-[#048B3D] border border-[#048B3D] rounded font-semibold text-center hover:bg-[#f3f3f3] transition"
             >

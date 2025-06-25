@@ -312,7 +312,7 @@ function HomeContent() {
             title="Elevate your towing game!"
             para="Premium Equipment from Star Equipment Sales"
           />
-          <div className="shade py-5 w-full ">
+          {/* <div className="shade py-5 w-full ">
             <motion.h1
               className="text-3xl  michroma-regular text-center  text-white  mb-20"
               initial={{ opacity: 0, y: 30 }}
@@ -354,7 +354,7 @@ function HomeContent() {
                 </motion.div>
               ))}
             </motion.div>
-          </div>
+          </div> */}
           <Parts />
           <DiscountProduct />
           <Towing />

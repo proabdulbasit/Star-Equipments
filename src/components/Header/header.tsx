@@ -247,7 +247,7 @@ function HeaderContent() {
           </div>
         </div>
         {/* Secondary nav bar: show on desktop, hide on mobile if no links */}
-        <div className="bg-[#E8EAED] h-20 lg:block hidden">
+        <div className="bg-[#E8EAED] h-20  hidden">
           <div className="max-w-[1440px] mx-auto px-5 lg:px-12 h-full flex items-center justify-between roboto-condensed text-[14px] xl:text-[18px]">
             <div className="flex items-center xl:gap-16 lg:gap-10">
               <ul className="flex items-center xl:gap-16 lg:gap-10 justify-between">
