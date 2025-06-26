@@ -15,11 +15,11 @@ function Footer() {
           <div>
             <Link href="/" className="cursor-pointer">
               <Image
-                src="/images/logo-pngg.png"
+                src="/images/star-logo-one.svg"
                 alt="icons"
                 width={204}
                 height={200}
-                className="mx-auto"
+                className="bg-white"
               />
             </Link>
 

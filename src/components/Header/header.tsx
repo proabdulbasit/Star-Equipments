@@ -138,7 +138,7 @@ function HeaderContent() {
           <div className="max-w-[1440px] mx-auto px-4 lg:px-8 h-full flex items-center justify-between">
             <Link href="/">
               <Image
-                src="/assets/Header/logo.svg"
+                src="/images/star-logo-one.svg"
                 width={136}
                 height={70}
                 alt="logo"
