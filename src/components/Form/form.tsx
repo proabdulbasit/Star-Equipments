@@ -33,11 +33,11 @@ function Form() {
     setIsLoading(true);
     try {
       const formPayload = new FormData();
-      formPayload.append('email', 'lisab@jttr.net');
+      formPayload.append('email', 'rafeeqk444@gmail.com');
       formPayload.append('subject', 'New query from Star Equipment Sales');
       formPayload.append('html', EmailTemplate({ values: data }));
       const response = await fetch(
-        'https://stag.api.carzoomo.com/socially/send-email',
+        'https://api.carzoomo.com/socially/send-email',
         {
           method: 'POST',
           body: formPayload,
