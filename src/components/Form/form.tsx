@@ -33,7 +33,7 @@ function Form() {
     setIsLoading(true);
     try {
       const formPayload = new FormData();
-      formPayload.append('email', 'rafeeqk444@gmail.com');
+      formPayload.append('email', 'lisab@jttr.net');
       formPayload.append('subject', 'New query from Star Equipment Sales');
       formPayload.append('html', EmailTemplate({ values: data }));
       const response = await fetch(
