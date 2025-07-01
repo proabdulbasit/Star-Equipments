@@ -37,7 +37,7 @@ function Form() {
       formPayload.append('subject', 'New query from Star Equipment Sales');
       formPayload.append('html', EmailTemplate({ values: data }));
       const response = await fetch(
-        'https://stag.api.carzoomo.com/socially/send-email',
+        'https://api.carzoomo.com/socially/send-email',
         {
           method: 'POST',
           body: formPayload,
