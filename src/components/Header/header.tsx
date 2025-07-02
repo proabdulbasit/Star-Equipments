@@ -338,10 +338,10 @@ function HeaderContent() {
           </Link>
         </div>
         {/* On mobile, show animatic search bar below the cart bar */}
-        <div className="">
+        <div className="relative max-w-[1440px] mx-auto px-4 lg:px-8">
           {!showMobileSearch ? (
             <button
-              className="fixed top-[160px] md:right-16 right-4 z-50 rounded-full bg-white shadow w-14 h-14 flex items-center justify-center"
+              className="absolute top-[50px] right-4 z-50 rounded-full bg-white shadow w-14 h-14 flex items-center justify-center"
               onClick={() => setShowMobileSearch(true)}
               aria-label="Open search"
               style={{ boxShadow: '0 4px 32px 0 rgba(0,0,0,0.18)' }}
@@ -349,7 +349,7 @@ function HeaderContent() {
               <FiSearch className="text-2xl text-gray-400" />
             </button>
           ) : (
-            <div className="fixed top-[160px] md:right-16 right-4 z-50 w-[90vw] max-w-xs bg-white rounded-xl shadow-2xl flex items-center px-4 py-2 transition-all duration-300">
+            <div className="absolute top-[50px] right-4 z-50 w-[90vw] max-w-xs bg-white rounded-xl shadow-2xl flex items-center px-4 py-2 transition-all duration-300">
               <SearchBar className="w-full" onSearch={handleSearch} />
               <button
                 className="ml-2"
