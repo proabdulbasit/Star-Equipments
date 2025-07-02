@@ -145,104 +145,116 @@ function HeaderContent() {
                 className="lg:w-[136px] lg:h-[70px] w-[100px]"
               />
             </Link>
-            <ul className="flex items-center roboto-condensed xl:gap-16 lg:gap-10 justify-between">
-              {NavLink
-                ? NavLink.map((item, index) => {
-                    const dropdownItem = getDropdownItem(item);
-                    const isDropdownActive = activeDropdown === item.id;
+            <div className="flex items-center gap-10">
+              <ul className="flex items-center roboto-condensed xl:gap-16 lg:gap-10 justify-between">
+                {NavLink
+                  ? NavLink.map((item, index) => {
+                      const dropdownItem = getDropdownItem(item);
+                      const isDropdownActive = activeDropdown === item.id;
 
-                    return (
-                      <li key={item.id} className="relative">
-                        {item.name === 'NRC Parts' &&
-                        item?.subcategories &&
-                        item?.subcategories?.length > 0 ? (
-                          <>
-                            <button
-                              onClick={() =>
-                                setOpenDropdown(
-                                  openDropdown === item.id ? null : item.id,
-                                )
-                              }
-                              className="w-full flex justify-between items-center py-2"
-                            >
-                              {item.name}
-                              <svg
-                                className="w-3 h-3 ml-1"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
+                      return (
+                        <li key={item.id} className="relative">
+                          {item.name === 'NRC Parts' &&
+                          item?.subcategories &&
+                          item?.subcategories?.length > 0 ? (
+                            <>
+                              <button
+                                onClick={() =>
+                                  setOpenDropdown(
+                                    openDropdown === item.id ? null : item.id,
+                                  )
+                                }
+                                className="w-full flex justify-between items-center py-2"
                               >
-                                <path d="M19 9l-7 7-7-7" />
-                              </svg>
-                            </button>
-                            {openDropdown === item.id && (
-                              <ul className="pl-4">
-                                {item.subcategories?.map((subcategory) => (
-                                  <li key={subcategory.id}>
-                                    <Link
-                                      href={subcategory.url}
-                                      className="block py-1"
-                                    >
-                                      {subcategory.name}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                          </>
-                        ) : dropdownItem ? (
-                          // Dropdown menu item
-                          <div className="relative">
-                            <button
-                              onClick={() => handleDropdownToggle(item.id)}
-                              onMouseEnter={() =>
-                                !isMobile && setActiveDropdown(item.id)
-                              }
-                              className={`lg:flex hidden items-center gap-1 text-[14px] xl:text-[18px] ${
+                                {item.name}
+                                <svg
+                                  className="w-3 h-3 ml-1"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M19 9l-7 7-7-7" />
+                                </svg>
+                              </button>
+                              {openDropdown === item.id && (
+                                <ul className="pl-4">
+                                  {item.subcategories?.map((subcategory) => (
+                                    <li key={subcategory.id}>
+                                      <Link
+                                        href={subcategory.url}
+                                        className="block py-1"
+                                      >
+                                        {subcategory.name}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </>
+                          ) : dropdownItem ? (
+                            // Dropdown menu item
+                            <div className="relative">
+                              <button
+                                onClick={() => handleDropdownToggle(item.id)}
+                                onMouseEnter={() =>
+                                  !isMobile && setActiveDropdown(item.id)
+                                }
+                                className={`lg:flex hidden items-center gap-1 text-[14px] xl:text-[18px] ${
+                                  pathname === item.url
+                                    ? 'text-[#007934] font-bold'
+                                    : 'text-[#000000] font-normal'
+                                } hover:text-[#007934] transition-colors`}
+                              >
+                                {item.name}
+                                <FiChevronDown
+                                  className={`transition-transform ${isDropdownActive ? 'rotate-180' : ''}`}
+                                />
+                              </button>
+                              {/* Only render the floating dropdown on desktop */}
+                              {!isMobile && isDropdownActive && (
+                                <DropdownMenu
+                                  item={dropdownItem}
+                                  isActive={isDropdownActive}
+                                  onClose={closeDropdown}
+                                  nrcCategories={nrcCategories}
+                                />
+                              )}
+                            </div>
+                          ) : (
+                            // Regular menu item
+                            <Link
+                              href={item.url}
+                              className={`lg:block hidden text-[14px] xl:text-[18px] ${
                                 pathname === item.url
                                   ? 'text-[#007934] font-bold'
                                   : 'text-[#000000] font-normal'
-                              } hover:text-[#007934] transition-colors`}
+                              } hover:text-[#007934]`}
                             >
                               {item.name}
-                              <FiChevronDown
-                                className={`transition-transform ${isDropdownActive ? 'rotate-180' : ''}`}
-                              />
-                            </button>
-                            {/* Only render the floating dropdown on desktop */}
-                            {!isMobile && isDropdownActive && (
-                              <DropdownMenu
-                                item={dropdownItem}
-                                isActive={isDropdownActive}
-                                onClose={closeDropdown}
-                                nrcCategories={nrcCategories}
-                              />
-                            )}
-                          </div>
-                        ) : (
-                          // Regular menu item
-                          <Link
-                            href={item.url}
-                            className={`lg:block hidden text-[14px] xl:text-[18px] ${
-                              pathname === item.url
-                                ? 'text-[#007934] font-bold'
-                                : 'text-[#000000] font-normal'
-                            } hover:text-[#007934]`}
-                          >
-                            {item.name}
-                          </Link>
-                        )}
-                      </li>
-                    );
-                  })
-                : 'loading'}
-            </ul>
-            <div
-              className="lg:hidden block cursor-pointer"
-              onClick={toggleOpen}
-            >
-              <FiMenu className="text-[#048B3D] text-2xl" />
+                            </Link>
+                          )}
+                        </li>
+                      );
+                    })
+                  : 'loading'}
+              </ul>
+              <div className="flex items-center gap-4">
+                <Link href="/cart" className="relative lg:block hidden">
+                  <FiShoppingCart className="w-6 h-6" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
+              </div>
+              <div
+                className="lg:hidden block cursor-pointer"
+                onClick={toggleOpen}
+              >
+                <FiMenu className="text-[#048B3D] text-2xl" />
+              </div>
             </div>
           </div>
         </div>
@@ -326,10 +338,10 @@ function HeaderContent() {
           </Link>
         </div>
         {/* On mobile, show animatic search bar below the cart bar */}
-        <div className="lg:hidden">
+        <div className="">
           {!showMobileSearch ? (
             <button
-              className="fixed top-[130px] right-4 z-50 rounded-full bg-white shadow w-14 h-14 flex items-center justify-center"
+              className="fixed top-[160px] md:right-16 right-4 z-50 rounded-full bg-white shadow w-14 h-14 flex items-center justify-center"
               onClick={() => setShowMobileSearch(true)}
               aria-label="Open search"
               style={{ boxShadow: '0 4px 32px 0 rgba(0,0,0,0.18)' }}
@@ -337,7 +349,7 @@ function HeaderContent() {
               <FiSearch className="text-2xl text-gray-400" />
             </button>
           ) : (
-            <div className="fixed top-[130px] right-4 z-50 w-[90vw] max-w-xs bg-white rounded-xl shadow-2xl flex items-center px-4 py-2 transition-all duration-300">
+            <div className="fixed top-[160px] md:right-16 right-4 z-50 w-[90vw] max-w-xs bg-white rounded-xl shadow-2xl flex items-center px-4 py-2 transition-all duration-300">
               <SearchBar className="w-full" onSearch={handleSearch} />
               <button
                 className="ml-2"

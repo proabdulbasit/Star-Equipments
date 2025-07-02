@@ -207,13 +207,32 @@ const Clothing: React.FC<ClothingProductProps> = ({
 
     if (newPage > pageInfo.totalPages) return;
 
+    const scrollToTop = () => {
+      if ('scrollBehavior' in document.documentElement.style) {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      } else {
+        const scrollStep = -window.scrollY / (500 / 15);
+        const scrollInterval = setInterval(() => {
+          if (window.scrollY !== 0) {
+            window.scrollBy(0, scrollStep);
+          } else {
+            clearInterval(scrollInterval);
+          }
+        }, 15);
+      }
+    };
+
+    setTimeout(scrollToTop, 100);
+
     updateQuery({ page: newPage });
   };
 
   const isLastPage = currentPage >= pageInfo.totalPages;
 
   if (!products || products.length === 0) {
-    // Determine if any filters are active
     const filtersActive = !!(
       currentPriceFrom ||
       currentPriceTo ||
