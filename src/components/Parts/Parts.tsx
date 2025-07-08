@@ -73,7 +73,7 @@ function Parts() {
       <section className="py-16 bg-[#F4F4F4]">
         <div className="max-w-[1440px] mx-auto px-4">
           <div className="text-3xl michroma-regular text-center text-[#007934] mb-12 animate-pulse">
-            Shop by Category
+            Shop by Brand
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 lg:px-12">
             {[...Array(4)].map((_, idx) => (
@@ -101,7 +101,7 @@ function Parts() {
     <section className="py-16 bg-[#F4F4F4]">
       <div className="max-w-[1440px] mx-auto px-4">
         <h2 className="text-3xl michroma-regular text-center text-[#007934] mb-12">
-          Shop by Category
+          Shop by Brand
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 lg:px-6">
           {collections.map((collection) => (

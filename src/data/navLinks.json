@@ -17,7 +17,7 @@
       { "id": 1, "name": "B/A Products", "url": "/collections/baproducts" },
       {
         "id": 2,
-        "name": "Clothing",
+        "name": "Shop by Apparel",
         "url": "/collections/clothing",
         "types": [
           { "id": 0, "name": "All", "url": "/collections/clothing" },
@@ -76,6 +76,21 @@
             "url": "/collections/nrc-parts/others-towings"
           }
         ]
+      },
+      {
+        "id": 6,
+        "name": "Winch Lines and Hardware",
+        "url": "/collections/winch-lines-and-hardware"
+      },
+      {
+        "id": 7,
+        "name": "Lighting",
+        "url": "/collections/lighting"
+      },
+      {
+        "id": 8,
+        "name": "Towing Straps and Chains",
+        "url": "/collections/towing-straps-and-chains"
       }
     ]
   },
