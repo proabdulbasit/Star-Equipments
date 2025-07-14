@@ -91,6 +91,36 @@
         "id": 8,
         "name": "Towing Straps and Chains",
         "url": "/collections/towing-straps-and-chains"
+      },
+      {
+        "id": 9,
+        "name": "HD Truck Accessories",
+        "url": "/collections/hd-truck-accessories"
+      },
+      {
+        "id": 10,
+        "name": "Lockout Tools",
+        "url": "/collections/lockout-tools"
+      },
+      {
+        "id": 11,
+        "name": "Cargo Control",
+        "url": "/collections/cargo-control"
+      },
+      {
+        "id": 12,
+        "name": "Safety Supplies",
+        "url": "/collections/safety-supplies"
+      },
+      {
+        "id": 13,
+        "name": "Rigging and Recovery Supply",
+        "url": "/collections/rigging-and-recovery-supply"
+      },
+      {
+        "id": 14,
+        "name": "Toolboxes and Storage",
+        "url": "/collections/toolboxes-and-storage"
       }
     ]
   },
