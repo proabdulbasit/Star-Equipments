@@ -64,7 +64,7 @@ function Footer() {
           <div>
             <ul className="flex items-center justify-center lg:mt-0 mt-2 gap-10">
               <li>
-                <Link href="/terms-conditions">Term and Conditions</Link>
+                <Link href="/terms-condition">Term and Conditions</Link>
               </li>
               <li>
                 <Link href="/privacy-policy">Privacy Policy</Link>

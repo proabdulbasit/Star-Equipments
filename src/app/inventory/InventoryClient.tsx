@@ -25,6 +25,8 @@ export default function InventoryClient() {
   const [model, setModel] = useState(searchParams.get('model') || '');
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [sort, setSort] = useState(searchParams.get('sort') || 'default');
+  const [minPrice, setMinPrice] = useState(searchParams.get('minPrice') || '');
+  const [maxPrice, setMaxPrice] = useState(searchParams.get('maxPrice') || '');
   const [currentPage, setCurrentPage] = useState(
     Number(searchParams.get('page')) || 1,
   );
@@ -60,24 +62,53 @@ export default function InventoryClient() {
         v.title.toLowerCase().includes(searchTerm),
       );
     }
+
+    // Price filtering
+    if (minPrice || maxPrice) {
+      filtered = filtered.filter((v) => {
+        const price = v.price;
+        if (price === 'Call for Price') return true; // Include "Call for Price" items
+
+        const numericPrice = parseInt(price.replace(/[^0-9]/g, ''));
+        if (isNaN(numericPrice)) return true; // Include items with non-numeric prices
+
+        const min = minPrice ? parseInt(minPrice) : 0;
+        const max = maxPrice ? parseInt(maxPrice) : Infinity;
+
+        return numericPrice >= min && numericPrice <= max;
+      });
+    }
+
     if (sort === 'price-asc')
-      filtered = [...filtered].sort(
-        (a, b) =>
-          parseInt(a.price.replace(/[^0-9]/g, '')) -
-          parseInt(b.price.replace(/[^0-9]/g, '')),
-      );
+      filtered = [...filtered].sort((a, b) => {
+        const priceA =
+          a.price === 'Call for Price'
+            ? Infinity
+            : parseInt(a.price.replace(/[^0-9]/g, '')) || 0;
+        const priceB =
+          b.price === 'Call for Price'
+            ? Infinity
+            : parseInt(b.price.replace(/[^0-9]/g, '')) || 0;
+        return priceA - priceB;
+      });
     if (sort === 'price-desc')
-      filtered = [...filtered].sort(
-        (a, b) =>
-          parseInt(b.price.replace(/[^0-9]/g, '')) -
-          parseInt(a.price.replace(/[^0-9]/g, '')),
-      );
+      filtered = [...filtered].sort((a, b) => {
+        const priceA =
+          a.price === 'Call for Price'
+            ? 0
+            : parseInt(a.price.replace(/[^0-9]/g, '')) || 0;
+        const priceB =
+          b.price === 'Call for Price'
+            ? 0
+            : parseInt(b.price.replace(/[^0-9]/g, '')) || 0;
+        return priceB - priceA;
+      });
     if (sort === 'title-asc')
       filtered = [...filtered].sort((a, b) => a.title.localeCompare(b.title));
     if (sort === 'title-desc')
       filtered = [...filtered].sort((a, b) => b.title.localeCompare(a.title));
     return filtered;
-  }, [type, condition, make, model, search, sort]);
+  }, [type, condition, make, model, search, sort, minPrice, maxPrice]);
 
   const totalPages = Math.ceil(filteredVehicles.length / PAGE_SIZE);
   const paginatedVehicles = useMemo(() => {
@@ -108,6 +139,12 @@ export default function InventoryClient() {
         case 'sort':
           setSort(value);
           break;
+        case 'minPrice':
+          setMinPrice(value);
+          break;
+        case 'maxPrice':
+          setMaxPrice(value);
+          break;
       }
     });
 
@@ -122,6 +159,10 @@ export default function InventoryClient() {
     const finalModel = updates.model !== undefined ? updates.model : model;
     const finalSearch = updates.search !== undefined ? updates.search : search;
     const finalSort = updates.sort !== undefined ? updates.sort : sort;
+    const finalMinPrice =
+      updates.minPrice !== undefined ? updates.minPrice : minPrice;
+    const finalMaxPrice =
+      updates.maxPrice !== undefined ? updates.maxPrice : maxPrice;
 
     if (finalType) params.set('type', finalType);
     if (finalCondition) params.set('condition', finalCondition);
@@ -129,6 +170,8 @@ export default function InventoryClient() {
     if (finalModel) params.set('model', finalModel);
     if (finalSearch?.trim()) params.set('search', finalSearch.trim());
     if (finalSort && finalSort !== 'default') params.set('sort', finalSort);
+    if (finalMinPrice) params.set('minPrice', finalMinPrice);
+    if (finalMaxPrice) params.set('maxPrice', finalMaxPrice);
 
     const newUrl = params.toString() ? `?${params.toString()}` : '/inventory';
     router.replace(newUrl, { scroll: false });
@@ -139,7 +182,7 @@ export default function InventoryClient() {
     setter(value);
     setCurrentPage(1);
 
-    // Build new params based on the new value
+    // Build new params based on the new value (use the new value, not current state)
     const params = new URLSearchParams();
     if ((key === 'type' && value) || (key !== 'type' && type))
       params.set('type', key === 'type' ? value : type);
@@ -150,7 +193,12 @@ export default function InventoryClient() {
     if ((key === 'model' && value) || (key !== 'model' && model))
       params.set('model', key === 'model' ? value : model);
     if (search?.trim()) params.set('search', search.trim());
-    if (sort !== 'default') params.set('sort', sort);
+    if (key === 'sort' ? value !== 'default' : sort !== 'default')
+      params.set('sort', key === 'sort' ? value : sort);
+    if ((key === 'minPrice' && value) || (key !== 'minPrice' && minPrice))
+      params.set('minPrice', key === 'minPrice' ? value : minPrice);
+    if ((key === 'maxPrice' && value) || (key !== 'maxPrice' && maxPrice))
+      params.set('maxPrice', key === 'maxPrice' ? value : maxPrice);
     const newUrl = params.toString() ? `?${params.toString()}` : '/inventory';
     router.replace(newUrl, { scroll: false });
   };
@@ -160,6 +208,8 @@ export default function InventoryClient() {
     let newCondition = condition;
     let newMake = make;
     let newModel = model;
+    let newMinPrice = minPrice;
+    let newMaxPrice = maxPrice;
     switch (key) {
       case 'type':
         newType = '';
@@ -177,6 +227,14 @@ export default function InventoryClient() {
         newModel = '';
         setModel('');
         break;
+      case 'minPrice':
+        newMinPrice = '';
+        setMinPrice('');
+        break;
+      case 'maxPrice':
+        newMaxPrice = '';
+        setMaxPrice('');
+        break;
     }
     setCurrentPage(1);
     // Update the URL to reflect the new state
@@ -186,6 +244,8 @@ export default function InventoryClient() {
     if (newCondition) params.set('condition', newCondition);
     if (newMake) params.set('make', newMake);
     if (newModel) params.set('model', newModel);
+    if (newMinPrice) params.set('minPrice', newMinPrice);
+    if (newMaxPrice) params.set('maxPrice', newMaxPrice);
     if (sort !== 'default') params.set('sort', sort);
 
     const newUrl = params.toString() ? `?${params.toString()}` : '/inventory';
@@ -197,6 +257,8 @@ export default function InventoryClient() {
     condition,
     make,
     model,
+    minPrice,
+    maxPrice,
   };
 
   // Sync state from URL when searchParams change (e.g., navigation from header)
@@ -207,6 +269,8 @@ export default function InventoryClient() {
     const urlModel = searchParams.get('model') || '';
     const urlSearch = searchParams.get('search') || '';
     const urlSort = searchParams.get('sort') || 'default';
+    const urlMinPrice = searchParams.get('minPrice') || '';
+    const urlMaxPrice = searchParams.get('maxPrice') || '';
     const urlPage = Number(searchParams.get('page')) || 1;
 
     if (urlType !== type) setType(urlType);
@@ -215,6 +279,8 @@ export default function InventoryClient() {
     if (urlModel !== model) setModel(urlModel);
     if (urlSearch !== search) setSearch(urlSearch);
     if (urlSort !== sort) setSort(urlSort);
+    if (urlMinPrice !== minPrice) setMinPrice(urlMinPrice);
+    if (urlMaxPrice !== maxPrice) setMaxPrice(urlMaxPrice);
     if (urlPage !== currentPage) setCurrentPage(urlPage);
     // eslint-disable-next-line
   }, [searchParams]);
@@ -278,6 +344,10 @@ export default function InventoryClient() {
                     setMake={handleFilterChange(setMake, 'make')}
                     model={model}
                     setModel={handleFilterChange(setModel, 'model')}
+                    minPrice={minPrice}
+                    setMinPrice={handleFilterChange(setMinPrice, 'minPrice')}
+                    maxPrice={maxPrice}
+                    setMaxPrice={handleFilterChange(setMaxPrice, 'maxPrice')}
                     types={types}
                     conditions={conditions}
                     makes={makes}
@@ -302,6 +372,10 @@ export default function InventoryClient() {
                 setMake={handleFilterChange(setMake, 'make')}
                 model={model}
                 setModel={handleFilterChange(setModel, 'model')}
+                minPrice={minPrice}
+                setMinPrice={handleFilterChange(setMinPrice, 'minPrice')}
+                maxPrice={maxPrice}
+                setMaxPrice={handleFilterChange(setMaxPrice, 'maxPrice')}
                 types={types}
                 conditions={conditions}
                 makes={makes}

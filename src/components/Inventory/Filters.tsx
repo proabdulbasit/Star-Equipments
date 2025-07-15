@@ -11,6 +11,10 @@ const Filters = ({
   setMake,
   model,
   setModel,
+  minPrice,
+  setMinPrice,
+  maxPrice,
+  setMaxPrice,
   types,
   conditions,
   makes,
@@ -178,6 +182,37 @@ const Filters = ({
               </option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Price Range
+          </label>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <input
+                type="number"
+                placeholder="Min Price"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all duration-200"
+                min="0"
+              />
+            </div>
+            <div>
+              <input
+                type="number"
+                placeholder="Max Price"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all duration-200"
+                min="0"
+              />
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 mt-1">
+            Items with &quot;Call for Price&quot; will be included in results
+          </p>
         </div>
       </div>
     </div>
