@@ -14,6 +14,7 @@ import { FiSearch, FiX } from 'react-icons/fi';
 import { FiArrowLeft } from 'react-icons/fi';
 import { FiChevronDown } from 'react-icons/fi';
 import DropdownMenu from './DropdownMenu';
+import MobileNavSheet from './MobileNavSheet';
 import { getDropdownItemByName } from '@/utils/dropdownUtils';
 import { getNRCCategories, NRCCategory } from '@/utils/shopify';
 import { FaRegStar } from 'react-icons/fa';
@@ -39,7 +40,6 @@ function HeaderContent() {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [nrcCategories, setNrcCategories] = useState<NRCCategory[]>([]);
-  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
   useEffect(() => {
     // When the route or search params change, stop loading
@@ -101,9 +101,7 @@ function HeaderContent() {
                 className="flex shrink-0 items-center justify-center px-4 py-2.5"
               >
                 <FaRegStar className="w-4 h-4" />
-                <span className="text-sm ml-2">
-                  Get 10% off all of our products now through July 15th
-                </span>
+                <span className="text-sm ml-2">Shipping nationwide</span>
               </div>
             ))}
           </div>
@@ -116,13 +114,11 @@ function HeaderContent() {
                 key={i}
                 className="flex shrink-0 items-center justify-center gap-8 px-4 py-2.5"
               >
-                {[...Array(4)].map((_, j) => (
+                {[...Array(10)].map((_, j) => (
                   <React.Fragment key={j}>
                     <div className="flex items-center gap-2">
                       <FaRegStar className="w-4 h-4" />
-                      <span>
-                        Get 10% off all of our products now through July 15th
-                      </span>
+                      <span>Shipping nationwide</span>
                     </div>
                     {j < 3 && <span>•</span>}
                   </React.Fragment>
@@ -154,45 +150,7 @@ function HeaderContent() {
 
                       return (
                         <li key={item.id} className="relative">
-                          {item.name === 'NRC Parts' &&
-                          item?.subcategories &&
-                          item?.subcategories?.length > 0 ? (
-                            <>
-                              <button
-                                onClick={() =>
-                                  setOpenDropdown(
-                                    openDropdown === item.id ? null : item.id,
-                                  )
-                                }
-                                className="w-full flex justify-between items-center py-2"
-                              >
-                                {item.name}
-                                <svg
-                                  className="w-3 h-3 ml-1"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path d="M19 9l-7 7-7-7" />
-                                </svg>
-                              </button>
-                              {openDropdown === item.id && (
-                                <ul className="pl-4">
-                                  {item.subcategories?.map((subcategory) => (
-                                    <li key={subcategory.id}>
-                                      <Link
-                                        href={subcategory.url}
-                                        className="block py-1"
-                                      >
-                                        {subcategory.name}
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </>
-                          ) : dropdownItem ? (
+                          {dropdownItem ? (
                             // Dropdown menu item
                             <div className="relative">
                               <button
@@ -362,209 +320,8 @@ function HeaderContent() {
           )}
         </div>
       </div>
-      {/* Mobile Hamburger Menu Dropdown */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex justify-end">
-          <div className="bg-white shadow-2xl w-64 h-full max-h-screen overflow-y-auto flex flex-col p-5 relative animate-fadeInRight">
-            <div className="flex justify-between items-center mb-4">
-              <span className="font-bold text-lg text-[#048B3D]">Menu</span>
-              <button onClick={toggleClose} aria-label="Close menu">
-                <RxCross2 className="text-[#048B3D] text-xl" />
-              </button>
-            </div>
-            <ul className="flex flex-col space-y-3 mb-4">
-              {NavLink.map((item) => (
-                <li key={item.id}>
-                  {item.name === 'NRC Parts' &&
-                  item?.subcategories &&
-                  item?.subcategories?.length > 0 ? (
-                    <>
-                      <button
-                        onClick={() =>
-                          setOpenDropdown(
-                            openDropdown === item.id ? null : item.id,
-                          )
-                        }
-                        className="w-full flex justify-between items-center py-2"
-                      >
-                        {item.name}
-                        <svg
-                          className="w-3 h-3 ml-1"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-                      {openDropdown === item.id && (
-                        <ul className="pl-4">
-                          {item?.subcategories?.map((subcategory) => (
-                            <li key={subcategory.id}>
-                              <Link
-                                href={subcategory.url}
-                                className="block py-1"
-                              >
-                                {subcategory.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </>
-                  ) : getDropdownItem(item) ? (
-                    // Mobile dropdown menu item
-                    <div className="space-y-2">
-                      <button
-                        onClick={() => handleDropdownToggle(item.id)}
-                        className="flex items-center justify-between w-full text-[#222] hover:text-[#048B3D] font-medium text-[16px]"
-                      >
-                        {item.name}
-                        <FiChevronDown
-                          className={`transition-transform ${activeDropdown === item.id ? 'rotate-180' : ''}`}
-                        />
-                      </button>
-                      {activeDropdown === item.id &&
-                        getDropdownItem(item)?.subcategories && (
-                          <div className="ml-4 space-y-2 border-l-2 border-gray-200 pl-4">
-                            {getDropdownItem(item)?.subcategories?.map(
-                              (subcategory) => (
-                                <div key={subcategory.id} className="space-y-1">
-                                  {subcategory.types &&
-                                  subcategory.types.length > 0 ? (
-                                    <>
-                                      <button
-                                        onClick={() =>
-                                          setOpenDropdown(
-                                            openDropdown === subcategory.id
-                                              ? null
-                                              : subcategory.id,
-                                          )
-                                        }
-                                        className="flex items-center w-full text-left text-[#666] hover:text-[#048B3D] font-normal text-[15px] gap-1"
-                                      >
-                                        {subcategory.name}
-                                        <svg
-                                          className={`w-3 h-3 ml-1 transition-transform ${openDropdown === subcategory.id ? 'rotate-180' : ''}`}
-                                          fill="none"
-                                          stroke="currentColor"
-                                          strokeWidth="2"
-                                          viewBox="0 0 24 24"
-                                        >
-                                          <path d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                      </button>
-                                      {openDropdown === subcategory.id && (
-                                        <ul className="ml-4">
-                                          {subcategory.types.map((type) => (
-                                            <li key={type.id}>
-                                              <Link
-                                                href={type.url}
-                                                className="block py-1 text-[#888] hover:text-[#048B3D] text-[14px]"
-                                                onClick={toggleClose}
-                                              >
-                                                • {type.name}
-                                              </Link>
-                                            </li>
-                                          ))}
-                                        </ul>
-                                      )}
-                                    </>
-                                  ) : (
-                                    <Link
-                                      href={subcategory.url}
-                                      className="block w-full text-left text-[#666] hover:text-[#048B3D] font-normal text-[15px]"
-                                      onClick={toggleClose}
-                                    >
-                                      {subcategory.name}
-                                    </Link>
-                                  )}
-                                </div>
-                              ),
-                            )}
-                          </div>
-                        )}
-                    </div>
-                  ) : (
-                    // Regular mobile menu item
-                    <Link
-                      href={item.url}
-                      className="text-[#222] hover:text-[#048B3D] font-medium text-[16px]"
-                      onClick={toggleClose}
-                    >
-                      {item.name}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
-            {/* Divider */}
-            {/* {HeaderLink && HeaderLink.length > 0 && <hr className="my-2" />} */}
-            <ul className="flex flex-col space-y-3 hidden">
-              {HeaderLink &&
-                HeaderLink.map((item) => (
-                  <li key={item.id}>
-                    {item.types && item.types.length > 0 ? (
-                      <div className="group relative">
-                        <button
-                          className="text-[#666] hover:text-[#048B3D] font-normal text-[15px] flex items-center gap-1"
-                          // Optionally add onClick to toggle dropdown on mobile
-                        >
-                          {item.name}
-                          <svg
-                            className="w-3 h-3 ml-1"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </button>
-                        <ul className="absolute left-0 top-full mt-0 bg-white border rounded shadow-lg z-10 min-w-[220px] opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-opacity duration-100">
-                          {item.types.map((type) => (
-                            <li key={type.id}>
-                              <Link
-                                href={type.url}
-                                className="block px-4 py-2 text-[#666] hover:text-[#048B3D] hover:bg-gray-100 text-[15px]"
-                                onClick={toggleClose}
-                              >
-                                {type.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : (
-                      <Link
-                        href={item.url}
-                        className="text-[#666] hover:text-[#048B3D] font-normal text-[15px]"
-                        onClick={toggleClose}
-                      >
-                        {item.name}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-            </ul>
-            <div className="mt-auto pt-6">
-              <Link
-                href="/cart"
-                className="flex items-center gap-2 text-[#048B3D] font-semibold text-lg"
-                onClick={toggleClose}
-              >
-                <FiShoppingCart className="text-2xl" /> Cart
-                {cartCount > 0 && (
-                  <span className="bg-[#007934] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-1">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Mobile Navigation Sheet */}
+      <MobileNavSheet isOpen={isOpen} onClose={toggleClose} />
       {/* Global search loading spinner overlay */}
       {isSearching && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/80">
