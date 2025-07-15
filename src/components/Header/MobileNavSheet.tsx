@@ -142,47 +142,128 @@ const MobileNavSheet: React.FC<MobileNavSheetProps> = ({ isOpen, onClose }) => {
         <div className="flex-1 overflow-y-auto">
           <div className="p-4">
             <div className="space-y-1">
-              {currentLevel.items.map((item) => {
-                // Check if this is a dynamic dropdown item (like Trucks)
-                const dropdownItem = getDropdownItemByName(item.name);
-                const hasSubcategories =
-                  (dropdownItem &&
-                    dropdownItem.subcategories &&
-                    dropdownItem.subcategories.length > 0) ||
-                  (item.subcategories && item.subcategories.length > 0) ||
-                  (item.types && item.types.length > 0);
+              {currentLevel.type === 'main' ? (
+                // For main menu, add Shop by Apparel after Shop Our Products
+                <>
+                  {currentLevel.items.map((item, index) => {
+                    // Check if this is a dynamic dropdown item (like Trucks)
+                    const dropdownItem = getDropdownItemByName(item.name);
+                    const hasSubcategories =
+                      (dropdownItem &&
+                        dropdownItem.subcategories &&
+                        dropdownItem.subcategories.length > 0) ||
+                      (item.subcategories && item.subcategories.length > 0) ||
+                      (item.types && item.types.length > 0);
 
-                return (
-                  <div
-                    key={item.id}
-                    className="border-b border-gray-100 last:border-b-0"
-                  >
-                    {hasSubcategories ? (
-                      // Item has subcategories or types - make it clickable to navigate
-                      <button
-                        onClick={() => handleItemClick(item)}
-                        className="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-md transition-colors"
+                    return (
+                      <React.Fragment key={item.id}>
+                        <div className="border-b border-gray-100">
+                          {hasSubcategories ? (
+                            // Item has subcategories or types - make it clickable to navigate
+                            <button
+                              onClick={() => handleItemClick(item)}
+                              className="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-md transition-colors"
+                            >
+                              <span className="text-gray-800 font-medium text-left">
+                                {item.name}
+                              </span>
+                              <FiChevronRight className="text-gray-400 flex-shrink-0" />
+                            </button>
+                          ) : (
+                            // Direct link
+                            <Link
+                              href={item.url}
+                              onClick={onClose}
+                              className="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-md transition-colors"
+                            >
+                              <span className="text-gray-800 font-medium text-left">
+                                {item.name}
+                              </span>
+                            </Link>
+                          )}
+                        </div>
+                        {/* Add Shop by Apparel right after Shop Our Products */}
+                        {item.name === 'Shop Our Products' && (
+                          <div className="border-b border-gray-100">
+                            <button
+                              onClick={() => {
+                                const shopOurProducts = NavLink.find(
+                                  (item) => item.name === 'Shop Our Products',
+                                );
+                                const shopByApparel =
+                                  shopOurProducts?.subcategories?.find(
+                                    (sub) => sub.name === 'Shop by Apparel',
+                                  );
+                                if (shopByApparel && shopByApparel.types) {
+                                  const newLevel: NavLevel = {
+                                    type: 'subcategory',
+                                    title: 'Shop by Apparel',
+                                    items: shopByApparel.types,
+                                    parentId: shopByApparel.id,
+                                  };
+                                  setNavHistory([...navHistory, currentLevel]);
+                                  setCurrentLevel(newLevel);
+                                }
+                              }}
+                              className="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-md transition-colors"
+                            >
+                              <span className="text-gray-800 font-medium text-left">
+                                Shop by Apparel
+                              </span>
+                              <FiChevronRight className="text-gray-400 flex-shrink-0" />
+                            </button>
+                          </div>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </>
+              ) : (
+                // For subcategory views, show normal items but filter out Shop by Apparel from Shop Our Products
+                currentLevel.items
+                  .filter((item) => item.name !== 'Shop by Apparel')
+                  .map((item) => {
+                    // Check if this is a dynamic dropdown item (like Trucks)
+                    const dropdownItem = getDropdownItemByName(item.name);
+                    const hasSubcategories =
+                      (dropdownItem &&
+                        dropdownItem.subcategories &&
+                        dropdownItem.subcategories.length > 0) ||
+                      (item.subcategories && item.subcategories.length > 0) ||
+                      (item.types && item.types.length > 0);
+
+                    return (
+                      <div
+                        key={item.id}
+                        className="border-b border-gray-100 last:border-b-0"
                       >
-                        <span className="text-gray-800 font-medium text-left">
-                          {item.name}
-                        </span>
-                        <FiChevronRight className="text-gray-400 flex-shrink-0" />
-                      </button>
-                    ) : (
-                      // Direct link
-                      <Link
-                        href={item.url}
-                        onClick={onClose}
-                        className="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-md transition-colors"
-                      >
-                        <span className="text-gray-800 font-medium text-left">
-                          {item.name}
-                        </span>
-                      </Link>
-                    )}
-                  </div>
-                );
-              })}
+                        {hasSubcategories ? (
+                          // Item has subcategories or types - make it clickable to navigate
+                          <button
+                            onClick={() => handleItemClick(item)}
+                            className="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-md transition-colors"
+                          >
+                            <span className="text-gray-800 font-medium text-left">
+                              {item.name}
+                            </span>
+                            <FiChevronRight className="text-gray-400 flex-shrink-0" />
+                          </button>
+                        ) : (
+                          // Direct link
+                          <Link
+                            href={item.url}
+                            onClick={onClose}
+                            className="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-md transition-colors"
+                          >
+                            <span className="text-gray-800 font-medium text-left">
+                              {item.name}
+                            </span>
+                          </Link>
+                        )}
+                      </div>
+                    );
+                  })
+              )}
             </div>
           </div>
         </div>
