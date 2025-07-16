@@ -90,9 +90,9 @@ function HeaderContent() {
 
   return (
     <>
-      {/* Promotional Banner */}
+      {/* Promotional Banner
       <div className="bg-[#007934] text-white relative overflow-hidden">
-        {/* Mobile Banner */}
+
         <div className="md:hidden w-full overflow-x-hidden">
           <div className="flex whitespace-nowrap animate-marquee-7s">
             {[...Array(2)].map((_, i) => (
@@ -106,7 +106,7 @@ function HeaderContent() {
             ))}
           </div>
         </div>
-        {/* Desktop Banner */}
+
         <div className="hidden md:block w-full overflow-x-hidden">
           <div className="flex whitespace-nowrap animate-marquee-20s">
             {[...Array(2)].map((_, i) => (
@@ -127,7 +127,7 @@ function HeaderContent() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="sticky top-0 z-50 shadow-lg">
         <div className="lg:block hidden"></div>
         <div className="w-full shadow lg:h-24 h-16 bg-white">
@@ -135,10 +135,10 @@ function HeaderContent() {
             <Link href="/">
               <Image
                 src="/images/star-logo-one.svg"
-                width={136}
-                height={70}
+                width={200}
+                height={100}
                 alt="logo"
-                className="lg:w-[136px] lg:h-[70px] w-[100px]"
+                className="lg:w-[200px] lg:h-[100px] w-[200px]"
               />
             </Link>
             <div className="flex items-center gap-10">
