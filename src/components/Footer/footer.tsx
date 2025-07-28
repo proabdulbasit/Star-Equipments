@@ -10,23 +10,26 @@ function Footer() {
 
   return (
     <>
-      <div className="bg-[#031c0d] py-20 roboto-condensed lg:flex  lg:justify-between justify-center lg:text-start text-center lg:p-24 p-5">
+      <div className="bg-white py-20 roboto-condensed lg:flex  lg:justify-between justify-center lg:text-start text-center lg:p-24 p-5">
         <div className="max-w-[1440px] mx-auto w-full flex flex-col lg:flex-row lg:justify-between">
           <div>
-            <Link href="/" className="cursor-pointer">
+            <Link
+              href="/"
+              className="cursor-pointer lg:block flex justify-center"
+            >
               <Image
                 src="/images/star-logo-one.svg"
                 alt="icons"
                 width={204}
                 height={200}
-                className="bg-white"
+                className="lg:-ml-6 lg:-mt-6"
               />
             </Link>
 
-            <p className="lg:text-[18px] leading-[2] text-[14px] text-[#FFFFFF] mb-3 mt-5 lg:w-72">
+            <p className="lg:text-[18px] leading-[2] text-[14px] text-[#333333] mb-3 mt-5 lg:w-72">
               644 Starr Ln, Roberts, WI 54023, United States
             </p>
-            <Link href="#" className="cursor-pointer text-white">
+            <Link href="#" className="cursor-pointer text-[#333333]">
               <p>(715) 749-4450</p>
             </Link>
           </div>

@@ -16,7 +16,7 @@ function RenderSection({
         {items && items.length > 0 ? (
           items.map((item, index) => (
             <Link href={item.link} key={`${item.link}-${item.name}`}>
-              <h1 className="text-white mt-5 z-20  cursor-pointer xl:text-[18px] text-[16px]">
+              <h1 className="text-[#333333] mt-5 z-20  cursor-pointer xl:text-[18px] text-[16px]">
                 {item.name}
               </h1>
             </Link>
