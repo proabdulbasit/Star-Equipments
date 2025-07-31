@@ -4,15 +4,8 @@
   {
     "id": 3,
     "name": "Shop Our Products",
-    "url": "/parts-accessories",
+    "url": "/collections",
     "subcategories": [
-      {
-        "id": 5,
-        "name": "Parts & Accessories",
-        "url": "/parts-accessories",
-        "types": [],
-        "isDynamic": true
-      },
       { "id": 3, "name": "Towmate", "url": "/collections/towmate" },
       { "id": 1, "name": "B/A Products", "url": "/collections/baproducts" },
       {

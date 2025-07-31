@@ -4,20 +4,17 @@ import React, { useState, Suspense, useEffect } from 'react';
 import Image from 'next/image';
 import NavLink from '@/data/navLinks.json';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { RxCross2 } from 'react-icons/rx';
 import { FiMenu } from 'react-icons/fi';
 import HeaderLink from '@/data/headerLinks.json';
 import { FiShoppingCart } from 'react-icons/fi';
 import { useCart } from '@/context/CartContext';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import { FiSearch, FiX } from 'react-icons/fi';
-import { FiArrowLeft } from 'react-icons/fi';
 import { FiChevronDown } from 'react-icons/fi';
 import DropdownMenu from './DropdownMenu';
 import MobileNavSheet from './MobileNavSheet';
 import { getDropdownItemByName } from '@/utils/dropdownUtils';
 import { getNRCCategories, NRCCategory } from '@/utils/shopify';
-import { FaRegStar } from 'react-icons/fa';
 
 function HeaderContent() {
   const [isOpen, setIsOpen] = useState(false);

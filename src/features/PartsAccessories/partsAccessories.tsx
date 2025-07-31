@@ -5,11 +5,26 @@ import { useEffect, useState } from 'react';
 import { getAllCollections } from '@/utils/shopify';
 import { FaTools } from 'react-icons/fa';
 
+// All subcategories from navLinks.json (see @file_context_0)
 const PARTS_HANDLES = [
-  'nrc-parts',
-  'baproducts',
   'towmate',
-  'accessories',
+  'baproducts',
+  'clothing',
+  'nrc-parts',
+  'winch-lines-and-hardware',
+  'lighting',
+  'towing-straps-and-chains',
+  'hd-truck-accessories',
+  'lockout-tools',
+  'cargo-control',
+  'safety-supplies',
+  'rigging-and-recovery-supply',
+  'toolboxes-and-storage',
+  'vests',
+  'sweatshirts',
+  'gloves',
+  'pants',
+  'jackets',
   'brackets-for-4-x-4-t-bar',
   'brackets-for-5-x-5-t-bar',
   'forks-accessories',
@@ -49,7 +64,7 @@ export default function PartsAccessories() {
       <div className="w-full flex flex-col items-center justify-center py-16 bg-gradient-to-r from-[#007934]/10 to-[#048B3D]/10">
         <FaTools className="mb-4 text-[#007934]" size={80} />
         <h1 className="text-4xl michroma-regular text-[#007934] mb-4 text-center">
-          Parts & Accessories
+          Shop Our Products
         </h1>
         <p className="text-lg text-gray-700 max-w-2xl text-center">
           Explore our wide range of parts and accessories for every job—towing,
@@ -60,7 +75,7 @@ export default function PartsAccessories() {
       <div className="max-w-[1440px] mx-auto px-4 mt-10 lg:px-10 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {loading
-            ? [...Array(6)].map((_, idx) => (
+            ? [...Array(8)].map((_, idx) => (
                 <div
                   key={idx}
                   className="bg-white rounded-2xl shadow-md flex flex-col overflow-hidden animate-pulse h-full"
