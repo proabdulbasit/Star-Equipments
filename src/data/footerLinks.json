@@ -1,7 +1,7 @@
 {
   "NavigationLinks": [
     { "name": "Home", "link": "/" },
-    { "name": "Inventory", "link": "/inventory" },
+    { "name": "Trucks", "link": "/inventory" },
     { "name": "Shop Our Products", "link": "/collections" },
     { "name": "Gallery", "link": "/gallery" },
     { "name": "Contact", "link": "/contact-us" }
