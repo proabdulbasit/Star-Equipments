@@ -125,7 +125,13 @@ export const getDropdownItemByName = (
     const dropdownData = generateDynamicDropdownData();
     return dropdownData.find((item) => item.name === name);
   }
-  // For static dropdowns (like Shop Our Product)
+
+  // Exclude "Shop Our Products" from having dropdown functionality
+  if (name === 'Shop Our Products') {
+    return undefined;
+  }
+
+  // For other static dropdowns
   const navItem = navLinks.find(
     (item: any) => item.name === name && item.subcategories,
   );

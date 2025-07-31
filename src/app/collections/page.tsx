@@ -170,8 +170,8 @@
 //   }
 // }
 
-import PartsAccessories from '@/features/PartsAccessories/partsAccessories';
 import { Metadata } from 'next';
+import PartsAccessories from '@/features/PartsAccessories/partsAccessories';
 
 export const metadata: Metadata = {
   title: 'Collections - Star Equipment Sales',
@@ -185,4 +185,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default PartsAccessories;
+export default function CollectionsPage() {
+  return <PartsAccessories />;
+}

@@ -70,8 +70,8 @@ interface ClothingProductProps {
 
 const ProductGridLoader = () => {
   return (
-    <div className="py-12 lg:px-10 xl:w-[1440px] mx-auto bg-[#F4F4F4] pt-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:grid-cols-4 gap-10">
-      {[...Array(8)].map((_, idx) => (
+    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+      {[...Array(6)].map((_, idx) => (
         <div
           key={idx}
           className="group w-full bg-white rounded-2xl shadow-md flex flex-col overflow-hidden relative animate-pulse"
@@ -289,7 +289,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
 
   return (
     <div>
-      <div className="flex lg:mt-16 mt-0 items-center max-w-[1440px] mx-auto lg:px-10 px-5 lg:py-0 py-4">
+      {/* <div className="flex lg:mt-16 mt-0 items-center max-w-[1440px] mx-auto lg:px-10 px-5 lg:py-0 py-4">
         <Image
           src="/assets/Homepage/dots-icon.svg"
           alt="dots"
@@ -297,14 +297,14 @@ const Clothing: React.FC<ClothingProductProps> = ({
           height={120}
           className="lg:w-[100px] lg:h-[120px] lg:mt-0 mt-4 w-[40px] h-[50px]"
         />
-        <div className="flex w-full pr-24 lg:mt-0 mt-4 max-w-[1440px] mx-auto">
+        <div className="flex w-full pr-24 lg:mt-0 mt-4">
           <h1 className="lg:text-3xl text-lg michroma-regular lg:text-center text-left text-[#2C2C2C]">
             {title}
           </h1>
         </div>
-      </div>
+      </div> */}
 
-      <div className="bg-[#F4F4F4]  lg:px-12 px-5 mx-auto lg:w-full ">
+      <div className="bg-[#F4F4F4] mx-auto w-full">
         {/* Mobile: Filter & Sort Button at top */}
         <div className="lg:hidden flex flex-col gap-5 pt-4">
           <button
@@ -328,12 +328,12 @@ const Clothing: React.FC<ClothingProductProps> = ({
           </button>
         </div>
         {/* Mobile: Product count below button */}
-        <div className="lg:hidden text-base font-semibold text-[#2C2C2C] mb-2 mt-2">
+        <div className="lg:hidden text-base font-semibold text-[#2C2C2C] mb-4 mt-2">
           Showing {products.length} of{' '}
           {pageInfo.hasMoreProducts ? '1000+' : pageInfo.totalProducts} Products
         </div>
         {/* Desktop: Inline filter/sort */}
-        <div className="text-[#2C2C2C] lg:px-10 px-5  xl:w-[1440px] mx-auto mt-8 pt-3 items-center justify-between roboto-condensed text-xl hidden lg:flex">
+        <div className="text-[#2C2C2C]  mb-8 items-center justify-between roboto-condensed text-xl hidden lg:flex">
           <h1>
             Showing {products.length} of{' '}
             {pageInfo.hasMoreProducts ? '1000+' : pageInfo.totalProducts}{' '}
@@ -543,7 +543,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
         </Dialog>
 
         <Suspense fallback={<ProductGridLoader />}>
-          <div className="py-12 lg:px-10 xl:w-[1440px] mx-auto bg-[#F4F4F4] pt-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 xl:grid-cols-4 gap-10">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
             {products.map((product) => (
               <div
                 key={product.node.id}
@@ -601,7 +601,7 @@ const Clothing: React.FC<ClothingProductProps> = ({
           </div>
         </Suspense>
 
-        <div className="flex justify-center xl:w-[1440px] mx-auto bg-[#F4F4F4] items-center pb-5 space-x-4">
+        <div className="flex justify-center items-center mt-8 space-x-4">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage <= 1}

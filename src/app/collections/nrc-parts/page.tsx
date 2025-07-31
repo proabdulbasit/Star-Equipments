@@ -53,7 +53,7 @@ export default async function NRCCategoriesPage() {
     return (
       <div className="bg-[#F4F4F4] min-h-screen">
         {/* Header Section */}
-        <div className="flex bg-[#F4F4F4] items-center">
+        {/* <div className="flex bg-[#F4F4F4] items-center">
           <Image
             src="/assets/Homepage/dots-icon.svg"
             alt="dots"
@@ -66,10 +66,10 @@ export default async function NRCCategoriesPage() {
               NRC Parts Categories
             </h1>
           </div>
-        </div>
+        </div> */}
 
         {/* Breadcrumb */}
-        <div className="xl:w-[1440px] mx-auto px-4 py-4">
+        {/* <div className="xl:w-[1440px] mx-auto px-4 py-4">
           <nav className="flex items-center space-x-2 text-sm text-gray-600">
             <Link href="/" className="hover:text-[#007934] transition-colors">
               Home
@@ -84,10 +84,10 @@ export default async function NRCCategoriesPage() {
             <span>/</span>
             <span className="text-[#007934]">NRC Parts</span>
           </nav>
-        </div>
+        </div> */}
 
         {/* Categories Grid */}
-        <div className="xl:w-[1440px] mx-auto px-4 py-12">
+        <div className="xl:w-[1440px] mx-auto ">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8">
             {categories.map((category) => (
               <NRCCategoryCard key={category.id} category={category} />

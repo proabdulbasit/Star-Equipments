@@ -3,7 +3,6 @@ import { getProductsByCollectionWithOffset } from '@/utils/shopify';
 import ClothingProduct from '@/components/ClothingProduct/clothingProduct';
 import { notFound, redirect } from 'next/navigation';
 import ClothingProductSkeleton from './skeleton';
-import Link from 'next/link';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -94,40 +93,15 @@ export default async function CollectionPage({ params, searchParams }: Props) {
 
     return (
       <Suspense fallback={<ClothingProductSkeleton />}>
-        <div>
-          {/* Breadcrumb Navigation */}
-          <div className="w-[90%] lg:w-[1400px] mx-auto mt-12 mb-6">
-            <div className="flex items-center gap-2 text-sm">
-              <Link
-                href="/"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Home
-              </Link>
-              <span className="text-gray-400">/</span>
-              <Link
-                href="/collections"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Collections
-              </Link>
-              <span className="text-gray-400">/</span>
-              <span className="text-gray-900 font-medium capitalize">
-                {id.replace(/-/g, ' ')}
-              </span>
-            </div>
-          </div>
-
-          <ClothingProduct
-            products={data.products}
-            pageInfo={data.pageInfo}
-            currentSort={sort}
-            currentPriceFrom={priceFrom}
-            currentPriceTo={priceTo}
-            currentPage={page}
-            collectionId={id}
-          />
-        </div>
+        <ClothingProduct
+          products={data.products}
+          pageInfo={data.pageInfo}
+          currentSort={sort}
+          currentPriceFrom={priceFrom}
+          currentPriceTo={priceTo}
+          currentPage={page}
+          collectionId={id}
+        />
       </Suspense>
     );
   } catch (error) {
