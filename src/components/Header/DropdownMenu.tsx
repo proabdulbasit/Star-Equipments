@@ -109,73 +109,6 @@ const DropdownMenu = ({
       <div className="p-4">
         <div className="grid grid-cols-1 gap-0">
           {item.subcategories.map((subcategory) => {
-            // If NRC Parts and dynamic, map nrcCategories to types
-            if (
-              subcategory.name === 'NRC Parts' &&
-              subcategory.isDynamic &&
-              nrcCategories
-            ) {
-              subcategory.types = nrcCategories.map((cat) => ({
-                id: cat.id,
-                name: cat.title,
-                url: `/collections/${cat.handle}`,
-              }));
-            }
-            if (subcategory.name === 'NRC Parts' && subcategory.isDynamic) {
-              return (
-                <div
-                  key={subcategory.id}
-                  className="relative group"
-                  onMouseEnter={() =>
-                    !isMobile && handleSubcategoryHover(subcategory.id)
-                  }
-                  onMouseLeave={() => !isMobile && handleSubcategoryLeave()}
-                >
-                  <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-md transition-colors">
-                    <button
-                      onClick={() => handleNavigation(subcategory.url)}
-                      className="text-gray-800 font-medium hover:text-[#007934] transition-colors text-left"
-                    >
-                      {subcategory.name}
-                    </button>
-                    <FiChevronDown
-                      className={`text-gray-400 group-hover:text-[#007934] transition-colors ${isMobile && activeSubcategory === subcategory.id ? 'rotate-180' : ''}`}
-                    />
-                  </div>
-                  {activeSubcategory === subcategory.id && (
-                    <div
-                      className={`absolute top-0 w-64 bg-white shadow-xl rounded-lg border border-gray-200 z-50 dropdown-submenu-enter ${shouldPositionRight() ? 'right-full mr-1' : 'left-full ml-1'}`}
-                    >
-                      <div className="p-3">
-                        <h4 className="text-sm font-semibold text-gray-600 mb-2 uppercase tracking-wide">
-                          NRC Parts Categories
-                        </h4>
-                        <div className="space-y-1">
-                          <button
-                            onClick={() => handleNavigation(subcategory.url)}
-                            className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#007934] rounded-md transition-colors font-semibold"
-                          >
-                            All NRC Parts
-                          </button>
-                          {nrcCategories &&
-                            nrcCategories.map((cat: any) => (
-                              <button
-                                key={cat.id}
-                                onClick={() =>
-                                  handleNavigation(`/collections/${cat.handle}`)
-                                }
-                                className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#007934] rounded-md transition-colors"
-                              >
-                                {cat.title}
-                              </button>
-                            ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            }
             return (
               <div
                 key={subcategory.id}
@@ -196,7 +129,7 @@ const DropdownMenu = ({
                         handleSubcategoryClick(subcategory.id);
                       }
                     }}
-                    className="text-gray-800 font-medium hover:text-[#007934] transition-colors text-left"
+                    className="text-gray-800 font-medium hover:text-[#007934] transition-colors text-left w-full text-left"
                   >
                     {subcategory.name}
                   </button>

@@ -22,6 +22,36 @@ const CollectionsSidebar: React.FC<CollectionsSidebarProps> = ({
   );
   const subcategories = shopOurProducts?.subcategories || [];
 
+  // Auto-expand categories based on current pathname
+  React.useEffect(() => {
+    const autoExpandCategories = () => {
+      const categoriesToExpand: number[] = [];
+
+      subcategories.forEach((category) => {
+        // Check if current pathname matches this category or its subcategories
+        if (
+          category.url === pathname ||
+          pathname.startsWith(category.url + '/')
+        ) {
+          categoriesToExpand.push(category.id);
+        }
+
+        // Also check subcategories
+        if (category.types) {
+          category.types.forEach((type) => {
+            if (type.url === pathname || pathname.startsWith(type.url + '/')) {
+              categoriesToExpand.push(category.id);
+            }
+          });
+        }
+      });
+
+      setExpandedCategories(categoriesToExpand);
+    };
+
+    autoExpandCategories();
+  }, [pathname, subcategories]);
+
   const toggleCategory = (categoryId: number) => {
     setExpandedCategories((prev) =>
       prev.includes(categoryId)

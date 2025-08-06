@@ -126,9 +126,28 @@ export const getDropdownItemByName = (
     return dropdownData.find((item) => item.name === name);
   }
 
-  // Exclude "Shop Our Products" from having dropdown functionality
+  // Special handling for "Shop Our Products" - show only main categories
   if (name === 'Shop Our Products') {
-    return undefined;
+    const navItem = navLinks.find(
+      (item: any) => item.name === name && item.subcategories,
+    );
+    if (navItem && Array.isArray(navItem.subcategories)) {
+      // Filter to show first four main categories (All, Towmate, B/A Products, NRC Parts)
+      const mainCategories = navItem.subcategories.slice(0, 4);
+
+      return {
+        id: navItem.id,
+        name: navItem.name,
+        url: navItem.url,
+        hasDropdown: true,
+        subcategories: mainCategories.map((sub: any) => ({
+          ...sub,
+          types: [], // Remove all nested types for navbar dropdown
+          isDynamic: true,
+        })),
+        isDynamic: true,
+      };
+    }
   }
 
   // For other static dropdowns

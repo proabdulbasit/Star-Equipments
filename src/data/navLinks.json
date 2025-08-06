@@ -9,19 +9,7 @@
       { "id": 0, "name": "All", "url": "/collections" },
       { "id": 3, "name": "Towmate", "url": "/collections/towmate" },
       { "id": 1, "name": "B/A Products", "url": "/collections/baproducts" },
-      {
-        "id": 2,
-        "name": "Shop by Apparel",
-        "url": "/collections/clothing",
-        "types": [
-          { "id": 0, "name": "All", "url": "/collections/clothing" },
-          { "id": 1, "name": "Vests", "url": "/collections/vests" },
-          { "id": 2, "name": "Sweatshirts", "url": "/collections/sweatshirts" },
-          { "id": 3, "name": "Gloves", "url": "/collections/gloves" },
-          { "id": 4, "name": "Pants", "url": "/collections/pants" },
-          { "id": 5, "name": "Jackets", "url": "/collections/jackets" }
-        ]
-      },
+
       {
         "id": 4,
         "name": "NRC Parts",
@@ -72,6 +60,19 @@
         ]
       },
       {
+        "id": 2,
+        "name": "Shop by Apparel",
+        "url": "/collections/clothing",
+        "types": [
+          { "id": 0, "name": "All", "url": "/collections/clothing" },
+          { "id": 1, "name": "Vests", "url": "/collections/vests" },
+          { "id": 2, "name": "Sweatshirts", "url": "/collections/sweatshirts" },
+          { "id": 3, "name": "Gloves", "url": "/collections/gloves" },
+          { "id": 4, "name": "Pants", "url": "/collections/pants" },
+          { "id": 5, "name": "Jackets", "url": "/collections/jackets" }
+        ]
+      },
+      {
         "id": 6,
         "name": "Winch Lines and Hardware",
         "url": "/collections/winch-lines-and-hardware"
@@ -118,6 +119,7 @@
       }
     ]
   },
-  { "id": 4, "name": "Gallery", "url": "/gallery" },
-  { "id": 5, "name": "Contact", "url": "/contact-us" }
+  { "id": 4, "name": "Shop by Apparel", "url": "/collections/clothing" },
+  { "id": 5, "name": "Gallery", "url": "/gallery" },
+  { "id": 6, "name": "Contact", "url": "/contact-us" }
 ]
