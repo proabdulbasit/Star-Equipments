@@ -296,12 +296,12 @@ function HeaderContent() {
         <div className="relative max-w-[1440px] mx-auto px-4 lg:px-8">
           {!showMobileSearch ? (
             <button
-              className="absolute top-[50px] right-4 z-50 rounded-full bg-white shadow w-14 h-14 flex items-center justify-center"
+              className="absolute top-[50px] right-4 z-50 rounded-full bg-white shadow w-20 h-20 flex items-center justify-center animate-bounce-slow hover:scale-110 transition-all duration-300"
               onClick={() => setShowMobileSearch(true)}
               aria-label="Open search"
               style={{ boxShadow: '0 4px 32px 0 rgba(0,0,0,0.18)' }}
             >
-              <FiSearch className="text-2xl text-gray-400" />
+              <FiSearch className="text-4xl text-gray-400 hover:text-[#007934] transition-colors duration-300" />
             </button>
           ) : (
             <div className="absolute top-[50px] right-4 z-50 w-[90vw] max-w-xs bg-white rounded-xl shadow-2xl flex items-center px-4 py-2 transition-all duration-300">
