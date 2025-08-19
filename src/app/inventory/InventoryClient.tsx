@@ -11,7 +11,7 @@ import { FaFilter, FaTools } from 'react-icons/fa';
 import FilterTags from '@/components/Inventory/FilterTags';
 import { useRef } from 'react';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 9;
 
 export default function InventoryClient() {
   const router = useRouter();
@@ -321,7 +321,10 @@ export default function InventoryClient() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f4f8fb] to-[#e6f2ed]">
-      <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-8">
+      <div
+        className="max-w-[1440px] mx-auto px-4 lg:px-8 py-8"
+        ref={listTopRef}
+      >
         <div className="mb-8">
           <SearchSortBar
             search={search}
@@ -424,7 +427,7 @@ export default function InventoryClient() {
           <main className="flex-1">
             {paginatedVehicles.length > 0 ? (
               <>
-                <div ref={listTopRef} />
+                <div />
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {paginatedVehicles.map((vehicle) => (
                     <VehicleCard key={vehicle.id} vehicle={vehicle} />
