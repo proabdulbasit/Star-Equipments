@@ -9,12 +9,14 @@ import VehicleCard from '@/components/Inventory/VehicleCard';
 import Pagination from '@/components/Inventory/Pagination';
 import { FaFilter, FaTools } from 'react-icons/fa';
 import FilterTags from '@/components/Inventory/FilterTags';
+import { useRef } from 'react';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 9;
 
 export default function InventoryClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const listTopRef = useRef<HTMLDivElement | null>(null);
 
   // Initialize state from URL params
   const [type, setType] = useState(searchParams.get('type') || '');
@@ -115,6 +117,38 @@ export default function InventoryClient() {
     const start = (currentPage - 1) * PAGE_SIZE;
     return filteredVehicles.slice(start, start + PAGE_SIZE);
   }, [filteredVehicles, currentPage]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage === currentPage || newPage < 1) return;
+    const maxPage = Math.max(1, Math.ceil(filteredVehicles.length / PAGE_SIZE));
+    if (newPage > maxPage) return;
+
+    setCurrentPage(newPage);
+
+    const params = new URLSearchParams();
+    if (type) params.set('type', type);
+    if (condition) params.set('condition', condition);
+    if (make) params.set('make', make);
+    if (model) params.set('model', model);
+    if (search?.trim()) params.set('search', search.trim());
+    if (sort && sort !== 'default') params.set('sort', sort);
+    if (minPrice) params.set('minPrice', minPrice);
+    if (maxPrice) params.set('maxPrice', maxPrice);
+    if (newPage > 1) params.set('page', String(newPage));
+
+    const newUrl = params.toString() ? `?${params.toString()}` : '/inventory';
+    router.replace(newUrl, { scroll: false });
+
+    // Smooth scroll to the top of the product list
+    if (typeof window !== 'undefined') {
+      requestAnimationFrame(() => {
+        listTopRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      });
+    }
+  };
 
   // Batch update function for multiple filter changes
   const handleBatchFilterChange = (updates: { [key: string]: string }) => {
@@ -287,7 +321,10 @@ export default function InventoryClient() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f4f8fb] to-[#e6f2ed]">
-      <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-8">
+      <div
+        className="max-w-[1440px] mx-auto px-4 lg:px-8 py-8"
+        ref={listTopRef}
+      >
         <div className="mb-8">
           <SearchSortBar
             search={search}
@@ -390,6 +427,7 @@ export default function InventoryClient() {
           <main className="flex-1">
             {paginatedVehicles.length > 0 ? (
               <>
+                <div />
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {paginatedVehicles.map((vehicle) => (
                     <VehicleCard key={vehicle.id} vehicle={vehicle} />
@@ -401,7 +439,7 @@ export default function InventoryClient() {
                     <Pagination
                       totalPages={totalPages}
                       currentPage={currentPage}
-                      onPageChange={setCurrentPage}
+                      onPageChange={handlePageChange}
                     />
                   </div>
                 )}

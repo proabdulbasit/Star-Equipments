@@ -766,15 +766,45 @@
       "/assets/2012-Ford-f750/13.jpg",
       "/assets/2012-Ford-f750/14.jpg"
     ]
+  },
+  {
+    "id": 21,
+    "slug": "1980-western-star-4964-2-wrecker",
+    "title": "1980 WESTERN STAR 4964-2",
+    "dealer": "Star Equipment Sales",
+    "phone": "(715) 760-4004",
+    "price": "Call for Price",
+    "type": "Wrecker Tow Truck",
+    "condition": "Used",
+    "make": "Western Star",
+    "model": "4964-2",
+    "description": "NO-MAR TWIN LINE PLUS RAMSEY DRAG WINCH",
+    "specifications": {
+      "Price": "Call for Price",
+      "Stock #": "Stock Number not Provided",
+      "VIN": "2WKPDCJG6JK921267",
+      "Mileage": "789,383 Miles",
+      "Engine": "Cummins NTC-400 400HP 6 Cyl",
+      "Engine Size": "14L",
+      "Transmission": "Fuller Manual RTO14613 13 Spd",
+      "Axles": "Tandem",
+      "Frame Type": "Single",
+      "Wheels": "Aluminum Front, Alum/Steel Rear",
+      "Tires": "11R24.5 Virgin",
+      "Brake Type": "Air",
+      "Cab Type": "Conventional"
+    },
+    "images": [
+      "/assets/1980-WESTERN-star-4964-32/1.jpg",
+      "/assets/1980-WESTERN-star-4964-32/2.jpg",
+      "/assets/1980-WESTERN-star-4964-32/3.jpg",
+      "/assets/1980-WESTERN-star-4964-32/4.jpg",
+      "/assets/1980-WESTERN-star-4964-32/5.jpg",
+      "/assets/1980-WESTERN-star-4964-32/7.jpg",
+      "/assets/1980-WESTERN-star-4964-32/8.jpg",
+      "/assets/1980-WESTERN-star-4964-32/9.jpg",
+      "/assets/1980-WESTERN-star-4964-32/10.jpg",
+      "/assets/1980-WESTERN-star-4964-32/11.jpg"
+    ]
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 ]
